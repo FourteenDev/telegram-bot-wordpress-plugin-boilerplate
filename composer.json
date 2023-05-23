@@ -1,0 +1,15 @@
+{
+	"autoload":
+	{
+		"psr-4":
+		{
+			"BoilerplateTelegramPlugin\\": "app/"
+		}
+	},
+	"require":
+	{
+		"longman/telegram-bot": "*",
+		"monolog/monolog": "2.x-dev"
+	},
+	"minimum-stability": "dev"
+}

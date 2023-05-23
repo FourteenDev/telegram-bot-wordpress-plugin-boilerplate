@@ -1,0 +1,13 @@
+# Logs
+*.log
+
+# Packages and vendors
+node_modules/
+vendor/
+
+# IDE folders
+.vscode
+.idea
+
+# Other stuff
+.DS_Store
