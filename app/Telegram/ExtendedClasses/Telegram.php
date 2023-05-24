@@ -502,8 +502,8 @@ class Telegram extends TelegramBotTelegram
 				(new StreamHandler(BTBP_DIR . 'logs/update.log', Logger::INFO))->setFormatter(new LineFormatter('%message%' . PHP_EOL)),
 			])
 		);
-		TelegramLog::$always_log_request_and_response = true;
 		TelegramLog::$remove_bot_token = true;
+		if (wp_get_environment_type() === 'local') TelegramLog::$always_log_request_and_response = true;
 	}
 
 	/**
