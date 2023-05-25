@@ -58,6 +58,16 @@ class Core
 	}
 
 	/**
+	 * Returns `Model` class.
+	 *
+	 * @return	Model
+	 */
+	public function model()
+	{
+		return Model::get_instance();
+	}
+
+	/**
 	 * Returns `Helper` class.
 	 *
 	 * @return	Helper
