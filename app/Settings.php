@@ -76,7 +76,9 @@ class Settings
 				'section' 	=> 'general',
 				'type' 		=> 'text',
 				'default' 	=> '',
-				'args' 		=> [],
+				'args' 		=> [
+					'description' => esc_html__('With @', BTBP_TEXT_DOMAIN),
+				],
 			],
 		];
 
@@ -124,34 +126,31 @@ class Settings
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
 
-		$default 	= !empty($args['default']) ? $args['default'] : '';
-		$readonly 	= !empty($args['readonly']);
-
-		$view_args 			= $this->get_settings_value($id, $default, '', '', $readonly);
-		$view_args['class'] = $args['css_class'];
-
-		BTBP()->view('admin.settings.fields.text', $view_args);
+		BTBP()->view('admin.settings.fields.text', $this->get_settings_value($id, $args));
 	}
 
 	/**
 	 * Returns field's value.
 	 *
+	 * @param	string	$key
 	 * @param	array	$args
 	 *
 	 * @return	string
 	 */
-	private function get_settings_value($key, $default = '', $options = [], $checkbox_value = '', $readonly = false)
+	private function get_settings_value($key, $args)
 	{
+		$default = !empty($args['default']) ? $args['default'] : '';
+
 		$value = BTBP()->option($key);
 		if (!empty($value)) $default = $value;
 
 		return [
-			'default' 			=> $default,
-			'name' 				=> 'btbp_options[' . $key . ']',
-			'id' 				=> 'btbp_options_' . $key,
-			'options' 			=> $options,
-			'checkbox_value' 	=> $checkbox_value, 
-			'readonly' 			=> $readonly,
+			'id' 			=> 'btbp_options_' . $key,
+			'name' 			=> 'btbp_options[' . $key . ']',
+			'description' 	=> trim($args['description']),
+			'default' 		=> $default,
+			'readonly' 		=> !empty($args['readonly']),
+			'class' 		=> $args['css_class'],
 		];
 	}
 }
