@@ -16,7 +16,7 @@ use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\AdminCommand;
 use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\Command;
 use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\SystemCommand;
 use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\UserCommand;
-use BoilerplateTelegramPlugin\Telegram\Handlers\UserMessageHandler;
+use BoilerplateTelegramPlugin\Telegram\Handlers\UpdateHandler;
 
 class Telegram extends TelegramBotTelegram
 {
@@ -371,7 +371,7 @@ class Telegram extends TelegramBotTelegram
 
 		DB::insertRequest($this->update);
 
-		UserMessageHandler::get_instance();
+		UpdateHandler::get_instance();
 		/**
 		 * Filter the user input before executing the command.
 		 *

@@ -2,7 +2,7 @@
 
 use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Telegram;
 
-class UserMessageHandler
+class UpdateHandler
 {
 	public static $instance = null;
 
