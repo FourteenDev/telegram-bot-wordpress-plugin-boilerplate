@@ -147,7 +147,7 @@ class Settings
 		return [
 			'id' 			=> 'btbp_options_' . $key,
 			'name' 			=> 'btbp_options[' . $key . ']',
-			'description' 	=> trim($args['description']),
+			'description' 	=> !empty($args['description']) ? trim($args['description']) : '',
 			'default' 		=> $default,
 			'readonly' 		=> !empty($args['readonly']),
 			'class' 		=> $args['css_class'],
