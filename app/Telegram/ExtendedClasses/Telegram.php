@@ -418,6 +418,22 @@ class Telegram extends TelegramBotTelegram
 	}
 
 	/**
+	 * Enable a list of Admin Accounts.
+	 *
+	 * @param	array		$admin_ids List of admin IDs.
+	 *
+	 * @return	Telegram
+	 */
+	public function enableAdmins(array $admin_ids): Telegram
+	{
+		foreach ($admin_ids as $admin_id)
+			if (intval(trim($admin_id)))
+				$this->enableAdmin(intval(trim($admin_id)));
+
+		return $this;
+	}
+
+	/**
 	 * Add a single custom command class.
 	 *
 	 * @param	string		$command_class	Full command class name.

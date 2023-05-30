@@ -37,6 +37,9 @@ class Helper
 			$telegram->enableMySql();
 			$telegram->enableLogging();
 			$telegram->enableLimiter(['enabled' => true]);
+
+			if (!empty($admins = BTBP()->option('admin_ids')))
+				$telegram->enableAdmins(explode(',', $admins));
 		} catch (TelegramException $e) {
 			TelegramLog::error($e);
 
