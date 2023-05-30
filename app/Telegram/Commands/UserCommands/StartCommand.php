@@ -40,6 +40,17 @@ class StartCommand extends UserCommand
 //		$chat_id 	= $message->getChat()->getId();
 //		$data 		= ['chat_id' => $chat_id, 'reply_to_message_id' => $message->getMessageId()];
 
+		if ($this->telegram->isAdmin())
+		{
+			return $this->replyToChat(
+				esc_html__('Welcome Admin!', BTBP_TEXT_DOMAIN),
+				[
+					'reply_to_message_id' 	=> $this->getMessage()->getMessageId(),
+					'reply_markup' 			=> $this->get_start_buttons(),
+				]
+			);
+		}
+
 		return $this->replyToChat(
 			esc_html__('Welcome!', BTBP_TEXT_DOMAIN),
 			[
