@@ -1,7 +1,5 @@
 <?php namespace BoilerplateTelegramPlugin\API\Endpoints;
 
-use Longman\TelegramBot\Exception\TelegramException;
-use Longman\TelegramBot\Exception\TelegramLogException;
 use Longman\TelegramBot\TelegramLog;
 use BoilerplateTelegramPlugin\API\BaseEndpoint;
 use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Telegram;
@@ -29,32 +27,17 @@ class GetMessage extends BaseEndpoint
 	 */
 	public function handle($request)
 	{
-		$bot_token = BTBP()->option('bot_token');
-		if (empty($bot_token))
-			return $this->get_rest_reponse(401, esc_html__('Bot token is not defined!', BTBP_TEXT_DOMAIN));
-
-		$bot_username = BTBP()->option('bot_username');
-		if (empty($bot_username))
-			return $this->get_rest_reponse(401, esc_html__('Bot username is not defined!', BTBP_TEXT_DOMAIN));
-		if (stripos($bot_username, '@') === false)
-			$bot_username = "@$bot_username";
+		$telegram = BTBP()->helper()->instantiate_telegram();
+		if (!$telegram instanceof Telegram)
+			return $this->get_rest_reponse(502, $telegram);
 
 		try {
-			$telegram = new Telegram($bot_token, $bot_username);
-			// TODO: $telegram->enableAdmins($bot->get_admin_ids());
-			$telegram->addCommandsPaths([BTBP_DIR . '/app/Telegram/Commands']);
-			$telegram->enableMySql();
-			$telegram->enableLogging();
-			$telegram->enableLimiter(['enabled' => true]);
-
 			if ($telegram->handle()) return $this->get_rest_reponse(200);
 			else return $this->get_rest_reponse(502);
-		} catch (TelegramException $e) {
+		} catch (\Exception $e) {
 			TelegramLog::error($e);
 
-			return $this->get_rest_reponse(502, esc_html__('Error on initializing the bot!', BTBP_TEXT_DOMAIN));
-		} catch (TelegramLogException $e) {
-			return $this->get_rest_reponse(502, esc_html__('Error on logging the exception!', BTBP_TEXT_DOMAIN));
+			return $this->get_rest_reponse(502, esc_html__('Error on handling the updates!', BTBP_TEXT_DOMAIN));
 		}
 	}
 }
