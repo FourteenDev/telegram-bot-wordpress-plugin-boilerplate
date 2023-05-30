@@ -82,12 +82,12 @@ class Settings
 			],
 			'admin_ids' 			=> [
 				'id' 		=> 'admin_ids',
-				'label' 	=> esc_html__('آی‌دی ادمین‌ها', PTB_TEXT_DOMAIN),
+				'label' 	=> esc_html__('آی‌دی ادمین‌ها', BTBP_TEXT_DOMAIN),
 				'section' 	=> 'general',
 				'type' 		=> 'text',
 				'default' 	=> '',
 				'args' 		=> [
-					'description' => esc_html__('آی‌دی تلگرام ادمین‌ها را با اعداد انگلیسی وارد کرده و با کامای انگلیسی از هم جدا کنید.', PTB_TEXT_DOMAIN),
+					'description' => esc_html__('آی‌دی تلگرام ادمین‌ها را با اعداد انگلیسی وارد کرده و با کامای انگلیسی از هم جدا کنید.', BTBP_TEXT_DOMAIN),
 				],
 			],
 		];
