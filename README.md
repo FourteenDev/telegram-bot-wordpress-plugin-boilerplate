@@ -1,6 +1,8 @@
 # Boilerplate Telegram Bot Plugin
 
-`v1.1.0`
+`v1.1.0` ([Changelog](CHANGELOG.md))
+
+Libraries used: [PHP Telegram Bot](https://GitHub.com/php-telegram-bot/core)
 
 A boilerplate plugin for connecting a Telegram bot to your WordPress website.
 
