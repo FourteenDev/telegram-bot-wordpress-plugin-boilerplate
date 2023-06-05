@@ -1,6 +1,4 @@
-<?php
-
-namespace BoilerplateTelegramPlugin;
+<?php namespace BoilerplateTelegramPlugin;
 
 class Settings
 {

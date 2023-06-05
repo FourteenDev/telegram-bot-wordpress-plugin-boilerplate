@@ -172,10 +172,12 @@ class Telegram extends TelegramBotTelegram
 		$this->isAdmin() && $which[] = Command::AUTH_ADMIN;
 		$which[] = Command::AUTH_USER;
 
-		foreach ($which as $auth) {
+		foreach ($which as $auth)
+		{
 			$command_class = $this->getCommandClassName($auth, $command, $filepath);
 
-			if ($command_class) {
+			if ($command_class)
+			{
 				$command_obj = new $command_class($this, $this->update);
 
 				if (($auth === Command::AUTH_SYSTEM && $command_obj instanceof SystemCommand) ||
@@ -227,8 +229,7 @@ class Telegram extends TelegramBotTelegram
 		// Take custom input into account.
 		if ($custom_input = $this->getCustomInput())
 		{
-			try
-			{
+			try {
 				$input = json_decode($this->input, true, 512, JSON_THROW_ON_ERROR);
 				if (empty($input))
 					throw new TelegramException('Custom input is empty');
@@ -325,7 +326,8 @@ class Telegram extends TelegramBotTelegram
 				$allowed = false;
 			}
 
-			if (!$allowed) {
+			if (!$allowed)
+			{
 				TelegramLog::debug($reason);
 				return new ServerResponse(['ok' => false, 'description' => 'denied']);
 			}
@@ -374,7 +376,8 @@ class Telegram extends TelegramBotTelegram
 
 		// Make sure we don't try to process update that was already processed
 		$last_id = DB::selectTelegramUpdate(1, $this->update->getUpdateId());
-		if ($last_id && count($last_id) === 1) {
+		if ($last_id && count($last_id) === 1)
+		{
 			TelegramLog::debug('Duplicate update received, processing aborted!');
 			return Request::emptyResponse();
 		}

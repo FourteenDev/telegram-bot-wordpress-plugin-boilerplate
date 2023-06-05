@@ -90,7 +90,8 @@ abstract class SystemCommand extends Command
 			'successfulpayment' 		=> 'getSuccessfulPayment',
 		];
 
-		foreach ($service_message_getters as $command => $service_message_getter) {
+		foreach ($service_message_getters as $command => $service_message_getter)
+		{
 			// Let's check if this message is a service message.
 			if ($message->$service_message_getter() === null)
 				continue;

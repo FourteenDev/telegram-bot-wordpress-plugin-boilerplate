@@ -158,7 +158,8 @@ class Request extends TelegramBotRequest
 
 		$bot_username = ''; // self::$telegram->getBotUsername(); // TODO: Cannot access private property
 
-		if (defined('PHPUNIT_TESTSUITE')) {
+		if (defined('PHPUNIT_TESTSUITE'))
+		{
 			$fake_response = self::generateGeneralFakeServerResponse($data);
 
 			return new ServerResponse($fake_response, $bot_username);
@@ -174,7 +175,8 @@ class Request extends TelegramBotRequest
 		$raw_response = self::execute($action, $data);
 		$response     = json_decode($raw_response, true);
 
-		if (null === $response) {
+		if (null === $response)
+		{
 			TelegramLog::debug($raw_response);
 			throw new TelegramException('Telegram returned an invalid response!');
 		}
@@ -288,8 +290,10 @@ class Request extends TelegramBotRequest
 		$chats = DB::selectChats($select_chats_params);
 
 		$results = [];
-		if (is_array($chats)) {
-			foreach ($chats as $row) {
+		if (is_array($chats))
+		{
+			foreach ($chats as $row)
+			{
 				$data['chat_id'] 	= $row['chat_id'];
 				$results[] 			= self::send($callback_function, $data);
 			}
@@ -311,7 +315,8 @@ class Request extends TelegramBotRequest
 	 */
 	private static function limitTelegramRequests(string $action, array $data = []): void
 	{
-		if (true /*self::$limiter_enabled*/) {
+		if (true /*self::$limiter_enabled*/)
+		{
 			$limited_methods = [
 				'sendMessage',
 				'forwardMessage',
@@ -352,10 +357,12 @@ class Request extends TelegramBotRequest
 			$chat_id 			= $data['chat_id'] ?? null;
 			$inline_message_id 	= $data['inline_message_id'] ?? null;
 
-			if (($chat_id || $inline_message_id) && in_array($action, $limited_methods, true)) {
+			if (($chat_id || $inline_message_id) && in_array($action, $limited_methods, true))
+			{
 				$timeout = 60;
 
-				while (true) {
+				while (true)
+				{
 					if ($timeout <= 0)
 						throw new TelegramException('Timed out while waiting for a request spot!');
 

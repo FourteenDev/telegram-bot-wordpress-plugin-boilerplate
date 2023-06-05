@@ -171,10 +171,12 @@ abstract class Command extends TelegramBotCommand
 		if ($this->need_mysql && !($this->telegram->isDbEnabled() && DB::isDbConnected()))
 			return $this->executeNoDb();
 
-		if ($this->isPrivateOnly() && $this->removeNonPrivateMessage()) {
+		if ($this->isPrivateOnly() && $this->removeNonPrivateMessage())
+		{
 			$message = $this->getMessage();
 
-			if ($user = $message->getFrom()) {
+			if ($user = $message->getFrom())
+			{
 				return Request::sendMessage(array(
 					'chat_id' 		=> $user->getId(),
 					'parse_mode' 	=> 'Markdown',
@@ -375,10 +377,12 @@ abstract class Command extends TelegramBotCommand
 	{
 		$message = $this->getMessage() ?: $this->getEditedMessage();
 
-		if ($message) {
+		if ($message)
+		{
 			$chat = $message->getChat();
 
-			if (!$chat->isPrivateChat()) {
+			if (!$chat->isPrivateChat())
+			{
 				// Delete the falsely called command message.
 				Request::deleteMessage([
 					'chat_id' 		=> $chat->getId(),
@@ -403,7 +407,8 @@ abstract class Command extends TelegramBotCommand
 	 */
 	public function replyToChat(string $text, array $data = []): ServerResponse
 	{
-		if ($message = $this->getMessage() ?: $this->getEditedMessage() ?: $this->getChannelPost() ?: $this->getEditedChannelPost()) {
+		if ($message = $this->getMessage() ?: $this->getEditedMessage() ?: $this->getChannelPost() ?: $this->getEditedChannelPost())
+		{
 			return Request::sendMessage(array_merge([
 				'chat_id' 	=> $message->getChat()->getId(),
 				'text' 		=> $text,
@@ -424,7 +429,8 @@ abstract class Command extends TelegramBotCommand
 	 */
 	public function replyToUser(string $text, array $data = []): ServerResponse
 	{
-		if ($message = $this->getMessage() ?: $this->getEditedMessage()) {
+		if ($message = $this->getMessage() ?: $this->getEditedMessage())
+		{
 			return Request::sendMessage(array_merge([
 				'chat_id' 	=> $message->getFrom()->getId(),
 				'text' 		=> $text,
