@@ -140,6 +140,21 @@ class Settings
 	}
 
 	/**
+	 * Outputs a textarea field.
+	 *
+	 * @param	array	$args
+	 *
+	 * @return	string
+	 */
+	public function textarea_field_callback($args)
+	{
+		$id = !empty($args['id']) ? $args['id'] : '';
+		if (empty($id)) return;
+
+		BTBP()->view('admin.settings.fields.textarea', $this->get_settings_value($id, $args));
+	}
+
+	/**
 	 * Returns field's value.
 	 *
 	 * @param	string	$key
