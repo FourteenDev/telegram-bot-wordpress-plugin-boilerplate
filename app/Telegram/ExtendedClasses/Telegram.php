@@ -335,6 +335,16 @@ class Telegram extends TelegramBotTelegram
 		/* if ($this->isAdmin())
 			$this->addCommandsPath(TB_BASE_COMMANDS_PATH . '/AdminCommands', false); */
 
+		UpdateHandler::get_instance();
+		/**
+		 * Filters the user input before getting the commands list.
+		 *
+		 * @param	Update	$update		Return `false` if you want to stop executing the update.
+		 */
+		$this->update = apply_filters('btbp_before_get_commands_list', $this->update);
+		if ($this->update === false)
+			return Request::emptyResponse();
+
 		// Make sure we have an up-to-date command list
 		// This is necessary to "require" all the necessary command files!
 		$this->commands_objects = $this->getCommandsList();
@@ -371,7 +381,6 @@ class Telegram extends TelegramBotTelegram
 
 		DB::insertRequest($this->update);
 
-		UpdateHandler::get_instance();
 		/**
 		 * Filter the user input before executing the command.
 		 *
