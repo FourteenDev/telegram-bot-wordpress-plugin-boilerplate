@@ -42,6 +42,20 @@ class Telegram extends TelegramBotTelegram
 	];
 
 	/**
+	 * Telegram constructor.
+	 *
+	 * @param	string	$api_key
+	 * @param	string	$bot_username
+	 *
+	 * @throws	TelegramException
+	 */
+	public function __construct(string $api_key, string $bot_username = '')
+	{
+		parent::__construct($api_key, $bot_username);
+		Request::initialize($this);
+	}
+
+	/**
 	 * Initialize Database connection.
 	 *
 	 * @param	array	$credentials

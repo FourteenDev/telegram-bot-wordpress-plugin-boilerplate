@@ -46,6 +46,13 @@ To enable your bot for a production website, set the bot's webhook to the `get_m
 https://api.telegram.org/bot{TOKEN}/setWebhook?url=https://{WEBSITE.COM}/wp-json/btbp/v1/get_message
 ```
 
+## Redirect requests (proxy)
+If your server can't access Telegram, you can use a middleman server to redirect requests:
+- Change `CURLOPT_URL`'s value in [forward.php](forward.php)
+- Upload [forward.php](forward.php) and [forward-to-telegram.php](forward-to-telegram.php) to your middleman server
+- Use `forward`'s URL as bot's webhook
+- Copy the `forward-to-telegram`'s full link in the plugin's settings
+
 ## Debugging
 You can see bot's error log file here:
 ```

@@ -1,6 +1,11 @@
 <?php namespace BoilerplateTelegramPlugin\Telegram\ExtendedClasses;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Stream;
 use Longman\TelegramBot\DB;
+use Longman\TelegramBot\Entities\InputMedia\InputMedia;
 use Longman\TelegramBot\Entities\Message;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Exception\InvalidBotTokenException;
@@ -10,6 +15,27 @@ use Longman\TelegramBot\TelegramLog;
 
 class Request extends TelegramBotRequest
 {
+	/**
+	 * Telegram object.
+	 *
+	 * @var	Telegram
+	 */
+	private static $telegram;
+
+	/**
+	 * URI of the Telegram API.
+	 *
+	 * @var	string
+	 */
+	private static $api_base_uri = 'https://api.telegram.org';
+
+	/**
+	 * Guzzle Client object.
+	 *
+	 * @var	ClientInterface
+	 */
+	private static $client;
+
 	/**
 	 * The current action that is being executed
 	 *
@@ -141,6 +167,235 @@ class Request extends TelegramBotRequest
 		'setGameScore',
 		'getGameHighScores',
 	];
+
+	/**
+	 * Available fields for InputFile helper.
+	 *
+	 * This is basically the list of all fields that allow InputFile objects
+	 * for which input can be simplified by providing local path directly as string.
+	 *
+	 * @var	array
+	 */
+	private static $input_file_fields = [
+		'setWebhook' 				=> ['certificate'],
+		'sendPhoto' 				=> ['photo'],
+		'sendAudio' 				=> ['audio', 'thumbnail'],
+		'sendDocument' 				=> ['document', 'thumbnail'],
+		'sendVideo' 				=> ['video', 'thumbnail'],
+		'sendAnimation' 			=> ['animation', 'thumbnail'],
+		'sendVoice' 				=> ['voice'],
+		'sendVideoNote' 			=> ['video_note', 'thumbnail'],
+		'setChatPhoto' 				=> ['photo'],
+		'sendSticker' 				=> ['sticker'],
+		'uploadStickerFile' 		=> ['sticker'],
+		// @todo Look into new InputSticker field and see if we can do the same there.
+		// 'createNewStickerSet' 	=> ['png_sticker', 'tgs_sticker', 'webm_sticker'],
+		// 'addStickerToSet' 		=> ['png_sticker', 'tgs_sticker', 'webm_sticker'],
+		'setStickerSetThumbnail' 	=> ['thumbnail'],
+	];
+
+	/**
+	 * Initialize.
+	 *
+	 * @param	Telegram	$telegram
+	 */
+	public static function initialize($telegram): void
+	{
+		self::$telegram = $telegram;
+		self::setClient(self::$client ?: new Client(['base_uri' => self::$api_base_uri]));
+	}
+
+	/**
+	 * Set a custom Guzzle HTTP Client object.
+	 *
+	 * @param	ClientInterface	$client
+	 */
+	public static function setClient($client): void
+	{
+		self::$client = $client;
+	}
+
+	/**
+	 * Properly set up the request params.
+	 *
+	 * If any item of the array is a resource, reformat it to a multipart request.
+	 * Else, just return the passed data as form params.
+	 *
+	 * @param	array	$data
+	 *
+	 * @throws	TelegramException
+	 * @return	array
+	 */
+	private static function setUpRequestParams(array $data): array
+	{
+		$has_resource 	= false;
+		$multipart 		= [];
+
+		foreach ($data as $key => &$item)
+		{
+			if ($key === 'media')
+			{
+				// Magical media input helper.
+				$item = self::mediaInputHelper($item, $has_resource, $multipart);
+			} else if (array_key_exists(self::$current_action, self::$input_file_fields) && in_array($key, self::$input_file_fields[self::$current_action], true)) {
+				// Allow absolute paths to local files.
+				if (is_string($item) && file_exists($item))
+					$item = new Stream(self::encodeFile($item));
+			} else if (is_array($item) || is_object($item)) {
+				// Convert any nested arrays or objects into JSON strings.
+				$item = json_encode($item);
+			}
+
+			// Reformat data array in multipart way if it contains a resource
+			$has_resource 	= $has_resource || is_resource($item) || $item instanceof Stream;
+			$multipart[] 	= ['name' => $key, 'contents' => $item];
+		}
+		unset($item);
+
+		if ($has_resource)
+			return ['multipart' => $multipart];
+
+		return ['form_params' => $data];
+	}
+
+	/**
+	 * Magical input media helper to simplify passing media.
+	 *
+	 * This allows the following:
+	 * Request::editMessageMedia([
+	 * 		...
+	 * 		'media' => new InputMediaPhoto([
+	 * 			'caption' => 'Caption!',
+	 * 			'media'   => Request::encodeFile($local_photo),
+	 * 		]),
+	 * ]);
+	 * and
+	 * Request::sendMediaGroup([
+	 * 		'media' => [
+	 * 			new InputMediaPhoto(['media' => Request::encodeFile($local_photo_1)]),
+	 * 			new InputMediaPhoto(['media' => Request::encodeFile($local_photo_2)]),
+	 * 			new InputMediaVideo(['media' => Request::encodeFile($local_video_1)]),
+	 * 		],
+	 * ]);
+	 * and even
+	 * Request::sendMediaGroup([
+	 * 		'media' => [
+	 * 			new InputMediaPhoto(['media' => $local_photo_1]),
+	 * 			new InputMediaPhoto(['media' => $local_photo_2]),
+	 * 			new InputMediaVideo(['media' => $local_video_1]),
+	 * 		],
+	 * ]);
+	 *
+	 * @param	mixed	$item
+	 * @param	bool	$has_resource
+	 * @param	array	$multipart
+	 *
+	 * @throws	TelegramException
+	 * @return	mixed
+	 */
+	private static function mediaInputHelper($item, bool &$has_resource, array &$multipart)
+	{
+		$was_array 			= is_array($item);
+		$was_array || $item = [$item];
+
+		/**
+		 * @var	InputMedia|null	$media_item
+		 */
+		foreach ($item as $media_item)
+		{
+			if (!($media_item instanceof InputMedia)) continue;
+
+			// Make a list of all possible media that can be handled by the helper.
+			$possible_medias = array_filter([
+				'media' 	=> $media_item->getMedia(),
+				'thumbnail' => $media_item->getThumbnail(),
+			]);
+
+			foreach ($possible_medias as $type => $media)
+			{
+				// Allow absolute paths to local files.
+				if (is_string($media) && strpos($media, 'attach://') !== 0 && file_exists($media))
+					$media = new Stream(self::encodeFile($media));
+
+				if (is_resource($media) || $media instanceof Stream)
+				{
+					$has_resource 	= true;
+					$unique_key 	= uniqid($type . '_', false);
+					$multipart[] 	= ['name' => $unique_key, 'contents' => $media];
+
+					// We're literally overwriting the passed media type data!
+					$media_item->$type 				= 'attach://' . $unique_key;
+					$media_item->raw_data[$type] 	= 'attach://' . $unique_key;
+				}
+			}
+		}
+
+		$was_array || $item = reset($item);
+
+		return json_encode($item);
+	}
+
+	/**
+	 * Execute HTTP Request.
+	 *
+	 * @param	string				$action Action to execute.
+	 * @param	array				$data   Data to attach to the execution.
+	 *
+	 * @throws	TelegramException
+	 * @return	string						Result of the HTTP Request.
+	 */
+	public static function execute(string $action, array $data = []): string
+	{
+		$request_params 			= self::setUpRequestParams($data);
+		$request_params['debug'] 	= TelegramLog::getDebugLogTempStream();
+
+		try {
+			if (!empty($proxy_update_receiver = BTBP()->option('proxy_update_receiver')))
+			{
+				$request_params['form_params']['token'] = BTBP()->option('bot_token');
+				$response = self::$client->post(
+					"$proxy_update_receiver?action=$action",
+					$request_params
+				);
+			} else {
+				$response = self::$client->post(
+					'/bot' . self::$telegram->getApiKey() . '/' . $action,
+					$request_params
+				);
+			}
+			$result   = (string) $response->getBody();
+		} catch (RequestException $e) {
+			$response 	= null;
+			$result 	= $e->getResponse() ? (string) $e->getResponse()->getBody() : '';
+		}
+
+		// Logging verbose debug output
+		if (TelegramLog::$always_log_request_and_response || $response === null)
+		{
+			TelegramLog::debug('Request data:' . PHP_EOL . print_r($data, true));
+			TelegramLog::debug('Response data:' . PHP_EOL . $result);
+			TelegramLog::endDebugLogTempStream('Verbose HTTP Request output:' . PHP_EOL . '%s' . PHP_EOL);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Encode file.
+	 *
+	 * @param	string	$file
+	 *
+	 * @throws	TelegramException
+	 * @return	resource
+	 */
+	public static function encodeFile(string $file)
+	{
+		$fp = fopen($file, 'rb');
+		if ($fp === false)
+			throw new TelegramException('Cannot open "' . $file . '" for reading');
+
+		return $fp;
+	}
 
 	/**
 	 * Send command.

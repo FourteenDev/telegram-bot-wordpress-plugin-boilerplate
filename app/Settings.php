@@ -58,6 +58,7 @@ class Settings
 		register_setting('btbp_settings_group', 'btbp_options');
 
 		add_settings_section('btbp_settings_general', esc_html__('General Settings', BTBP_TEXT_DOMAIN), null, 'btbp_settings_page');
+		add_settings_section('btbp_settings_proxy', esc_html__('Proxy Settings', BTBP_TEXT_DOMAIN), null, 'btbp_settings_page');
 
 		$settings_fields = [
 			'bot_token' => [
@@ -86,6 +87,18 @@ class Settings
 				'default' 	=> '',
 				'args' 		=> [
 					'description' => esc_html__('آی‌دی تلگرام ادمین‌ها را با اعداد انگلیسی وارد کرده و با کامای انگلیسی از هم جدا کنید.', BTBP_TEXT_DOMAIN),
+				],
+			],
+
+			// Proxy section
+			'proxy_update_receiver' => [
+				'id' 		=> 'proxy_update_receiver',
+				'label' 	=> esc_html__('Update receiver URL', BTBP_TEXT_DOMAIN),
+				'section' 	=> 'proxy',
+				'type' 		=> 'text',
+				'default' 	=> '',
+				'args' 		=> [
+					'description' => esc_html__('Edit forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', BTBP_TEXT_DOMAIN),
 				],
 			],
 		];
