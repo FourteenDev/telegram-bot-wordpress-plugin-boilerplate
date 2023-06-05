@@ -1,15 +1,15 @@
 # Changelog
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-<!-- ## [Unreleased] -->
-<!-- ### Notes -->
-<!-- - [:ledger: View file changes][Unreleased] -->
-<!-- ### Added -->
-<!-- ### Changed -->
-<!-- ### Deprecated -->
-<!-- ### Removed -->
-<!-- ### Fixed -->
-<!-- ### Security -->
+## [Unreleased]
+### Notes
+- [:ledger: View file changes][Unreleased]
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
 
 ## [v1.1.0] - 2023-06-05
 ### Notes
