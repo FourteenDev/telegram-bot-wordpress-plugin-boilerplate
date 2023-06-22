@@ -98,7 +98,7 @@ class Settings
 				'type' 		=> 'text',
 				'default' 	=> '',
 				'args' 		=> [
-					'description' => esc_html__('Edit forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', BTBP_TEXT_DOMAIN),
+					'description' => esc_html__('Find forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', BTBP_TEXT_DOMAIN),
 				],
 			],
 		];
