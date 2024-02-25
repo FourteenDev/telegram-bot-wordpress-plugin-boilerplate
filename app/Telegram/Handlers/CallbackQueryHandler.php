@@ -1,8 +1,8 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\Handlers;
+<?php namespace TelegramPluginBoilerplate\Telegram\Handlers;
 
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Entities\Update;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Request;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Request;
 
 /**
  * The class that handles the callback queries.
@@ -47,7 +47,7 @@ class CallbackQueryHandler
 	private static function getInvalidCallbackError($telegram, $update)
 	{
 		/* if ($update->getCallbackQuery()->getMessage()->getChat()->getId() !== SOMETHING)
-			return esc_html__('Invalid for some reason.', BTBP_TEXT_DOMAIN); */
+			return esc_html__('Invalid for some reason.', FDTBWPB_TEXT_DOMAIN); */
 
 		// Run any other updates and database queries here
 
@@ -77,7 +77,7 @@ class CallbackQueryHandler
 			return Request::answerCallbackQuery(
 				array(
 					'callback_query_id' => $update->getCallbackQuery()->getId(),
-					'text' 				=> esc_html__('Invalid callback!', BTBP_TEXT_DOMAIN),
+					'text' 				=> esc_html__('Invalid callback!', FDTBWPB_TEXT_DOMAIN),
 					'show_alert' 		=> true,
 				)
 			);
@@ -89,7 +89,7 @@ class CallbackQueryHandler
 		foreach (glob(__DIR__ . '/../CallbackQueries/*Callback.php') as $file)
 		{
 			// We can't use __NAMESPACE__ here, because the callback queries are in another folder
-			$class 				= '\\BoilerplateTelegramPlugin\\Telegram\\CallbackQueries\\' . basename($file, '.php');
+			$class 				= '\\TelegramPluginBoilerplate\\Telegram\\CallbackQueries\\' . basename($file, '.php');
 			$classCommandName 	= substr(basename($file, '.php'), 0, -8);
 
 			if (class_exists($class) && mb_strtolower($classCommandName) === mb_strtolower($callbackCommand))
@@ -104,7 +104,7 @@ class CallbackQueryHandler
 		return Request::answerCallbackQuery(
 			array(
 				'callback_query_id' => $update->getCallbackQuery()->getId(),
-				'text' 				=> esc_html__('Invalid button!', BTBP_TEXT_DOMAIN),
+				'text' 				=> esc_html__('Invalid button!', FDTBWPB_TEXT_DOMAIN),
 				'show_alert' 		=> true,
 			)
 		);

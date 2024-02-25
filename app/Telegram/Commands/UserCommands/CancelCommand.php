@@ -1,8 +1,8 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\Commands\UserCommands;
+<?php namespace TelegramPluginBoilerplate\Telegram\Commands\UserCommands;
 
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\UserCommand;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Request;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Request;
 
 /**
  * Cancel command.
@@ -43,7 +43,7 @@ class CancelCommand extends UserCommand
 			return Request::emptyResponse();
 
 		return $this->replyToChat(
-			esc_html__('Canceled!', BTBP_TEXT_DOMAIN),
+			esc_html__('Canceled!', FDTBWPB_TEXT_DOMAIN),
 			[
 				'reply_to_message_id' 	=> $this->getMessage()->getMessageId(),
 				'reply_markup' 			=> $this->get_start_buttons(),

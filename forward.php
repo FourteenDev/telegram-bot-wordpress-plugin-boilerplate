@@ -9,7 +9,7 @@ $headers[] 	= 'Cache-Control: no-cache';
 \curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
 
 \curl_setopt_array($handle, [
-	CURLOPT_URL 			=> 'https://website.com/wp-json/btbp/v1/get_message',
+	CURLOPT_URL 			=> 'https://website.com/wp-json/fdtbwpb/v1/get_message',
 	CURLOPT_POST 			=> true, // Enable the POST request.
 	CURLOPT_CONNECTTIMEOUT 	=> 0,
 	CURLOPT_TIMEOUT 		=> 10, // Timeout in seconds

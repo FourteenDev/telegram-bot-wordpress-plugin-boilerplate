@@ -1,14 +1,14 @@
-<?php namespace BoilerplateTelegramPlugin\API\Endpoints;
+<?php namespace TelegramPluginBoilerplate\API\Endpoints;
 
 use Longman\TelegramBot\TelegramLog;
-use BoilerplateTelegramPlugin\API\BaseEndpoint;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Telegram;
+use TelegramPluginBoilerplate\API\BaseEndpoint;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class GetMessage extends BaseEndpoint
 {
 	public static $instance = NULL;
 
-	public $namespace 	= 'btbp/v1/';
+	public $namespace 	= 'fdtbwpb/v1/';
 	public $route 		= 'get_message';
 	public $method 		= 'POST';
 
@@ -27,7 +27,7 @@ class GetMessage extends BaseEndpoint
 	 */
 	public function handle($request)
 	{
-		$telegram = BTBP()->helper()->instantiate_telegram();
+		$telegram = FDTBWPB()->helper()->instantiate_telegram();
 		if (!$telegram instanceof Telegram)
 			return $this->get_rest_reponse(502, $telegram);
 
@@ -37,7 +37,7 @@ class GetMessage extends BaseEndpoint
 		} catch (\Exception $e) {
 			TelegramLog::error($e);
 
-			return $this->get_rest_reponse(502, esc_html__('Error on handling the updates!', BTBP_TEXT_DOMAIN));
+			return $this->get_rest_reponse(502, esc_html__('Error on handling the updates!', FDTBWPB_TEXT_DOMAIN));
 		}
 	}
 }

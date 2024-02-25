@@ -1,33 +1,33 @@
 <?php
 
 /**
- * Plugin Name: Boilerplate Telegram Bot Plugin
+ * Plugin Name: Telegram Bot WordPress Plugin Boilerplate
  * Description: A boilerplate plugin for connecting a Telegram bot to your WordPress website.
  * Version: 	1.1.0
  * Author: 		Koorosh
  * Author URI: 	https://GitHub.com/Koorosh14/
- * Text Domain: boilerplate-telegram-plugin
+ * Text Domain: telegram-plugin-boilerplate
  * Domain Path: /languages/
  */
 
-use BoilerplateTelegramPlugin\Core;
+use TelegramPluginBoilerplate\Core;
 
 if (!defined('ABSPATH')) return;
 
-define('BTBP_VERSION', '1.1.0');
-define('BTBP_FILE', __FILE__);
-define('BTBP_URL', plugin_dir_url(BTBP_FILE));
-define('BTBP_DIR', plugin_dir_path(BTBP_FILE));
-define('BTBP_BASENAME', plugin_basename(BTBP_FILE));
-define('BTBP_OPTIONS_KEY_DB_VERSION', 'btbp_db_version');
-define('BTBP_TEXT_DOMAIN', 'boilerplate-telegram-plugin');
-define('BTBP_SETTINGS_SLUG', 'btbp');
+define('FDTBWPB_VERSION', '1.1.0');
+define('FDTBWPB_FILE', __FILE__);
+define('FDTBWPB_URL', plugin_dir_url(FDTBWPB_FILE));
+define('FDTBWPB_DIR', plugin_dir_path(FDTBWPB_FILE));
+define('FDTBWPB_BASENAME', plugin_basename(FDTBWPB_FILE));
+define('FDTBWPB_OPTIONS_KEY_DB_VERSION', 'fdtbwpb_db_version');
+define('FDTBWPB_TEXT_DOMAIN', 'telegram-plugin-boilerplate');
+define('FDTBWPB_SETTINGS_SLUG', 'fdtbwpb');
 
 require('vendor/autoload.php');
 require('functions.php');
 
-function BTBP()
+function FDTBWPB()
 {
 	return Core::get_instance();
 }
-BTBP();
+FDTBWPB();

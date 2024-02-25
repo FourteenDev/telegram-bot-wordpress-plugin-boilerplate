@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin;
+<?php namespace TelegramPluginBoilerplate;
 
 class Core
 {
@@ -34,12 +34,12 @@ class Core
 
 	public function plugin_url($path = null)
 	{
-		return untrailingslashit(BTBP_URL . $path);
+		return untrailingslashit(FDTBWPB_URL . $path);
 	}
 
 	public function plugin_dir($path = null)
 	{
-		return untrailingslashit(BTBP_DIR . $path);
+		return untrailingslashit(FDTBWPB_DIR . $path);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Core
 	 */
 	public function option($option_name)
 	{
-		if (empty($this->options)) $this->options = get_option('btbp_options');
+		if (empty($this->options)) $this->options = get_option('fdtbwpb_options');
 
 		if (isset($this->options[$option_name]) && !empty($this->options[$option_name]))
 			return $this->options[$option_name];

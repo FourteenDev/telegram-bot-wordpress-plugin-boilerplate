@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\ExtendedClasses;
+<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -350,9 +350,9 @@ class Request extends TelegramBotRequest
 		$request_params['debug'] 	= TelegramLog::getDebugLogTempStream();
 
 		try {
-			if (!empty($proxy_update_receiver = BTBP()->option('proxy_update_receiver')))
+			if (!empty($proxy_update_receiver = FDTBWPB()->option('proxy_update_receiver')))
 			{
-				$request_params['form_params']['token'] = BTBP()->option('bot_token');
+				$request_params['form_params']['token'] = FDTBWPB()->option('bot_token');
 				$response = self::$client->post(
 					"$proxy_update_receiver?action=$action",
 					$request_params

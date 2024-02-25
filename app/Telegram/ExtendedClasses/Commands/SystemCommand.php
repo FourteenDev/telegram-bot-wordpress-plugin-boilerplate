@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands;
+<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands;
 
 use Longman\TelegramBot\Conversation;
 use Longman\TelegramBot\Entities\ServerResponse;

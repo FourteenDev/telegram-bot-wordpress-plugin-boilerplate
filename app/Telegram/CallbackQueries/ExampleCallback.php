@@ -1,7 +1,7 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\CallbackQueries;
+<?php namespace TelegramPluginBoilerplate\Telegram\CallbackQueries;
 
 use Longman\TelegramBot\Entities\ServerResponse;
-use BoilerplateTelegramPlugin\Telegram\CallbackQueries\Base;
+use TelegramPluginBoilerplate\Telegram\CallbackQueries\Base;
 
 /**
  * Example callback query.
@@ -35,6 +35,6 @@ class ExampleCallback extends Base
 
 		// Some other stuff
 
-		return $this->answer(esc_html__('Example answer!', BTBP_TEXT_DOMAIN), ['show_alert' => true]);
+		return $this->answer(esc_html__('Example answer!', FDTBWPB_TEXT_DOMAIN), ['show_alert' => true]);
 	}
 }

@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin;
+<?php namespace TelegramPluginBoilerplate;
 
 class Settings
 {
@@ -14,7 +14,7 @@ class Settings
 	{
 		add_action('admin_menu', [$this, 'create_admin_menu']);
 		add_action('admin_init', [$this, 'register_settings']);
-		add_filter('plugin_action_links_' . BTBP_BASENAME, [$this, 'actionLinks']);
+		add_filter('plugin_action_links_' . FDTBWPB_BASENAME, [$this, 'actionLinks']);
 	}
 
 	/**
@@ -27,10 +27,10 @@ class Settings
 	public function create_admin_menu()
 	{
 		add_menu_page(
-			esc_html__('Boilerplate Telegram Bot Plugin', BTBP_TEXT_DOMAIN),
-			esc_html__('Telegram Bot', BTBP_TEXT_DOMAIN),
+			esc_html__('Boilerplate Telegram Bot Plugin', FDTBWPB_TEXT_DOMAIN),
+			esc_html__('Telegram Bot', FDTBWPB_TEXT_DOMAIN),
 			'manage_options',
-			'btbp_settings',
+			'fdtbwpb_settings',
 			[$this, 'display_settings_content'],
 			'dashicons-heart'
 		);
@@ -43,7 +43,7 @@ class Settings
 	 */
 	public function display_settings_content()
 	{
-		BTBP()->view('admin.settings.wrapper');
+		FDTBWPB()->view('admin.settings.wrapper');
 	}
 
 	/**
@@ -55,15 +55,15 @@ class Settings
 	 */
 	public function register_settings()
 	{
-		register_setting('btbp_settings_group', 'btbp_options');
+		register_setting('fdtbwpb_settings_group', 'fdtbwpb_options');
 
-		add_settings_section('btbp_settings_general', esc_html__('General Settings', BTBP_TEXT_DOMAIN), null, 'btbp_settings_page');
-		add_settings_section('btbp_settings_proxy', esc_html__('Proxy Settings', BTBP_TEXT_DOMAIN), null, 'btbp_settings_page');
+		add_settings_section('fdtbwpb_settings_general', esc_html__('General Settings', FDTBWPB_TEXT_DOMAIN), null, 'fdtbwpb_settings_page');
+		add_settings_section('fdtbwpb_settings_proxy', esc_html__('Proxy Settings', FDTBWPB_TEXT_DOMAIN), null, 'fdtbwpb_settings_page');
 
 		$settings_fields = [
 			'bot_token' => [
 				'id' 		=> 'bot_token',
-				'label' 	=> esc_html__('Bot token', BTBP_TEXT_DOMAIN),
+				'label' 	=> esc_html__('Bot token', FDTBWPB_TEXT_DOMAIN),
 				'section' 	=> 'general',
 				'type' 		=> 'text',
 				'default' 	=> '',
@@ -71,34 +71,34 @@ class Settings
 			],
 			'bot_username' => [
 				'id' 		=> 'bot_username',
-				'label' 	=> esc_html__('Bot username', BTBP_TEXT_DOMAIN),
+				'label' 	=> esc_html__('Bot username', FDTBWPB_TEXT_DOMAIN),
 				'section' 	=> 'general',
 				'type' 		=> 'text',
 				'default' 	=> '',
 				'args' 		=> [
-					'description' => esc_html__('With @', BTBP_TEXT_DOMAIN),
+					'description' => esc_html__('With @', FDTBWPB_TEXT_DOMAIN),
 				],
 			],
 			'admin_ids' 			=> [
 				'id' 		=> 'admin_ids',
-				'label' 	=> esc_html__('Admins IDs', BTBP_TEXT_DOMAIN),
+				'label' 	=> esc_html__('Admins IDs', FDTBWPB_TEXT_DOMAIN),
 				'section' 	=> 'general',
 				'type' 		=> 'text',
 				'default' 	=> '',
 				'args' 		=> [
-					'description' => esc_html__('Enter Telegram ID (numeric) of admins, separate IDs with a comma (,).', BTBP_TEXT_DOMAIN),
+					'description' => esc_html__('Enter Telegram ID (numeric) of admins, separate IDs with a comma (,).', FDTBWPB_TEXT_DOMAIN),
 				],
 			],
 
 			// Proxy section
 			'proxy_update_receiver' => [
 				'id' 		=> 'proxy_update_receiver',
-				'label' 	=> esc_html__('Update receiver URL', BTBP_TEXT_DOMAIN),
+				'label' 	=> esc_html__('Update receiver URL', FDTBWPB_TEXT_DOMAIN),
 				'section' 	=> 'proxy',
 				'type' 		=> 'text',
 				'default' 	=> '',
 				'args' 		=> [
-					'description' => esc_html__('Find forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', BTBP_TEXT_DOMAIN),
+					'description' => esc_html__('Find forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', FDTBWPB_TEXT_DOMAIN),
 				],
 			],
 		];
@@ -113,8 +113,8 @@ class Settings
 				$field['id'],
 				$field['label'],
 				$callback,
-				'btbp_settings_page',
-				'btbp_settings_' . $field['section'],
+				'fdtbwpb_settings_page',
+				'fdtbwpb_settings_' . $field['section'],
 				$args
 			);
 		}
@@ -127,11 +127,11 @@ class Settings
 	 *
 	 * @return	array
 	 *
-	 * @hooked	action: `plugin_action_links_{BTBP_BASENAME}` - 10
+	 * @hooked	action: `plugin_action_links_{FDTBWPB_BASENAME}` - 10
 	 */
 	public function actionLinks($links)
 	{
-		$links[] = '<a href="' . get_admin_url(null, 'admin.php?page=' . BTBP_SETTINGS_SLUG) . '">' . esc_html__('Settings', BTBP_TEXT_DOMAIN) . '</a>';
+		$links[] = '<a href="' . get_admin_url(null, 'admin.php?page=' . FDTBWPB_SETTINGS_SLUG) . '">' . esc_html__('Settings', FDTBWPB_TEXT_DOMAIN) . '</a>';
 		return $links;
 	}
 
@@ -147,7 +147,7 @@ class Settings
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
 
-		BTBP()->view('admin.settings.fields.text', $this->get_settings_value($id, $args));
+		FDTBWPB()->view('admin.settings.fields.text', $this->get_settings_value($id, $args));
 	}
 
 	/**
@@ -162,7 +162,7 @@ class Settings
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
 
-		BTBP()->view('admin.settings.fields.textarea', $this->get_settings_value($id, $args));
+		FDTBWPB()->view('admin.settings.fields.textarea', $this->get_settings_value($id, $args));
 	}
 
 	/**
@@ -177,12 +177,12 @@ class Settings
 	{
 		$default = !empty($args['default']) ? $args['default'] : '';
 
-		$value = BTBP()->option($key);
+		$value = FDTBWPB()->option($key);
 		if (!empty($value)) $default = $value;
 
 		return [
-			'id' 			=> 'btbp_options_' . $key,
-			'name' 			=> 'btbp_options[' . $key . ']',
+			'id' 			=> 'fdtbwpb_options_' . $key,
+			'name' 			=> 'fdtbwpb_options[' . $key . ']',
 			'description' 	=> !empty($args['description']) ? trim($args['description']) : '',
 			'default' 		=> $default,
 			'readonly' 		=> !empty($args['readonly']),

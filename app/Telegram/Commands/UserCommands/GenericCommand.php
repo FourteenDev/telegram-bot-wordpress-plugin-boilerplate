@@ -1,8 +1,8 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\Commands\UserCommands;
+<?php namespace TelegramPluginBoilerplate\Telegram\Commands\UserCommands;
 
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\UserCommand;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands\UserCommand;
 use Longman\TelegramBot\Entities\ServerResponse;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Request;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Request;
 
 /**
  * Generic command.

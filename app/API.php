@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin;
+<?php namespace TelegramPluginBoilerplate;
 
 class API
 {
@@ -22,7 +22,7 @@ class API
 	 */
 	private function instantiate_all_endpoints()
 	{
-		foreach (glob(BTBP_DIR . '/app/API/Endpoints/*.php') as $file)
+		foreach (glob(FDTBWPB_DIR . '/app/API/Endpoints/*.php') as $file)
 		{
 			$class = '\\' . __NAMESPACE__ . '\\API\\Endpoints\\' . basename($file, '.php');
 

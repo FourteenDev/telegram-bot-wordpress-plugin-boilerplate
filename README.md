@@ -1,4 +1,4 @@
-# Boilerplate Telegram Bot Plugin
+# Telegram Bot WordPress Plugin Boilerplate
 
 `v1.1.0` ([Changelog](CHANGELOG.md))
 
@@ -10,10 +10,10 @@ A boilerplate plugin for connecting a Telegram bot to your WordPress website.
 
 ## Quick Start
 Clone or download this repository, change its name to something else, and then you'll need to do a four-step **CASE-SENSITIVE** find and replace in all the codes:
-1. Search for `BoilerplateTelegramPlugin` to capture the namespaces.
-2. Search for `BTBP` to capture the constants.
-3. Search for `btbp` to capture the keys and slugs.
-4. Search for `boilerplate-telegram-plugin` to capture the text domains.
+1. Search for `TelegramPluginBoilerplate` to capture the namespaces.
+2. Search for `FDTBWPB` to capture the constants.
+3. Search for `fdtbwpb` to capture the keys and slugs.
+4. Search for `telegram-plugin-boilerplate` to capture the text domains.
 
 Then, update the header in `plugin.php` with your own information.
 
@@ -39,13 +39,13 @@ define('WP_ENVIRONMENT_TYPE', 'local');
 ```
 And use this endpoint to handle the updates (e.g. each time you message the bot):
 ```
-https://{WEBSITE.COM}/wp-json/btbp/v1/get_message_polling
+https://{WEBSITE.COM}/wp-json/fdtbwpb/v1/get_message_polling
 ```
 
 ### Set Webhook (Production)
 To enable your bot for a production website, set the bot's webhook to the `get_message` endpoint:
 ```
-https://api.telegram.org/bot{TOKEN}/setWebhook?url=https://{WEBSITE.COM}/wp-json/btbp/v1/get_message
+https://api.telegram.org/bot{TOKEN}/setWebhook?url=https://{WEBSITE.COM}/wp-json/fdtbwpb/v1/get_message
 ```
 
 ## Redirect requests (proxy)
@@ -58,5 +58,5 @@ If your server can't access Telegram, you can use a middleman server to redirect
 ## Debugging
 You can see bot's error log file here:
 ```
-wp-content/plugins/boilerplate-telegram-plugin/logs/
+wp-content/plugins/telegram-plugin-boilerplate/logs/
 ```

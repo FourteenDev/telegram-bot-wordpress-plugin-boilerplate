@@ -1,3 +1,3 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands;
+<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands;
 
 abstract class UserCommand extends Command {}

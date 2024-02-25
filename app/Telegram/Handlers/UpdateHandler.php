@@ -1,7 +1,7 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\Handlers;
+<?php namespace TelegramPluginBoilerplate\Telegram\Handlers;
 
 use Longman\TelegramBot\Entities\Update;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Telegram;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class UpdateHandler
 {
@@ -15,8 +15,8 @@ class UpdateHandler
 
 	public function __construct()
 	{
-		// add_filter('btbp_before_get_commands_list', [$this, 'edit_update_text'], 10);
-		add_filter('btbp_before_execute_command', [$this, 'btbp_before_execute_command'], 10, 2);
+		// add_filter('fdtbwpb_before_get_commands_list', [$this, 'edit_update_text'], 10);
+		add_filter('fdtbwpb_before_execute_command', [$this, 'fdtbwpb_before_execute_command'], 10, 2);
 	}
 
 	/**
@@ -30,7 +30,7 @@ class UpdateHandler
 	 *
 	 * @return	Update|false				Return `false` if you needed to stop executing the update.
 	 *
-	 * @hooked	filter: `btbp_before_get_commands_list` - 10
+	 * @hooked	filter: `fdtbwpb_before_get_commands_list` - 10
 	 */
 	public function edit_update_text($update)
 	{
@@ -39,8 +39,8 @@ class UpdateHandler
 		$commands 	= ['message'];
 
 		$replaces = [
-			'/contact' 	=> esc_html__('✉️ Contact admin', BTBP_TEXT_DOMAIN),
-			'/profile' 	=> esc_html__('👤 My profile', BTBP_TEXT_DOMAIN),
+			'/contact' 	=> esc_html__('✉️ Contact admin', FDTBWPB_TEXT_DOMAIN),
+			'/profile' 	=> esc_html__('👤 My profile', FDTBWPB_TEXT_DOMAIN),
 		];
 
 		foreach ($methods as $index => $method)
@@ -82,9 +82,9 @@ class UpdateHandler
 	 *
 	 * @return	bool
 	 *
-	 * @hooked	filter: `btbp_before_execute_command` - 10
+	 * @hooked	filter: `fdtbwpb_before_execute_command` - 10
 	 */
-	public function btbp_before_execute_command($should_execute_command, $telegram)
+	public function fdtbwpb_before_execute_command($should_execute_command, $telegram)
 	{
 		if ($telegram->isAdmin()) return true;
 

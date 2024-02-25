@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands;
+<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands;
 
 use Longman\TelegramBot\Commands\Command as TelegramBotCommand;
 use Longman\TelegramBot\DB;
@@ -15,8 +15,8 @@ use Longman\TelegramBot\Entities\PollAnswer;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Entities\Update;
 use Longman\TelegramBot\Exception\TelegramException;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Telegram;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Request;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Request;
 
 /**
  * Class Command.

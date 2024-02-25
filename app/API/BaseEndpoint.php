@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin\API;
+<?php namespace TelegramPluginBoilerplate\API;
 
 abstract class BaseEndpoint
 {
@@ -81,8 +81,8 @@ abstract class BaseEndpoint
 		if (empty($token))
 		{
 			return new \WP_Error(
-				esc_html__('Token Not Found', BTBP_TEXT_DOMAIN),
-				esc_html__('No token is defined to receive requests', BTBP_TEXT_DOMAIN),
+				esc_html__('Token Not Found', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('No token is defined to receive requests', FDTBWPB_TEXT_DOMAIN),
 				['status' => 500],
 			);
 		}
@@ -90,8 +90,8 @@ abstract class BaseEndpoint
 		if (empty($header_auth))
 		{
 			return new \WP_Error(
-				esc_html__('Authorization Missing', BTBP_TEXT_DOMAIN),
-				esc_html__('Not authorized', BTBP_TEXT_DOMAIN),
+				esc_html__('Authorization Missing', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('Not authorized', FDTBWPB_TEXT_DOMAIN),
 				['status' => 401],
 			);
 		}
@@ -101,8 +101,8 @@ abstract class BaseEndpoint
 			$header_auth = explode(' ', $header_auth)[1];
 		} else {
 			return new \WP_Error(
-				esc_html__('Token Missing', BTBP_TEXT_DOMAIN),
-				esc_html__('Not authorized', BTBP_TEXT_DOMAIN),
+				esc_html__('Token Missing', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('Not authorized', FDTBWPB_TEXT_DOMAIN),
 				['status' => 401],
 			);
 		}
@@ -110,8 +110,8 @@ abstract class BaseEndpoint
 		if ($token != $header_auth)
 		{
 			return new \WP_Error(
-				esc_html__('Invalid Token', BTBP_TEXT_DOMAIN),
-				esc_html__('Not authorized', BTBP_TEXT_DOMAIN),
+				esc_html__('Invalid Token', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('Not authorized', FDTBWPB_TEXT_DOMAIN),
 				['status' => 401],
 			);
 		}

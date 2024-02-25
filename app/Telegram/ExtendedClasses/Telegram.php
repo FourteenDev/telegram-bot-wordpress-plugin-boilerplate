@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\ExtendedClasses;
+<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses;
 
 use Longman\TelegramBot\ConversationDB;
 use Longman\TelegramBot\DB;
@@ -12,11 +12,11 @@ use Longman\TelegramBot\TelegramLog;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\AdminCommand;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\Command;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\SystemCommand;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Commands\UserCommand;
-use BoilerplateTelegramPlugin\Telegram\Handlers\UpdateHandler;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands\AdminCommand;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands\Command;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands\SystemCommand;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands\UserCommand;
+use TelegramPluginBoilerplate\Telegram\Handlers\UpdateHandler;
 
 class Telegram extends TelegramBotTelegram
 {
@@ -76,7 +76,7 @@ class Telegram extends TelegramBotTelegram
 				'database' 	=> DB_NAME,
 			],
 			$this,
-			"{$wpdb->prefix}btbp_",
+			"{$wpdb->prefix}fdtbwpb_",
 			$encoding
 		);
 		ConversationDB::initializeConversation();
@@ -156,7 +156,7 @@ class Telegram extends TelegramBotTelegram
 			return $command_class;
 
 		// Use the extended namespace. (We can't use __NAMESPACE__ here, because the commands are in another folder)
-		$command_namespace = "\\BoilerplateTelegramPlugin\\Telegram\\Commands\\{$auth}Commands";
+		$command_namespace = "\\TelegramPluginBoilerplate\\Telegram\\Commands\\{$auth}Commands";
 
 		// Check if we can get the namespace from the file (if passed).
 		if ($filepath && !($command_namespace = $this->getFileNamespace($filepath)))
@@ -357,7 +357,7 @@ class Telegram extends TelegramBotTelegram
 		 *
 		 * @param	Update	$update		Return `false` if you want to stop executing the update.
 		 */
-		$this->update = apply_filters('btbp_before_get_commands_list', $this->update);
+		$this->update = apply_filters('fdtbwpb_before_get_commands_list', $this->update);
 		if ($this->update === false)
 			return Request::emptyResponse();
 
@@ -404,7 +404,7 @@ class Telegram extends TelegramBotTelegram
 		 * @param	bool		$should_execute_command
 		 * @param	Telegram	$telegram
 		 */
-		if (apply_filters('btbp_before_execute_command', true, $this))
+		if (apply_filters('fdtbwpb_before_execute_command', true, $this))
 			return $this->executeCommand($command);
 		else
 			return Request::emptyResponse();
@@ -537,11 +537,11 @@ class Telegram extends TelegramBotTelegram
 		// (this example requires Monolog: composer require monolog/monolog)
 		TelegramLog::initialize(
 			new Logger('telegram_bot', [
-				(new StreamHandler(BTBP_DIR . 'logs/debug.log', Logger::DEBUG))->setFormatter(new LineFormatter(null, null, true)),
-				(new StreamHandler(BTBP_DIR . 'logs/error.log', Logger::ERROR))->setFormatter(new LineFormatter(null, null, true)),
+				(new StreamHandler(FDTBWPB_DIR . 'logs/debug.log', Logger::DEBUG))->setFormatter(new LineFormatter(null, null, true)),
+				(new StreamHandler(FDTBWPB_DIR . 'logs/error.log', Logger::ERROR))->setFormatter(new LineFormatter(null, null, true)),
 			]),
 			new Logger('telegram_bot_updates', [
-				(new StreamHandler(BTBP_DIR . 'logs/update.log', Logger::INFO))->setFormatter(new LineFormatter('%message%' . PHP_EOL)),
+				(new StreamHandler(FDTBWPB_DIR . 'logs/update.log', Logger::INFO))->setFormatter(new LineFormatter('%message%' . PHP_EOL)),
 			])
 		);
 		TelegramLog::$remove_bot_token = true;

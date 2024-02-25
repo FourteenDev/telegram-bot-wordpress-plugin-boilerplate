@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin;
+<?php namespace TelegramPluginBoilerplate;
 
 class Model
 {
@@ -28,10 +28,10 @@ class Model
 	 */
 	public function initialize_tables()
 	{
-		if (trim(get_option(BTBP_OPTIONS_KEY_DB_VERSION, '')) === trim(BTBP_VERSION)) return;
+		if (trim(get_option(FDTBWPB_OPTIONS_KEY_DB_VERSION, '')) === trim(FDTBWPB_VERSION)) return;
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_user` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_user` (
 				`id` BIGINT COMMENT 'Unique identifier for this user or bot',
 				`is_bot` TINYINT(1) DEFAULT 0 COMMENT 'True, if this user is a bot',
 				`first_name` CHAR(255) NOT NULL DEFAULT '' COMMENT 'User''s or bot''s first name',
@@ -49,7 +49,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_chat` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_chat` (
 				`id` BIGINT COMMENT 'Unique identifier for this chat',
 				`bot_username` CHAR(191) NOT NULL COMMENT 'Current bot''s username',
 				`type` ENUM('private', 'group', 'supergroup', 'channel') NOT NULL COMMENT 'Type of chat, can be either private, group, supergroup or channel',
@@ -69,7 +69,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_user_chat` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_user_chat` (
 				`user_id` BIGINT COMMENT 'Unique user identifier',
 				`chat_id` BIGINT COMMENT 'Unique user or chat identifier',
 				`bot_username` CHAR(191) NOT NULL COMMENT 'Current bot''s username',
@@ -82,7 +82,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_inline_query` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_inline_query` (
 				`id` BIGINT UNSIGNED COMMENT 'Unique identifier for this query',
 				`user_id` BIGINT NULL COMMENT 'Unique user identifier',
 				`bot_username` CHAR(191) DEFAULT NULL COMMENT 'Current bot''s username',
@@ -100,7 +100,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_chosen_inline_result` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_chosen_inline_result` (
 				`id` BIGINT UNSIGNED AUTO_INCREMENT COMMENT 'Unique identifier for this entry',
 				`result_id` CHAR(255) NOT NULL DEFAULT '' COMMENT 'The unique identifier for the result that was chosen',
 				`user_id` BIGINT NULL COMMENT 'The user that chose the result',
@@ -118,7 +118,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_message` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_message` (
 				`chat_id` BIGINT COMMENT 'Unique chat identifier',
 				`sender_chat_id` BIGINT COMMENT 'Sender of the message, sent on behalf of a chat',
 				`id` BIGINT UNSIGNED COMMENT 'Unique message identifier',
@@ -215,7 +215,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_bot_message` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_bot_message` (
 				`chat_id` BIGINT COMMENT 'Unique chat identifier',
 				`sender_chat_id` BIGINT COMMENT 'Sender of the message, sent on behalf of a chat',
 				`id` BIGINT UNSIGNED COMMENT 'Unique message identifier',
@@ -297,7 +297,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_edited_message` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_edited_message` (
 				`id` BIGINT UNSIGNED AUTO_INCREMENT COMMENT 'Unique identifier for this entry',
 				`chat_id` BIGINT COMMENT 'Unique chat identifier',
 				`message_id` BIGINT UNSIGNED COMMENT 'Unique message identifier',
@@ -320,7 +320,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_callback_query` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_callback_query` (
 				`id` BIGINT UNSIGNED COMMENT 'Unique identifier for this query',
 				`user_id` BIGINT NULL COMMENT 'Unique user identifier',
 				`chat_id` BIGINT NULL COMMENT 'Unique chat identifier',
@@ -343,7 +343,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_shipping_query` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_shipping_query` (
 				`id` BIGINT UNSIGNED COMMENT 'Unique query identifier',
 				`user_id` BIGINT COMMENT 'User who sent the query',
 				`bot_username` CHAR(191) DEFAULT NULL COMMENT 'Current bot''s username',
@@ -359,7 +359,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_pre_checkout_query` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_pre_checkout_query` (
 				`id` BIGINT UNSIGNED COMMENT 'Unique query identifier',
 				`user_id` BIGINT COMMENT 'User who sent the query',
 				`bot_username` CHAR(191) DEFAULT NULL COMMENT 'Current bot''s username',
@@ -378,7 +378,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_poll` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_poll` (
 				`id` BIGINT UNSIGNED COMMENT 'Unique poll identifier',
 				`bot_username` CHAR(191) DEFAULT NULL COMMENT 'Current bot''s username',
 				`question` text NOT NULL COMMENT 'Poll question',
@@ -400,7 +400,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_poll_answer` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_poll_answer` (
 				`poll_id` BIGINT UNSIGNED COMMENT 'Unique poll identifier',
 				`user_id` BIGINT NOT NULL COMMENT 'The user, who changed the answer to the poll',
 				`bot_username` CHAR(191) DEFAULT NULL COMMENT 'Current bot''s username',
@@ -414,7 +414,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_chat_member_updated` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_chat_member_updated` (
 				`id` BIGINT UNSIGNED AUTO_INCREMENT COMMENT 'Unique identifier for this entry',
 				`chat_id` BIGINT NOT NULL COMMENT 'Chat the user belongs to',
 				`user_id` BIGINT NOT NULL COMMENT 'Performer of the action, which resulted in the change',
@@ -433,7 +433,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_chat_join_request` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_chat_join_request` (
 				`id` BIGINT UNSIGNED AUTO_INCREMENT COMMENT 'Unique identifier for this entry',
 				`chat_id` BIGINT NOT NULL COMMENT 'Chat to which the request was sent',
 				`user_id` BIGINT NOT NULL COMMENT 'User that sent the join request',
@@ -451,7 +451,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_telegram_update` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_telegram_update` (
 				`id` BIGINT UNSIGNED COMMENT 'Update''s unique identifier',
 				`chat_id` BIGINT NULL DEFAULT NULL COMMENT 'Unique chat identifier',
 				`bot_username` CHAR(191) DEFAULT NULL COMMENT 'Current bot''s username',
@@ -505,7 +505,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_conversation` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_conversation` (
 				`id` BIGINT(20) unsigned AUTO_INCREMENT COMMENT 'Unique identifier for this entry',
 				`user_id` BIGINT NULL DEFAULT NULL COMMENT 'Unique user identifier',
 				`chat_id` BIGINT NULL DEFAULT NULL COMMENT 'Unique user or chat identifier',
@@ -527,7 +527,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_request_limiter` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_request_limiter` (
 				`id` BIGINT UNSIGNED AUTO_INCREMENT COMMENT 'Unique identifier for this entry',
 				`chat_id` char(255) NULL DEFAULT NULL COMMENT 'Unique chat identifier',
 				`bot_username` CHAR(191) DEFAULT NULL COMMENT 'Current bot''s username',
@@ -540,7 +540,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_chat_list` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_chat_list` (
 				`id` BIGINT UNSIGNED AUTO_INCREMENT COMMENT 'Unique identifier for this entry',
 				`chat_id` longtext NOT NULL,
 				`bot_username` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
@@ -551,7 +551,7 @@ class Model
 		);
 
 		$this->wpdb->query(
-			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}btbp_chat_messages` (
+			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_chat_messages` (
 				`id` BIGINT UNSIGNED AUTO_INCREMENT COMMENT 'Unique identifier for this entry',
 				`chat_list_id` longtext NOT NULL,
 				`telegram_message_id` longtext NOT NULL,
@@ -569,6 +569,6 @@ class Model
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;"
 		);
 
-		add_option(BTBP_OPTIONS_KEY_DB_VERSION, trim(BTBP_VERSION));
+		add_option(FDTBWPB_OPTIONS_KEY_DB_VERSION, trim(FDTBWPB_VERSION));
 	}
 }

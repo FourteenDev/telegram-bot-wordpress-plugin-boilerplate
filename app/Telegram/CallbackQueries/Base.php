@@ -1,11 +1,11 @@
-<?php namespace BoilerplateTelegramPlugin\Telegram\CallbackQueries;
+<?php namespace TelegramPluginBoilerplate\Telegram\CallbackQueries;
 
 use Longman\TelegramBot\Entities\CallbackQuery;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Entities\Update;
 use Longman\TelegramBot\Exception\TelegramException;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Request;
-use BoilerplateTelegramPlugin\Telegram\ExtendedClasses\Telegram;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Request;
+use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 abstract class Base
 {

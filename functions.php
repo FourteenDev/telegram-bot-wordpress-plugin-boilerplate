@@ -17,9 +17,9 @@
  * - `RequiresPHP` 	=> *(string)* Minimum required version of PHP.
  * - `UpdateURI` 	=> *(string)* ID of the plugin for update purposes, should be a URI.
  */
-function btbp_get_plugin_data()
+function fdtbwpb_get_plugin_data()
 {
 	if (!is_admin()) return array();
 	if (!function_exists('get_plugin_data')) require(ABSPATH . 'wp-admin/includes/plugin.php');
-	return get_plugin_data(BTBP_FILE);
+	return get_plugin_data(FDTBWPB_FILE);
 }

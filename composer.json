@@ -3,7 +3,7 @@
 	{
 		"psr-4":
 		{
-			"BoilerplateTelegramPlugin\\": "app/"
+			"TelegramPluginBoilerplate\\": "app/"
 		}
 	},
 	"require":

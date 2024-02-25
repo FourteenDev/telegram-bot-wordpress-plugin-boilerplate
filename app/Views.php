@@ -1,4 +1,4 @@
-<?php namespace BoilerplateTelegramPlugin;
+<?php namespace TelegramPluginBoilerplate;
 
 class Views
 {
@@ -15,7 +15,7 @@ class Views
 	public function load($file = '', $data = [])
 	{
 		$file = str_replace('.', DIRECTORY_SEPARATOR, $file);
-		$file = BTBP_DIR . '/templates' . DIRECTORY_SEPARATOR . $file . '.php';
+		$file = FDTBWPB_DIR . '/templates' . DIRECTORY_SEPARATOR . $file . '.php';
 		if (!file_exists($file)) return '';
 
 		extract($data);
