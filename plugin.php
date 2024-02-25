@@ -2,12 +2,15 @@
 
 /**
  * Plugin Name: Telegram Bot WordPress Plugin Boilerplate
+ * Plugin URI:  https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate
  * Description: A boilerplate plugin for connecting a Telegram bot to your WordPress website.
  * Version: 	1.1.0
- * Author: 		Koorosh
- * Author URI: 	https://GitHub.com/Koorosh14/
+ * Author:      Fourteen Development
+ * Author URI:  https://Fourteen.dev/
+ * License:     MIT
+ * License URI: https://opensource.org/license/mit/
  * Text Domain: telegram-plugin-boilerplate
- * Domain Path: /languages/
+ * Domain Path: /languages
  */
 
 use TelegramPluginBoilerplate\Core;
