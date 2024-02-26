@@ -1,13 +1,30 @@
-# Logs
+# ================ #
+# Logs and backups #
+# ================ #
+/logs/
 *.log
 
-# Packages and vendors
+# ==================== #
+# Packages and vendors #
+# ==================== #
 node_modules/
 vendor/
 
-# IDE folders
-.vscode
-.idea
+# === #
+# IDE #
+# === #
+.idea/
+.vs/
+/*.tmp
 
-# Other stuff
-.DS_Store
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+[Tt]humbs.db
+[Dd]esktop.ini
