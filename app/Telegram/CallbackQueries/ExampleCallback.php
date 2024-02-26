@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\CallbackQueries;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\CallbackQueries;
 
 use Longman\TelegramBot\Entities\ServerResponse;
 use TelegramPluginBoilerplate\Telegram\CallbackQueries\Base;

@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate;
+<?php
+
+namespace TelegramPluginBoilerplate;
 
 class Core
 {
@@ -8,7 +10,7 @@ class Core
 
 	public static function get_instance()
 	{
-		null === self::$instance && self::$instance = new self;
+		self::$instance === null && self::$instance = new self;
 		return self::$instance;
 	}
 

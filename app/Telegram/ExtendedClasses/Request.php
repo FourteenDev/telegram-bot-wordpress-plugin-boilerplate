@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -177,21 +179,21 @@ class Request extends TelegramBotRequest
 	 * @var	array
 	 */
 	private static $input_file_fields = [
-		'setWebhook' 				=> ['certificate'],
-		'sendPhoto' 				=> ['photo'],
-		'sendAudio' 				=> ['audio', 'thumbnail'],
-		'sendDocument' 				=> ['document', 'thumbnail'],
-		'sendVideo' 				=> ['video', 'thumbnail'],
-		'sendAnimation' 			=> ['animation', 'thumbnail'],
-		'sendVoice' 				=> ['voice'],
-		'sendVideoNote' 			=> ['video_note', 'thumbnail'],
-		'setChatPhoto' 				=> ['photo'],
-		'sendSticker' 				=> ['sticker'],
-		'uploadStickerFile' 		=> ['sticker'],
+		'setWebhook'             => ['certificate'],
+		'sendPhoto'              => ['photo'],
+		'sendAudio'              => ['audio', 'thumbnail'],
+		'sendDocument'           => ['document', 'thumbnail'],
+		'sendVideo'              => ['video', 'thumbnail'],
+		'sendAnimation'          => ['animation', 'thumbnail'],
+		'sendVoice'              => ['voice'],
+		'sendVideoNote'          => ['video_note', 'thumbnail'],
+		'setChatPhoto'           => ['photo'],
+		'sendSticker'            => ['sticker'],
+		'uploadStickerFile'      => ['sticker'],
 		// @todo Look into new InputSticker field and see if we can do the same there.
-		// 'createNewStickerSet' 	=> ['png_sticker', 'tgs_sticker', 'webm_sticker'],
-		// 'addStickerToSet' 		=> ['png_sticker', 'tgs_sticker', 'webm_sticker'],
-		'setStickerSetThumbnail' 	=> ['thumbnail'],
+		// 'createNewStickerSet'    => ['png_sticker', 'tgs_sticker', 'webm_sticker'],
+		// 'addStickerToSet'        => ['png_sticker', 'tgs_sticker', 'webm_sticker'],
+		'setStickerSetThumbnail' => ['thumbnail'],
 	];
 
 	/**
@@ -228,8 +230,8 @@ class Request extends TelegramBotRequest
 	 */
 	private static function setUpRequestParams(array $data): array
 	{
-		$has_resource 	= false;
-		$multipart 		= [];
+		$has_resource = false;
+		$multipart    = [];
 
 		foreach ($data as $key => &$item)
 		{
@@ -247,8 +249,8 @@ class Request extends TelegramBotRequest
 			}
 
 			// Reformat data array in multipart way if it contains a resource
-			$has_resource 	= $has_resource || is_resource($item) || $item instanceof Stream;
-			$multipart[] 	= ['name' => $key, 'contents' => $item];
+			$has_resource = $has_resource || is_resource($item) || $item instanceof Stream;
+			$multipart[]  = ['name' => $key, 'contents' => $item];
 		}
 		unset($item);
 
@@ -295,7 +297,7 @@ class Request extends TelegramBotRequest
 	 */
 	private static function mediaInputHelper($item, bool &$has_resource, array &$multipart)
 	{
-		$was_array 			= is_array($item);
+		$was_array          = is_array($item);
 		$was_array || $item = [$item];
 
 		/**
@@ -307,7 +309,7 @@ class Request extends TelegramBotRequest
 
 			// Make a list of all possible media that can be handled by the helper.
 			$possible_medias = array_filter([
-				'media' 	=> $media_item->getMedia(),
+				'media'     => $media_item->getMedia(),
 				'thumbnail' => $media_item->getThumbnail(),
 			]);
 
@@ -319,13 +321,13 @@ class Request extends TelegramBotRequest
 
 				if (is_resource($media) || $media instanceof Stream)
 				{
-					$has_resource 	= true;
-					$unique_key 	= uniqid($type . '_', false);
-					$multipart[] 	= ['name' => $unique_key, 'contents' => $media];
+					$has_resource = true;
+					$unique_key   = uniqid($type . '_', false);
+					$multipart[]  = ['name' => $unique_key, 'contents' => $media];
 
 					// We're literally overwriting the passed media type data!
-					$media_item->$type 				= 'attach://' . $unique_key;
-					$media_item->raw_data[$type] 	= 'attach://' . $unique_key;
+					$media_item->$type           = 'attach://' . $unique_key;
+					$media_item->raw_data[$type] = 'attach://' . $unique_key;
 				}
 			}
 		}
@@ -346,8 +348,8 @@ class Request extends TelegramBotRequest
 	 */
 	public static function execute(string $action, array $data = []): string
 	{
-		$request_params 			= self::setUpRequestParams($data);
-		$request_params['debug'] 	= TelegramLog::getDebugLogTempStream();
+		$request_params          = self::setUpRequestParams($data);
+		$request_params['debug'] = TelegramLog::getDebugLogTempStream();
 
 		try {
 			if (!empty($proxy_update_receiver = FDTBWPB()->option('proxy_update_receiver')))
@@ -365,8 +367,8 @@ class Request extends TelegramBotRequest
 			}
 			$result   = (string) $response->getBody();
 		} catch (RequestException $e) {
-			$response 	= null;
-			$result 	= $e->getResponse() ? (string) $e->getResponse()->getBody() : '';
+			$response = null;
+			$result   = $e->getResponse() ? (string) $e->getResponse()->getBody() : '';
 		}
 
 		// Logging verbose debug output
@@ -500,20 +502,20 @@ class Request extends TelegramBotRequest
 	public static function sendMessage(array $data, ?array &$extras = []): ServerResponse
 	{
 		$extras = array_merge([
-			'split' 	=> 4096,
-			'encoding' 	=> mb_internal_encoding(),
+			'split'    => 4096,
+			'encoding' => mb_internal_encoding(),
 		], (array) $extras);
 
-		$text 			= $data['text'];
-		$encoding 		= $extras['encoding'];
-		$max_length 	= $extras['split'] ?: mb_strlen($text, $encoding);
+		$text       = $data['text'];
+		$encoding   = $extras['encoding'];
+		$max_length = $extras['split'] ?: mb_strlen($text, $encoding);
 
 		$responses = [];
 
 		do {
 			// Chop off and send the first message.
-			$data['text'] 	= mb_substr($text, 0, $max_length, $encoding);
-			$responses[] 	= self::send('sendMessage', $data);
+			$data['text'] = mb_substr($text, 0, $max_length, $encoding);
+			$responses[]  = self::send('sendMessage', $data);
 
 			// Prepare the next message.
 			$text = mb_substr($text, $max_length, null, $encoding);
@@ -549,8 +551,8 @@ class Request extends TelegramBotRequest
 		{
 			foreach ($chats as $row)
 			{
-				$data['chat_id'] 	= $row['chat_id'];
-				$results[] 			= self::send($callback_function, $data);
+				$data['chat_id'] = $row['chat_id'];
+				$results[]       = self::send($callback_function, $data);
 			}
 		}
 
@@ -609,8 +611,8 @@ class Request extends TelegramBotRequest
 				'setPassportDataErrors',
 			];
 
-			$chat_id 			= $data['chat_id'] ?? null;
-			$inline_message_id 	= $data['inline_message_id'] ?? null;
+			$chat_id           = $data['chat_id'] ?? null;
+			$inline_message_id = $data['inline_message_id'] ?? null;
 
 			if (($chat_id || $inline_message_id) && in_array($action, $limited_methods, true))
 			{
@@ -627,9 +629,9 @@ class Request extends TelegramBotRequest
 					// Make sure we're handling integers here.
 					$requests = array_map('intval', $requests);
 
-					$chat_per_second 	= ($requests['LIMIT_PER_SEC'] === 0);    // No more than one message per second inside a particular chat
-					$global_per_second 	= ($requests['LIMIT_PER_SEC_ALL'] < 30); // No more than 30 messages per second to different chats
-					$groups_per_minute 	= (((is_numeric($chat_id) && $chat_id > 0) || $inline_message_id !== null) || ((!is_numeric($chat_id) || $chat_id < 0) && $requests['LIMIT_PER_MINUTE'] < 20));    // No more than 20 messages per minute in groups and channels
+					$chat_per_second   = ($requests['LIMIT_PER_SEC'] === 0);    // No more than one message per second inside a particular chat
+					$global_per_second = ($requests['LIMIT_PER_SEC_ALL'] < 30); // No more than 30 messages per second to different chats
+					$groups_per_minute = (((is_numeric($chat_id) && $chat_id > 0) || $inline_message_id !== null) || ((!is_numeric($chat_id) || $chat_id < 0) && $requests['LIMIT_PER_MINUTE'] < 20));    // No more than 20 messages per minute in groups and channels
 
 					if ($chat_per_second && $global_per_second && $groups_per_minute)
 						break;

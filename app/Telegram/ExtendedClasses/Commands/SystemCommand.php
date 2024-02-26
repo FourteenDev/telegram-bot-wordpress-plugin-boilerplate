@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands;
 
 use Longman\TelegramBot\Conversation;
 use Longman\TelegramBot\Entities\ServerResponse;
@@ -76,18 +78,18 @@ abstract class SystemCommand extends Command
 
 		// List of service messages previously handled internally.
 		$service_message_getters = [
-			'newchatmembers' 			=> 'getNewChatMembers',
-			'leftchatmember' 			=> 'getLeftChatMember',
-			'newchattitle' 				=> 'getNewChatTitle',
-			'newchatphoto' 				=> 'getNewChatPhoto',
-			'deletechatphoto' 			=> 'getDeleteChatPhoto',
-			'groupchatcreated' 			=> 'getGroupChatCreated',
-			'supergroupchatcreated' 	=> 'getSupergroupChatCreated',
-			'channelchatcreated' 		=> 'getChannelChatCreated',
-			'migratefromchatid' 		=> 'getMigrateFromChatId',
-			'migratetochatid' 			=> 'getMigrateToChatId',
-			'pinnedmessage' 			=> 'getPinnedMessage',
-			'successfulpayment' 		=> 'getSuccessfulPayment',
+			'newchatmembers'        => 'getNewChatMembers',
+			'leftchatmember'        => 'getLeftChatMember',
+			'newchattitle'          => 'getNewChatTitle',
+			'newchatphoto'          => 'getNewChatPhoto',
+			'deletechatphoto'       => 'getDeleteChatPhoto',
+			'groupchatcreated'      => 'getGroupChatCreated',
+			'supergroupchatcreated' => 'getSupergroupChatCreated',
+			'channelchatcreated'    => 'getChannelChatCreated',
+			'migratefromchatid'     => 'getMigrateFromChatId',
+			'migratetochatid'       => 'getMigrateToChatId',
+			'pinnedmessage'         => 'getPinnedMessage',
+			'successfulpayment'     => 'getSuccessfulPayment',
 		];
 
 		foreach ($service_message_getters as $command => $service_message_getter)

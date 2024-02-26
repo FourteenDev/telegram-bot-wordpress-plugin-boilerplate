@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\Handlers;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\Handlers;
 
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\Entities\Update;
@@ -22,11 +24,11 @@ class CallbackQueryHandler
 		if ($invalidReason = self::getInvalidCallbackError($telegram, $update))
 		{
 			return Request::answerCallbackQuery(
-				array(
+				[
 					'callback_query_id' => $update->getCallbackQuery()->getId(),
-					'text' 				=> $invalidReason,
-					'show_alert' 		=> true,
-				)
+					'text'              => $invalidReason,
+					'show_alert'        => true,
+				]
 			);
 		}
 
@@ -75,11 +77,11 @@ class CallbackQueryHandler
 		if (empty($callbackData) || stripos($callbackData, ':') === false)
 		{
 			return Request::answerCallbackQuery(
-				array(
+				[
 					'callback_query_id' => $update->getCallbackQuery()->getId(),
-					'text' 				=> esc_html__('Invalid callback!', FDTBWPB_TEXT_DOMAIN),
-					'show_alert' 		=> true,
-				)
+					'text'              => esc_html__('Invalid callback!', FDTBWPB_TEXT_DOMAIN),
+					'show_alert'        => true,
+				]
 			);
 		}
 
@@ -89,8 +91,8 @@ class CallbackQueryHandler
 		foreach (glob(__DIR__ . '/../CallbackQueries/*Callback.php') as $file)
 		{
 			// We can't use __NAMESPACE__ here, because the callback queries are in another folder
-			$class 				= '\\TelegramPluginBoilerplate\\Telegram\\CallbackQueries\\' . basename($file, '.php');
-			$classCommandName 	= substr(basename($file, '.php'), 0, -8);
+			$class            = '\\TelegramPluginBoilerplate\\Telegram\\CallbackQueries\\' . basename($file, '.php');
+			$classCommandName = substr(basename($file, '.php'), 0, -8);
 
 			if (class_exists($class) && mb_strtolower($classCommandName) === mb_strtolower($callbackCommand))
 			{
@@ -102,11 +104,11 @@ class CallbackQueryHandler
 		// If we reach here, it means that the callback query wasn't defined
 
 		return Request::answerCallbackQuery(
-			array(
+			[
 				'callback_query_id' => $update->getCallbackQuery()->getId(),
-				'text' 				=> esc_html__('Invalid button!', FDTBWPB_TEXT_DOMAIN),
-				'show_alert' 		=> true,
-			)
+				'text'              => esc_html__('Invalid button!', FDTBWPB_TEXT_DOMAIN),
+				'show_alert'        => true,
+			]
 		);
 	}
 }

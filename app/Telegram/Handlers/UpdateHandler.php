@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\Handlers;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\Handlers;
 
 use Longman\TelegramBot\Entities\Update;
 use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
@@ -9,7 +11,7 @@ class UpdateHandler
 
 	public static function get_instance()
 	{
-		null === self::$instance && self::$instance = new self;
+		self::$instance === null && self::$instance = new self;
 		return self::$instance;
 	}
 
@@ -34,18 +36,18 @@ class UpdateHandler
 	 */
 	public function edit_update_text($update)
 	{
-		$methods 	= ['getMessage', 'getEditedMessage'];
-		$fields 	= ['message', 'edited_message']; // Method's field name in Bot API
-		$commands 	= ['message'];
+		$methods  = ['getMessage', 'getEditedMessage'];
+		$fields   = ['message', 'edited_message']; // Method's field name in Bot API
+		$commands = ['message'];
 
 		$replaces = [
-			'/contact' 	=> esc_html__('✉️ Contact admin', FDTBWPB_TEXT_DOMAIN),
-			'/profile' 	=> esc_html__('👤 My profile', FDTBWPB_TEXT_DOMAIN),
+			'/contact' => esc_html__('✉️ Contact admin', FDTBWPB_TEXT_DOMAIN),
+			'/profile' => esc_html__('👤 My profile', FDTBWPB_TEXT_DOMAIN),
 		];
 
 		foreach ($methods as $index => $method)
 		{
-			$object = call_user_func(array($update, $method));
+			$object = call_user_func([$update, $method]);
 			if ($object !== null && ($text = $object->getText()))
 			{
 				foreach ($replaces as $replace => $search)
@@ -54,12 +56,12 @@ class UpdateHandler
 
 				foreach ($commands as $command)
 				{
-					$command 				= "/{$command}_";
-					$command_start_index 	= stripos($text, $command);
+					$command             = "/{$command}_";
+					$command_start_index = stripos($text, $command);
 					if ($command_start_index !== false)
 					{
-						$underline_index 	= strlen($command) - 1;
-						$text 				= substr_replace($text, ' ', $underline_index, 1);
+						$underline_index = strlen($command) - 1;
+						$text            = substr_replace($text, ' ', $underline_index, 1);
 					}
 				}
 

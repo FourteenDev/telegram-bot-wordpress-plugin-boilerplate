@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses;
 
 use Longman\TelegramBot\ConversationDB;
 use Longman\TelegramBot\DB;
@@ -36,9 +38,9 @@ class Telegram extends TelegramBotTelegram
 	 * @var	array
 	 */
 	protected $command_classes = [
-		Command::AUTH_USER 		=> [],
-		Command::AUTH_ADMIN 	=> [],
-		Command::AUTH_SYSTEM 	=> [],
+		Command::AUTH_USER   => [],
+		Command::AUTH_ADMIN  => [],
+		Command::AUTH_SYSTEM => [],
 	];
 
 	/**
@@ -70,10 +72,10 @@ class Telegram extends TelegramBotTelegram
 		global $wpdb;
 		$this->pdo = DB::initialize(
 			[
-				'host' 		=> DB_HOST,
-				'user' 		=> DB_USER,
-				'password' 	=> DB_PASSWORD,
-				'database' 	=> DB_NAME,
+				'host'     => DB_HOST,
+				'user'     => DB_USER,
+				'password' => DB_PASSWORD,
+				'database' => DB_NAME,
 			],
 			$this,
 			"{$wpdb->prefix}fdtbwpb_",
@@ -144,12 +146,12 @@ class Telegram extends TelegramBotTelegram
 	 *
 	 * @return	string|null
 	 */
-	public function getCommandClassName(string $auth, string $command, string $filepath = '') : ?string
+	public function getCommandClassName(string $auth, string $command, string $filepath = ''): ?string
 	{
-		$command 	= mb_strtolower($command);
+		$command = mb_strtolower($command);
 		if (empty($command)) return null;
 
-		$auth 		= $this->ucFirstUnicode($auth);
+		$auth = $this->ucFirstUnicode($auth);
 
 		// First, check for directly assigned command class.
 		if ($command_class = $this->command_classes[$auth][$command] ?? null)
@@ -222,23 +224,23 @@ class Telegram extends TelegramBotTelegram
 		{
 			return new ServerResponse(
 				[
-					'ok' 			=> false,
-					'description' 	=> 'getUpdates needs MySQL connection! (This can be overridden - see documentation)',
+					'ok'          => false,
+					'description' => 'getUpdates needs MySQL connection! (This can be overridden - see documentation)',
 				],
 				$this->bot_username
 			);
 		}
 
 		$offset = 0;
-		$limit 	= null;
+		$limit  = null;
 
 		// By default, get update types sent by Telegram.
 		$allowed_updates = [];
 
-		$offset 			= $data['offset'] 			?? $offset;
-		$limit 				= $data['limit'] 			?? $limit;
-		$timeout 			= $data['timeout'] 			?? $timeout;
-		$allowed_updates 	= $data['allowed_updates'] 	?? $allowed_updates;
+		$offset          = $data['offset'] ?? $offset;
+		$limit           = $data['limit'] ?? $limit;
+		$timeout         = $data['timeout'] ?? $timeout;
+		$allowed_updates = $data['allowed_updates'] ?? $allowed_updates;
 
 		// Take custom input into account.
 		if ($custom_input = $this->getCustomInput())
@@ -255,8 +257,8 @@ class Telegram extends TelegramBotTelegram
 			if (DB::isDbConnected() && $last_update = DB::selectTelegramUpdate(1))
 			{
 				// Get last Update id from the database.
-				$last_update 			= reset($last_update);
-				$this->last_update_id 	= $last_update['id'] ?? null;
+				$last_update          = reset($last_update);
+				$this->last_update_id = $last_update['id'] ?? null;
 			}
 
 			// As explained in the telegram bot API documentation.
@@ -280,7 +282,7 @@ class Telegram extends TelegramBotTelegram
 			{
 				// Mark update(s) as read after handling
 				$offset = $this->last_update_id + 1;
-				$limit 	= 1;
+				$limit  = 1;
 
 				Request::getUpdates(compact('offset', 'limit', 'timeout', 'allowed_updates'));
 			}
@@ -328,8 +330,8 @@ class Telegram extends TelegramBotTelegram
 	 */
 	public function processUpdate(Update $update): ServerResponse
 	{
-		$this->update 			= $update;
-		$this->last_update_id 	= $update->getUpdateId();
+		$this->update         = $update;
+		$this->last_update_id = $update->getUpdateId();
 
 		if (is_callable($this->update_filter))
 		{
@@ -371,8 +373,8 @@ class Telegram extends TelegramBotTelegram
 		$update_type = $this->update->getUpdateType();
 		if ($update_type === 'message')
 		{
-			$message 	= $this->update->getMessage();
-			$type 		= $message->getType();
+			$message = $this->update->getMessage();
+			$type    = $message->getType();
 
 			// Let's check if the message object has the type field we're looking for...
 			$command_tmp = $type === 'command' ? $message->getCommand() : $this->getCommandFromType($type);
@@ -420,8 +422,8 @@ class Telegram extends TelegramBotTelegram
 	 */
 	public function executeCommand(string $command): ServerResponse
 	{
-		$command 		= mb_strtolower($command);
-		$command_obj 	= $this->commands_objects[$command] ?? $this->getCommandObject($command);
+		$command     = mb_strtolower($command);
+		$command_obj = $this->commands_objects[$command] ?? $this->getCommandObject($command);
 
 		if (!$command_obj || !$command_obj->isEnabled())
 		{
@@ -572,9 +574,9 @@ class Telegram extends TelegramBotTelegram
 		} else {
 			// Fall back to the Bot user.
 			$from = new User([
-				'id' 			=> $this->getBotId(),
-				'first_name' 	=> $this->getBotUsername(),
-				'username' 		=> $this->getBotUsername(),
+				'id'         => $this->getBotId(),
+				'first_name' => $this->getBotUsername(),
+				'username'   => $this->getBotUsername(),
 			]);
 
 			// Try to get "live" Bot info.
@@ -585,9 +587,9 @@ class Telegram extends TelegramBotTelegram
 				$result = $response->getResult();
 
 				$from = new User([
-					'id' 			=> $result->getId(),
-					'first_name' 	=> $result->getFirstName(),
-					'username' 		=> $result->getUsername(),
+					'id'         => $result->getId(),
+					'first_name' => $result->getFirstName(),
+					'username'   => $result->getUsername(),
 				]);
 			}
 
@@ -596,21 +598,21 @@ class Telegram extends TelegramBotTelegram
 
 			// Lock the bot to a private chat context.
 			$chat = new Chat([
-				'id' 	=> $from->getId(),
-				'type' 	=> 'private',
+				'id'   => $from->getId(),
+				'type' => 'private',
 			]);
 		}
 
-		$newUpdate = static function ($text = '') use ($from, $chat)
+		$newUpdate = static function($text = '') use ($from, $chat)
 		{
 			return new Update([
-				'update_id' 	=> -1,
-				'message' 		=> [
-					'message_id' 	=> -1,
-					'date' 			=> time(),
-					'from' 			=> json_decode($from->toJson(), true),
-					'chat' 			=> json_decode($chat->toJson(), true),
-					'text' 			=> $text,
+				'update_id' => -1,
+				'message'   => [
+					'message_id' => -1,
+					'date'       => time(),
+					'from'       => json_decode($from->toJson(), true),
+					'chat'       => json_decode($chat->toJson(), true),
+					'text'       => $text,
 				],
 			]);
 		};

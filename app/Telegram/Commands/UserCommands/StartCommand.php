@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\Commands\UserCommands;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\Commands\UserCommands;
 
 use Longman\TelegramBot\Entities\Keyboard;
 use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands\UserCommand;
@@ -36,17 +38,17 @@ class StartCommand extends UserCommand
 	 */
 	public function execute(): ServerResponse
 	{
-//		$message 	= $this->getMessage();
-//		$chat_id 	= $message->getChat()->getId();
-//		$data 		= ['chat_id' => $chat_id, 'reply_to_message_id' => $message->getMessageId()];
+		// $message = $this->getMessage();
+		// $chat_id = $message->getChat()->getId();
+		// $data    = ['chat_id' => $chat_id, 'reply_to_message_id' => $message->getMessageId()];
 
 		if ($this->telegram->isAdmin())
 		{
 			return $this->replyToChat(
 				esc_html__('Welcome Admin!', FDTBWPB_TEXT_DOMAIN),
 				[
-					'reply_to_message_id' 	=> $this->getMessage()->getMessageId(),
-					'reply_markup' 			=> $this->get_start_buttons(),
+					'reply_to_message_id' => $this->getMessage()->getMessageId(),
+					'reply_markup'        => $this->get_start_buttons(),
 				]
 			);
 		}
@@ -54,8 +56,8 @@ class StartCommand extends UserCommand
 		return $this->replyToChat(
 			esc_html__('Welcome!', FDTBWPB_TEXT_DOMAIN),
 			[
-				'reply_to_message_id' 	=> $this->getMessage()->getMessageId(),
-				'reply_markup' 			=> $this->get_start_buttons(),
+				'reply_to_message_id' => $this->getMessage()->getMessageId(),
+				'reply_markup'        => $this->get_start_buttons(),
 			]
 		);
 	}

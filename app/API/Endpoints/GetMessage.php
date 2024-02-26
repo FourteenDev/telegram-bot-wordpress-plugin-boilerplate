@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\API\Endpoints;
+<?php
+
+namespace TelegramPluginBoilerplate\API\Endpoints;
 
 use Longman\TelegramBot\TelegramLog;
 use TelegramPluginBoilerplate\API\BaseEndpoint;
@@ -6,15 +8,15 @@ use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class GetMessage extends BaseEndpoint
 {
-	public static $instance = NULL;
+	public static $instance = null;
 
-	public $namespace 	= 'fdtbwpb/v1/';
-	public $route 		= 'get_message';
-	public $method 		= 'POST';
+	public $namespace = 'fdtbwpb/v1/';
+	public $route     = 'get_message';
+	public $method    = 'POST';
 
 	public static function get_instance()
 	{
-		null === self::$instance && self::$instance = new self;
+		self::$instance === null && self::$instance = new self;
 		return self::$instance;
 	}
 

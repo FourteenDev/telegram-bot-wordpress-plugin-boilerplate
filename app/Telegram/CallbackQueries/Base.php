@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\CallbackQueries;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\CallbackQueries;
 
 use Longman\TelegramBot\Entities\CallbackQuery;
 use Longman\TelegramBot\Entities\ServerResponse;
@@ -9,7 +11,6 @@ use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 abstract class Base
 {
-
 	/**
 	 * Telegram object.
 	 *
@@ -118,14 +119,14 @@ abstract class Base
 	 * @return	ServerResponse
 	 * @throws	TelegramException
 	 */
-	public function answer(string $text = '', array $data = array()): ServerResponse
+	public function answer(string $text = '', array $data = []): ServerResponse
 	{
 		if ($callback_query = $this->update->getCallbackQuery())
 		{
-			return Request::answerCallbackQuery(array_merge(array(
+			return Request::answerCallbackQuery(array_merge([
 				'callback_query_id' => $callback_query->getId(),
-				'text' 				=> $text,
-			), $data));
+				'text'              => $text,
+			], $data));
 		}
 
 		return Request::emptyResponse();

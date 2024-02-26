@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate;
+<?php
+
+namespace TelegramPluginBoilerplate;
 
 class Model
 {
@@ -7,7 +9,7 @@ class Model
 
 	public static function get_instance()
 	{
-		null === self::$instance && self::$instance = new self;
+		self::$instance === null && self::$instance = new self;
 		return self::$instance;
 	}
 

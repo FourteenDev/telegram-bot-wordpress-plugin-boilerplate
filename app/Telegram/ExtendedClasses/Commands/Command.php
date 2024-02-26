@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands;
+<?php
+
+namespace TelegramPluginBoilerplate\Telegram\ExtendedClasses\Commands;
 
 use Longman\TelegramBot\Commands\Command as TelegramBotCommand;
 use Longman\TelegramBot\DB;
@@ -177,15 +179,15 @@ abstract class Command extends TelegramBotCommand
 
 			if ($user = $message->getFrom())
 			{
-				return Request::sendMessage(array(
-					'chat_id' 		=> $user->getId(),
-					'parse_mode' 	=> 'Markdown',
-					'text' 			=> sprintf(
+				return Request::sendMessage([
+					'chat_id'    => $user->getId(),
+					'parse_mode' => 'Markdown',
+					'text'       => sprintf(
 						"/%s command is only available in a private chat.\n(`%s`)",
 						$this->getName(),
 						$message->getText()
 					),
-				));
+				]);
 			}
 
 			return Request::emptyResponse();
@@ -385,8 +387,8 @@ abstract class Command extends TelegramBotCommand
 			{
 				// Delete the falsely called command message.
 				Request::deleteMessage([
-					'chat_id' 		=> $chat->getId(),
-					'message_id' 	=> $message->getMessageId(),
+					'chat_id'    => $chat->getId(),
+					'message_id' => $message->getMessageId(),
 				]);
 
 				return true;
@@ -410,8 +412,8 @@ abstract class Command extends TelegramBotCommand
 		if ($message = $this->getMessage() ?: $this->getEditedMessage() ?: $this->getChannelPost() ?: $this->getEditedChannelPost())
 		{
 			return Request::sendMessage(array_merge([
-				'chat_id' 	=> $message->getChat()->getId(),
-				'text' 		=> $text,
+				'chat_id' => $message->getChat()->getId(),
+				'text'    => $text,
 			], $data));
 		}
 
@@ -432,8 +434,8 @@ abstract class Command extends TelegramBotCommand
 		if ($message = $this->getMessage() ?: $this->getEditedMessage())
 		{
 			return Request::sendMessage(array_merge([
-				'chat_id' 	=> $message->getFrom()->getId(),
-				'text' 		=> $text,
+				'chat_id' => $message->getFrom()->getId(),
+				'text'    => $text,
 			], $data));
 		}
 

@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate;
+<?php
+
+namespace TelegramPluginBoilerplate;
 
 class Settings
 {
@@ -6,7 +8,7 @@ class Settings
 
 	public static function get_instance()
 	{
-		null === self::$instance && self::$instance = new self;
+		self::$instance === null && self::$instance = new self;
 		return self::$instance;
 	}
 
@@ -62,42 +64,42 @@ class Settings
 
 		$settings_fields = [
 			'bot_token' => [
-				'id' 		=> 'bot_token',
-				'label' 	=> esc_html__('Bot token', FDTBWPB_TEXT_DOMAIN),
-				'section' 	=> 'general',
-				'type' 		=> 'text',
-				'default' 	=> '',
-				'args' 		=> [],
+				'id'      => 'bot_token',
+				'label'   => esc_html__('Bot token', FDTBWPB_TEXT_DOMAIN),
+				'section' => 'general',
+				'type'    => 'text',
+				'default' => '',
+				'args'    => [],
 			],
 			'bot_username' => [
-				'id' 		=> 'bot_username',
-				'label' 	=> esc_html__('Bot username', FDTBWPB_TEXT_DOMAIN),
-				'section' 	=> 'general',
-				'type' 		=> 'text',
-				'default' 	=> '',
-				'args' 		=> [
+				'id'      => 'bot_username',
+				'label'   => esc_html__('Bot username', FDTBWPB_TEXT_DOMAIN),
+				'section' => 'general',
+				'type'    => 'text',
+				'default' => '',
+				'args'    => [
 					'description' => esc_html__('With @', FDTBWPB_TEXT_DOMAIN),
 				],
 			],
-			'admin_ids' 			=> [
-				'id' 		=> 'admin_ids',
-				'label' 	=> esc_html__('Admins IDs', FDTBWPB_TEXT_DOMAIN),
-				'section' 	=> 'general',
-				'type' 		=> 'text',
-				'default' 	=> '',
-				'args' 		=> [
+			'admin_ids' => [
+				'id'      => 'admin_ids',
+				'label'   => esc_html__('Admins IDs', FDTBWPB_TEXT_DOMAIN),
+				'section' => 'general',
+				'type'    => 'text',
+				'default' => '',
+				'args'    => [
 					'description' => esc_html__('Enter Telegram ID (numeric) of admins, separate IDs with a comma (,).', FDTBWPB_TEXT_DOMAIN),
 				],
 			],
 
 			// Proxy section
 			'proxy_update_receiver' => [
-				'id' 		=> 'proxy_update_receiver',
-				'label' 	=> esc_html__('Update receiver URL', FDTBWPB_TEXT_DOMAIN),
-				'section' 	=> 'proxy',
-				'type' 		=> 'text',
-				'default' 	=> '',
-				'args' 		=> [
+				'id'      => 'proxy_update_receiver',
+				'label'   => esc_html__('Update receiver URL', FDTBWPB_TEXT_DOMAIN),
+				'section' => 'proxy',
+				'type'    => 'text',
+				'default' => '',
+				'args'    => [
 					'description' => esc_html__('Find forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', FDTBWPB_TEXT_DOMAIN),
 				],
 			],
@@ -105,9 +107,9 @@ class Settings
 
 		foreach ($settings_fields as $field)
 		{
-			$callback 	= !empty($field['callback']) ? $field['callback'] : [$this, $field['type'] . '_field_callback'];
-			$class 		= !empty($field['class']) ? implode(' ', $field['class']) : '';
-			$args 		= ['id' => $field['id'], 'default' => $field['default'], 'css_class' => $class] + $field['args'];
+			$callback = !empty($field['callback']) ? $field['callback'] : [$this, $field['type'] . '_field_callback'];
+			$class    = !empty($field['class']) ? implode(' ', $field['class']) : '';
+			$args     = ['id' => $field['id'], 'default' => $field['default'], 'css_class' => $class] + $field['args'];
 
 			add_settings_field(
 				$field['id'],
@@ -181,12 +183,12 @@ class Settings
 		if (!empty($value)) $default = $value;
 
 		return [
-			'id' 			=> 'fdtbwpb_options_' . $key,
-			'name' 			=> 'fdtbwpb_options[' . $key . ']',
-			'description' 	=> !empty($args['description']) ? trim($args['description']) : '',
-			'default' 		=> $default,
-			'readonly' 		=> !empty($args['readonly']),
-			'class' 		=> $args['css_class'],
+			'id'          => 'fdtbwpb_options_' . $key,
+			'name'        => 'fdtbwpb_options[' . $key . ']',
+			'description' => !empty($args['description']) ? trim($args['description']) : '',
+			'default'     => $default,
+			'readonly'    => !empty($args['readonly']),
+			'class'       => $args['css_class'],
 		];
 	}
 }

@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate;
+<?php
+
+namespace TelegramPluginBoilerplate;
 
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Exception\TelegramLogException;
@@ -11,7 +13,7 @@ class Helper
 
 	public static function get_instance()
 	{
-		null === self::$instance && self::$instance = new self;
+		self::$instance === null && self::$instance = new self;
 		return self::$instance;
 	}
 

@@ -1,4 +1,6 @@
-<?php namespace TelegramPluginBoilerplate\API;
+<?php
+
+namespace TelegramPluginBoilerplate\API;
 
 abstract class BaseEndpoint
 {
@@ -50,9 +52,9 @@ abstract class BaseEndpoint
 			$this->namespace,
 			$this->route,
 			[
-				'methods' 				=> $this->method,
-				'callback' 				=> [$this, 'handle'],
-				'permission_callback' 	=> [$this, 'permission_callback'],
+				'methods'             => $this->method,
+				'callback'            => [$this, 'handle'],
+				'permission_callback' => [$this, 'permission_callback'],
 			]
 		);
 	}
@@ -75,8 +77,8 @@ abstract class BaseEndpoint
 	{
 		return true;
 
-		$token 			= '-';
-		$header_auth 	= $this->get_authorization_header();
+		$token       = '-';
+		$header_auth = $this->get_authorization_header();
 
 		if (empty($token))
 		{
