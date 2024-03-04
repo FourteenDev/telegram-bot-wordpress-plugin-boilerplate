@@ -6,7 +6,7 @@ class Settings
 {
 	public static $instance = null;
 
-	public static function get_instance()
+	public static function getInstance()
 	{
 		self::$instance === null && self::$instance = new self;
 		return self::$instance;
@@ -14,8 +14,8 @@ class Settings
 
 	public function __construct()
 	{
-		add_action('admin_menu', [$this, 'create_admin_menu']);
-		add_action('admin_init', [$this, 'register_settings']);
+		add_action('admin_menu', [$this, 'createAdminMenu']);
+		add_action('admin_init', [$this, 'registerSettings']);
 		add_filter('plugin_action_links_' . FDTBWPB_BASENAME, [$this, 'actionLinks']);
 	}
 
@@ -26,14 +26,14 @@ class Settings
 	 *
 	 * @hooked	action: `admin_menu` - 10
 	 */
-	public function create_admin_menu()
+	public function createAdminMenu()
 	{
 		add_menu_page(
 			esc_html__('Boilerplate Telegram Bot Plugin', FDTBWPB_TEXT_DOMAIN),
 			esc_html__('Telegram Bot', FDTBWPB_TEXT_DOMAIN),
 			'manage_options',
 			'fdtbwpb_settings',
-			[$this, 'display_settings_content'],
+			[$this, 'displaySettingsContent'],
 			'dashicons-heart'
 		);
 	}
@@ -43,7 +43,7 @@ class Settings
 	 *
 	 * @return	void
 	 */
-	public function display_settings_content()
+	public function displaySettingsContent()
 	{
 		FDTBWPB()->view('admin.settings.wrapper');
 	}
@@ -55,14 +55,15 @@ class Settings
 	 *
 	 * @hooked	action: `admin_init` - 10
 	 */
-	public function register_settings()
+	public function registerSettings()
 	{
 		register_setting('fdtbwpb_settings_group', 'fdtbwpb_options');
 
 		add_settings_section('fdtbwpb_settings_general', esc_html__('General Settings', FDTBWPB_TEXT_DOMAIN), null, 'fdtbwpb_settings_page');
 		add_settings_section('fdtbwpb_settings_proxy', esc_html__('Proxy Settings', FDTBWPB_TEXT_DOMAIN), null, 'fdtbwpb_settings_page');
 
-		$settings_fields = [
+		$settingsFields = [
+			// General section
 			'bot_token' => [
 				'id'      => 'bot_token',
 				'label'   => esc_html__('Bot token', FDTBWPB_TEXT_DOMAIN),
@@ -105,9 +106,9 @@ class Settings
 			],
 		];
 
-		foreach ($settings_fields as $field)
+		foreach ($settingsFields as $field)
 		{
-			$callback = !empty($field['callback']) ? $field['callback'] : [$this, $field['type'] . '_field_callback'];
+			$callback = !empty($field['callback']) ? $field['callback'] : [$this, $field['type'] . 'FieldCallback'];
 			$class    = !empty($field['class']) ? implode(' ', $field['class']) : '';
 			$args     = ['id' => $field['id'], 'default' => $field['default'], 'css_class' => $class] + $field['args'];
 
@@ -144,12 +145,12 @@ class Settings
 	 *
 	 * @return	string
 	 */
-	public function text_field_callback($args)
+	public function textFieldCallback($args)
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
 
-		FDTBWPB()->view('admin.settings.fields.text', $this->get_settings_value($id, $args));
+		FDTBWPB()->view('admin.settings.fields.text', $this->getSettingsValue($id, $args));
 	}
 
 	/**
@@ -159,12 +160,12 @@ class Settings
 	 *
 	 * @return	string
 	 */
-	public function textarea_field_callback($args)
+	public function textareaFieldCallback($args)
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
 
-		FDTBWPB()->view('admin.settings.fields.textarea', $this->get_settings_value($id, $args));
+		FDTBWPB()->view('admin.settings.fields.textarea', $this->getSettingsValue($id, $args));
 	}
 
 	/**
@@ -175,7 +176,7 @@ class Settings
 	 *
 	 * @return	string
 	 */
-	private function get_settings_value($key, $args)
+	private function getSettingsValue($key, $args)
 	{
 		$default = !empty($args['default']) ? $args['default'] : '';
 

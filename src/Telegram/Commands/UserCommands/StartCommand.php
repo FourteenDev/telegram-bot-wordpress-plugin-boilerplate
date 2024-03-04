@@ -39,8 +39,8 @@ class StartCommand extends UserCommand
 	public function execute(): ServerResponse
 	{
 		// $message = $this->getMessage();
-		// $chat_id = $message->getChat()->getId();
-		// $data    = ['chat_id' => $chat_id, 'reply_to_message_id' => $message->getMessageId()];
+		// $chatId  = $message->getChat()->getId();
+		// $data    = ['chat_id' => $chatId, 'reply_to_message_id' => $message->getMessageId()];
 
 		if ($this->telegram->isAdmin())
 		{
@@ -48,7 +48,7 @@ class StartCommand extends UserCommand
 				esc_html__('Welcome Admin!', FDTBWPB_TEXT_DOMAIN),
 				[
 					'reply_to_message_id' => $this->getMessage()->getMessageId(),
-					'reply_markup'        => $this->get_start_buttons(),
+					'reply_markup'        => $this->getStartButtons(),
 				]
 			);
 		}
@@ -57,7 +57,7 @@ class StartCommand extends UserCommand
 			esc_html__('Welcome!', FDTBWPB_TEXT_DOMAIN),
 			[
 				'reply_to_message_id' => $this->getMessage()->getMessageId(),
-				'reply_markup'        => $this->get_start_buttons(),
+				'reply_markup'        => $this->getStartButtons(),
 			]
 		);
 	}
@@ -67,7 +67,7 @@ class StartCommand extends UserCommand
 	 *
 	 * @return	Keyboard|null
 	 */
-	private function get_start_buttons()
+	private function getStartButtons()
 	{
 		$keyboard = new Keyboard(
 			esc_html__('Test 1', FDTBWPB_TEXT_DOMAIN),

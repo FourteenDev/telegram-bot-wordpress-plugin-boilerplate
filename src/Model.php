@@ -5,9 +5,10 @@ namespace TelegramPluginBoilerplate;
 class Model
 {
 	public static $instance = null;
+
 	private $wpdb;
 
-	public static function get_instance()
+	public static function getInstance()
 	{
 		self::$instance === null && self::$instance = new self;
 		return self::$instance;
@@ -18,7 +19,7 @@ class Model
 		global $wpdb;
 		$this->wpdb = $wpdb;
 
-		add_action('plugins_loaded', [$this, 'initialize_tables']);
+		add_action('plugins_loaded', [$this, 'initializeTables']);
 	}
 
 	/**
@@ -28,7 +29,7 @@ class Model
 	 *
 	 * @hooked	action: `plugins_loaded` - 10
 	 */
-	public function initialize_tables()
+	public function initializeTables()
 	{
 		if (trim(get_option(FDTBWPB_OPTIONS_KEY_DB_VERSION, '')) === trim(FDTBWPB_VERSION)) return;
 

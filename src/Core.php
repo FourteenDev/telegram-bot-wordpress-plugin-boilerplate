@@ -8,7 +8,7 @@ class Core
 
 	private $options;
 
-	public static function get_instance()
+	public static function getInstance()
 	{
 		self::$instance === null && self::$instance = new self;
 		return self::$instance;
@@ -16,30 +16,30 @@ class Core
 
 	public function __construct()
 	{
-		$this->global_classes();
-		if (is_admin()) $this->admin_classes();
-		else $this->frontend_classes();
+		$this->globalClasses();
+		if (is_admin()) $this->adminClasses();
+		else $this->frontendClasses();
 	}
 
-	public function global_classes()
+	public function globalClasses()
 	{
-		Model::get_instance();
-		API::get_instance();
+		Model::getInstance();
+		API::getInstance();
 	}
 
-	public function admin_classes()
+	public function adminClasses()
 	{
-		Settings::get_instance();
+		Settings::getInstance();
 	}
 
-	public function frontend_classes() {}
+	public function frontendClasses() {}
 
-	public function plugin_url($path = null)
+	public function url($path = null)
 	{
 		return untrailingslashit(FDTBWPB_URL . $path);
 	}
 
-	public function plugin_dir($path = null)
+	public function dir($path = null)
 	{
 		return untrailingslashit(FDTBWPB_DIR . $path);
 	}
@@ -47,16 +47,16 @@ class Core
 	/**
 	 * Returns a plugin view.
 	 *
-	 * @param	string		$file_path		Separate path parts with dots (`.`).
-	 * @param	array		$passed_array
+	 * @param	string		$filePath		Separate path parts with dots (`.`).
+	 * @param	array		$passedArray
 	 * @param	bool		$echo			Echo/print the view or just return the section/view.
 	 *
 	 * @return	mixed
 	 */
-	public function view($file_path, $passed_array = [], $echo = true)
+	public function view($filePath, $passedArray = [], $echo = true)
 	{
-		if ($echo) echo Views::get_instance()->section($file_path, $passed_array);
-		else return Views::get_instance()->section($file_path, $passed_array);
+		if ($echo) echo Views::getInstance()->section($filePath, $passedArray);
+		else return Views::getInstance()->section($filePath, $passedArray);
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Core
 	 */
 	public function model()
 	{
-		return Model::get_instance();
+		return Model::getInstance();
 	}
 
 	/**
@@ -76,22 +76,22 @@ class Core
 	 */
 	public function helper()
 	{
-		return Helper::get_instance();
+		return Helper::getInstance();
 	}
 
 	/**
 	 * Returns a plugin option.
 	 *
-	 * @param	string		$option_name
+	 * @param	string		$optionName
 	 *
 	 * @return	mixed|null
 	 */
-	public function option($option_name)
+	public function option($optionName)
 	{
 		if (empty($this->options)) $this->options = get_option('fdtbwpb_options');
 
-		if (isset($this->options[$option_name]) && !empty($this->options[$option_name]))
-			return $this->options[$option_name];
+		if (isset($this->options[$optionName]) && !empty($this->options[$optionName]))
+			return $this->options[$optionName];
 
 		return null;
 	}

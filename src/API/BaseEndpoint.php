@@ -34,7 +34,7 @@ abstract class BaseEndpoint
 		if (empty($this->method))
 			throw new \LogicException(get_class($this) . ' must initialize $method property!');
 
-		add_action('rest_api_init', [$this, 'rest_api_init']);
+		add_action('rest_api_init', [$this, 'initialize']);
 	}
 
 	/**
@@ -46,7 +46,7 @@ abstract class BaseEndpoint
 	 *
 	 * @hooked	action: `rest_api_init` - 10
 	 */
-	public function rest_api_init()
+	public function initialize()
 	{
 		register_rest_route(
 			$this->namespace,
@@ -54,7 +54,7 @@ abstract class BaseEndpoint
 			[
 				'methods'             => $this->method,
 				'callback'            => [$this, 'handle'],
-				'permission_callback' => [$this, 'permission_callback'],
+				'permission_callback' => [$this, 'checkPermission'],
 			]
 		);
 	}
@@ -73,12 +73,12 @@ abstract class BaseEndpoint
 	 *
 	 * @return	void
 	 */
-	public function permission_callback()
+	public function checkPermission()
 	{
 		return true;
 
-		$token       = '-';
-		$header_auth = $this->get_authorization_header();
+		$token      = '-';
+		$headerAuth = $this->getAuthorizationHeader();
 
 		if (empty($token))
 		{
@@ -89,7 +89,7 @@ abstract class BaseEndpoint
 			);
 		}
 
-		if (empty($header_auth))
+		if (empty($headerAuth))
 		{
 			return new \WP_Error(
 				esc_html__('Authorization Missing', FDTBWPB_TEXT_DOMAIN),
@@ -98,9 +98,9 @@ abstract class BaseEndpoint
 			);
 		}
 
-		if (stripos($header_auth, 'Bearer') !== false)
+		if (stripos($headerAuth, 'Bearer') !== false)
 		{
-			$header_auth = explode(' ', $header_auth)[1];
+			$headerAuth = explode(' ', $headerAuth)[1];
 		} else {
 			return new \WP_Error(
 				esc_html__('Token Missing', FDTBWPB_TEXT_DOMAIN),
@@ -109,7 +109,7 @@ abstract class BaseEndpoint
 			);
 		}
 
-		if ($token != $header_auth)
+		if ($token != $headerAuth)
 		{
 			return new \WP_Error(
 				esc_html__('Invalid Token', FDTBWPB_TEXT_DOMAIN),
@@ -128,7 +128,7 @@ abstract class BaseEndpoint
 	 *
 	 * @source	https://StackOverflow.com/a/40582472/1930153
 	 */
-	private function get_authorization_header()
+	private function getAuthorizationHeader()
 	{
 		$headers = null;
 
@@ -153,11 +153,11 @@ abstract class BaseEndpoint
 	 *
 	 * @param	int 				$status
 	 * @param	string 				$message
-	 * @param	string|int|float	...$sprintf_params
+	 * @param	string|int|float	...$sprintfParams
 	 *
 	 * @return	\WP_REST_Response
 	 */
-	protected function get_rest_reponse($status, $message = null, ...$sprintf_params)
+	protected function getRestReponse($status, $message = null, ...$sprintfParams)
 	{
 		$return = new \WP_REST_Response();
 
@@ -165,8 +165,8 @@ abstract class BaseEndpoint
 
 		if (!empty($message))
 		{
-			if (!empty($sprintf_params))
-				$message = sprintf($message, ...$sprintf_params);
+			if (!empty($sprintfParams))
+				$message = sprintf($message, ...$sprintfParams);
 
 			$return->set_data(['message' => trim($message)]);
 		}

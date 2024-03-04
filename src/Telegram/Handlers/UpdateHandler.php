@@ -9,7 +9,7 @@ class UpdateHandler
 {
 	public static $instance = null;
 
-	public static function get_instance()
+	public static function getInstance()
 	{
 		self::$instance === null && self::$instance = new self;
 		return self::$instance;
@@ -17,8 +17,8 @@ class UpdateHandler
 
 	public function __construct()
 	{
-		// add_filter('fdtbwpb_before_get_commands_list', [$this, 'edit_update_text'], 10);
-		add_filter('fdtbwpb_before_execute_command', [$this, 'fdtbwpb_before_execute_command'], 10, 2);
+		// add_filter('fdtbwpb_before_get_commands_list', [$this, 'editUpdateText'], 10);
+		add_filter('fdtbwpb_before_execute_command', [$this, 'handleUpdateBeforeCommandExecute'], 10, 2);
 	}
 
 	/**
@@ -34,7 +34,7 @@ class UpdateHandler
 	 *
 	 * @hooked	filter: `fdtbwpb_before_get_commands_list` - 10
 	 */
-	public function edit_update_text($update)
+	public function editUpdateText($update)
 	{
 		$methods  = ['getMessage', 'getEditedMessage'];
 		$fields   = ['message', 'edited_message']; // Method's field name in Bot API
@@ -56,18 +56,18 @@ class UpdateHandler
 
 				foreach ($commands as $command)
 				{
-					$command             = "/{$command}_";
-					$command_start_index = stripos($text, $command);
-					if ($command_start_index !== false)
+					$command           = "/{$command}_";
+					$commandStartIndex = stripos($text, $command);
+					if ($commandStartIndex !== false)
 					{
-						$underline_index = strlen($command) - 1;
-						$text            = substr_replace($text, ' ', $underline_index, 1);
+						$underlineIndex = strlen($command) - 1;
+						$text           = substr_replace($text, ' ', $underlineIndex, 1);
 					}
 				}
 
-				$fake_update = $update->jsonSerialize();
-				$fake_update[$fields[$index]]['text'] = $text;
-				$update = new Update($fake_update);
+				$fakeUpdate = $update->jsonSerialize();
+				$fakeUpdate[$fields[$index]]['text'] = $text;
+				$update = new Update($fakeUpdate);
 
 				continue; // It's impossible for an update to have multiple methods
 			}
@@ -79,17 +79,17 @@ class UpdateHandler
 	/**
 	 * Handles the incoming Telegram update before executing the command.
 	 *
-	 * @param	bool		$should_execute_command
+	 * @param	bool		$shouldExecuteCommand
 	 * @param	Telegram	$telegram
 	 *
 	 * @return	bool
 	 *
 	 * @hooked	filter: `fdtbwpb_before_execute_command` - 10
 	 */
-	public function fdtbwpb_before_execute_command($should_execute_command, $telegram)
+	public function handleUpdateBeforeCommandExecute($shouldExecuteCommand, $telegram)
 	{
-		if ($telegram->isAdmin()) return true;
+		if ($telegram->isAdmin()) return true; // Example
 
-		return $should_execute_command;
+		return $shouldExecuteCommand;
 	}
 }

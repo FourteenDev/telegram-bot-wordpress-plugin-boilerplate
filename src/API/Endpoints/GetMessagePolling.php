@@ -15,7 +15,7 @@ class GetMessagePolling extends BaseEndpoint
 	public $route     = 'get_message_polling';
 	public $method    = 'GET';
 
-	public static function get_instance()
+	public static function getInstance()
 	{
 		self::$instance === null && self::$instance = new self;
 		return self::$instance;
@@ -31,22 +31,22 @@ class GetMessagePolling extends BaseEndpoint
 	public function handle($request)
 	{
 		if (wp_get_environment_type() !== 'local')
-			return $this->get_rest_reponse(401, esc_html__('Not allowed!', FDTBWPB_TEXT_DOMAIN));
+			return $this->getRestReponse(401, esc_html__('Not allowed!', FDTBWPB_TEXT_DOMAIN));
 
-		$telegram = FDTBWPB()->helper()->instantiate_telegram();
+		$telegram = FDTBWPB()->helper()->instantiateTelegram();
 		if (!$telegram instanceof Telegram)
-			return $this->get_rest_reponse(502, $telegram);
+			return $this->getRestReponse(502, $telegram);
 
 		try {
 			$serverResponse = $telegram->handleGetUpdates();
 			if ($serverResponse instanceof ServerResponse && $serverResponse->isOk())
-				return $this->get_rest_reponse(200);
+				return $this->getRestReponse(200);
 
-			return $this->get_rest_reponse(502, $serverResponse->printError(true));
+			return $this->getRestReponse(502, $serverResponse->printError(true));
 		} catch (\Exception $e) {
 			TelegramLog::error($e);
 
-			return $this->get_rest_reponse(502, esc_html__('Error on handling the updates!', FDTBWPB_TEXT_DOMAIN));
+			return $this->getRestReponse(502, esc_html__('Error on handling the updates!', FDTBWPB_TEXT_DOMAIN));
 		}
 	}
 }

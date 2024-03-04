@@ -55,7 +55,7 @@ class CallbackQueryHandler
 
 		/* if ($message = intval($update->getCallbackQuery()->getMessage()->getMessageId()))
 		{
-			// Some shit with the message
+			// Do some stuff with the message
 		} */
 
 		return null;

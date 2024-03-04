@@ -14,7 +14,7 @@ class GetMessage extends BaseEndpoint
 	public $route     = 'get_message';
 	public $method    = 'POST';
 
-	public static function get_instance()
+	public static function getInstance()
 	{
 		self::$instance === null && self::$instance = new self;
 		return self::$instance;
@@ -29,17 +29,17 @@ class GetMessage extends BaseEndpoint
 	 */
 	public function handle($request)
 	{
-		$telegram = FDTBWPB()->helper()->instantiate_telegram();
+		$telegram = FDTBWPB()->helper()->instantiateTelegram();
 		if (!$telegram instanceof Telegram)
-			return $this->get_rest_reponse(502, $telegram);
+			return $this->getRestReponse(502, $telegram);
 
 		try {
-			if ($telegram->handle()) return $this->get_rest_reponse(200);
-			else return $this->get_rest_reponse(502);
+			if ($telegram->handle()) return $this->getRestReponse(200);
+			else return $this->getRestReponse(502);
 		} catch (\Exception $e) {
 			TelegramLog::error($e);
 
-			return $this->get_rest_reponse(502, esc_html__('Error on handling the updates!', FDTBWPB_TEXT_DOMAIN));
+			return $this->getRestReponse(502, esc_html__('Error on handling the updates!', FDTBWPB_TEXT_DOMAIN));
 		}
 	}
 }

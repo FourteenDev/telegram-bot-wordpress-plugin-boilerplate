@@ -77,7 +77,7 @@ abstract class SystemCommand extends Command
 			return null;
 
 		// List of service messages previously handled internally.
-		$service_message_getters = [
+		$serviceMessageGetters = [
 			'newchatmembers'        => 'getNewChatMembers',
 			'leftchatmember'        => 'getLeftChatMember',
 			'newchattitle'          => 'getNewChatTitle',
@@ -92,10 +92,10 @@ abstract class SystemCommand extends Command
 			'successfulpayment'     => 'getSuccessfulPayment',
 		];
 
-		foreach ($service_message_getters as $command => $service_message_getter)
+		foreach ($serviceMessageGetters as $command => $serviceMessageGetter)
 		{
 			// Let's check if this message is a service message.
-			if ($message->$service_message_getter() === null)
+			if ($message->$serviceMessageGetter() === null)
 				continue;
 
 			// Make sure the command exists otherwise GenericCommand would be executed.

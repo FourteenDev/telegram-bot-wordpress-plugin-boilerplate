@@ -31,6 +31,6 @@ require_once 'functions.php';
 
 function FDTBWPB()
 {
-	return Core::get_instance();
+	return Core::getInstance();
 }
 FDTBWPB();

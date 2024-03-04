@@ -46,14 +46,14 @@ class Telegram extends TelegramBotTelegram
 	/**
 	 * Telegram constructor.
 	 *
-	 * @param	string	$api_key
-	 * @param	string	$bot_username
+	 * @param	string	$apiKey
+	 * @param	string	$botUsername
 	 *
 	 * @throws	TelegramException
 	 */
-	public function __construct(string $api_key, string $bot_username = '')
+	public function __construct(string $apiKey, string $botUsername = '')
 	{
-		parent::__construct($api_key, $bot_username);
+		parent::__construct($apiKey, $botUsername);
 		Request::initialize($this);
 	}
 
@@ -61,13 +61,13 @@ class Telegram extends TelegramBotTelegram
 	 * Initialize Database connection.
 	 *
 	 * @param	array	$credentials
-	 * @param	string	$table_prefix
+	 * @param	string	$tablePrefix
 	 * @param	string	$encoding
 	 *
 	 * @return	Telegram
 	 * @throws	TelegramException
 	 */
-	public function enableMySql(array $credentials = [], string $table_prefix = '', string $encoding = 'utf8mb4'): Telegram
+	public function enableMySql(array $credentials = [], string $tablePrefix = '', string $encoding = 'utf8mb4'): Telegram
 	{
 		global $wpdb;
 		$this->pdo = DB::initialize(
@@ -123,9 +123,9 @@ class Telegram extends TelegramBotTelegram
 
 					require_once $file->getPathname();
 
-					$command_obj = $this->getCommandObject($command, $file->getPathname());
-					if ($command_obj instanceof Command)
-						$commands[$command] = $command_obj;
+					$commandObject = $this->getCommandObject($command, $file->getPathname());
+					if ($commandObject instanceof Command)
+						$commands[$command] = $commandObject;
 				}
 			} catch (\Exception $e) {
 				throw new TelegramException('Error getting commands from path: ' . $path, $e->getCode());
@@ -142,11 +142,11 @@ class Telegram extends TelegramBotTelegram
 	 *
 	 * @param	string		$auth		Auth of command.
 	 * @param	string		$command	Command name.
-	 * @param	string		$filepath	Path to the command file.
+	 * @param	string		$filePath	Path to the command file.
 	 *
 	 * @return	string|null
 	 */
-	public function getCommandClassName(string $auth, string $command, string $filepath = ''): ?string
+	public function getCommandClassName(string $auth, string $command, string $filePath = ''): ?string
 	{
 		$command = mb_strtolower($command);
 		if (empty($command)) return null;
@@ -154,19 +154,19 @@ class Telegram extends TelegramBotTelegram
 		$auth = $this->ucFirstUnicode($auth);
 
 		// First, check for directly assigned command class.
-		if ($command_class = $this->command_classes[$auth][$command] ?? null)
-			return $command_class;
+		if ($commandClass = $this->command_classes[$auth][$command] ?? null)
+			return $commandClass;
 
 		// Use the extended namespace. (We can't use __NAMESPACE__ here, because the commands are in another folder)
-		$command_namespace = "\\TelegramPluginBoilerplate\\Telegram\\Commands\\{$auth}Commands";
+		$commandNamespace = "\\TelegramPluginBoilerplate\\Telegram\\Commands\\{$auth}Commands";
 
 		// Check if we can get the namespace from the file (if passed).
-		if ($filepath && !($command_namespace = $this->getFileNamespace($filepath)))
+		if ($filePath && !($commandNamespace = $this->getFileNamespace($filePath)))
 			return null;
 
-		$command_class = $command_namespace . '\\' . $this->commandNameToClassName($command);
-		if (class_exists($command_class))
-			return $command_class;
+		$commandClass = $commandNamespace . '\\' . $this->commandNameToClassName($command);
+		if (class_exists($commandClass))
+			return $commandClass;
 
 		return null;
 	}
@@ -175,11 +175,11 @@ class Telegram extends TelegramBotTelegram
 	 * Get an object instance of the passed command.
 	 *
 	 * @param	string			$command
-	 * @param	string			$filepath
+	 * @param	string			$filePath
 	 *
 	 * @return	Command|null
 	 */
-	public function getCommandObject(string $command, string $filepath = ''): ?Command
+	public function getCommandObject(string $command, string $filePath = ''): ?Command
 	{
 		if (isset($this->commands_objects[$command]))
 			return $this->commands_objects[$command];
@@ -190,16 +190,16 @@ class Telegram extends TelegramBotTelegram
 
 		foreach ($which as $auth)
 		{
-			$command_class = $this->getCommandClassName($auth, $command, $filepath);
+			$commandClass = $this->getCommandClassName($auth, $command, $filePath);
 
-			if ($command_class)
+			if ($commandClass)
 			{
-				$command_obj = new $command_class($this, $this->update);
+				$commandObject = new $commandClass($this, $this->update);
 
-				if (($auth === Command::AUTH_SYSTEM && $command_obj instanceof SystemCommand) ||
-					($auth === Command::AUTH_ADMIN && $command_obj instanceof AdminCommand) ||
-					($auth === Command::AUTH_USER && $command_obj instanceof UserCommand))
-					return $command_obj;
+				if (($auth === Command::AUTH_SYSTEM && $commandObject instanceof SystemCommand) ||
+					($auth === Command::AUTH_ADMIN && $commandObject instanceof AdminCommand) ||
+					($auth === Command::AUTH_USER && $commandObject instanceof UserCommand))
+					return $commandObject;
 			}
 		}
 
@@ -235,15 +235,15 @@ class Telegram extends TelegramBotTelegram
 		$limit  = null;
 
 		// By default, get update types sent by Telegram.
-		$allowed_updates = [];
+		$allowedUpdates = [];
 
-		$offset          = $data['offset'] ?? $offset;
-		$limit           = $data['limit'] ?? $limit;
-		$timeout         = $data['timeout'] ?? $timeout;
-		$allowed_updates = $data['allowed_updates'] ?? $allowed_updates;
+		$offset         = $data['offset'] ?? $offset;
+		$limit          = $data['limit'] ?? $limit;
+		$timeout        = $data['timeout'] ?? $timeout;
+		$allowedUpdates = $data['allowed_updates'] ?? $allowedUpdates;
 
 		// Take custom input into account.
-		if ($custom_input = $this->getCustomInput())
+		if ($customInput = $this->getCustomInput())
 		{
 			try {
 				$input = json_decode($this->input, true, 512, JSON_THROW_ON_ERROR);
@@ -254,11 +254,11 @@ class Telegram extends TelegramBotTelegram
 				throw new TelegramException('Invalid custom input JSON: ' . $e->getMessage());
 			}
 		} else {
-			if (DB::isDbConnected() && $last_update = DB::selectTelegramUpdate(1))
+			if (DB::isDbConnected() && $lastUpdate = DB::selectTelegramUpdate(1))
 			{
 				// Get last Update id from the database.
-				$last_update          = reset($last_update);
-				$this->last_update_id = $last_update['id'] ?? null;
+				$lastUpdate           = reset($lastUpdate);
+				$this->last_update_id = $lastUpdate['id'] ?? null;
 			}
 
 			// As explained in the telegram bot API documentation.
@@ -278,7 +278,7 @@ class Telegram extends TelegramBotTelegram
 			foreach ($response->getResult() as $update)
 				$this->processUpdate($update);
 
-			if (!DB::isDbConnected() && !$custom_input && $this->last_update_id !== null && $offset === 0)
+			if (!DB::isDbConnected() && !$customInput && $this->last_update_id !== null && $offset === 0)
 			{
 				// Mark update(s) as read after handling
 				$offset = $this->last_update_id + 1;
@@ -353,7 +353,7 @@ class Telegram extends TelegramBotTelegram
 		/* if ($this->isAdmin())
 			$this->addCommandsPath(TB_BASE_COMMANDS_PATH . '/AdminCommands', false); */
 
-		UpdateHandler::get_instance();
+		UpdateHandler::getInstance();
 		/**
 		 * Filters the user input before getting the commands list.
 		 *
@@ -370,29 +370,29 @@ class Telegram extends TelegramBotTelegram
 		//If all else fails, it's a generic message.
 		$command = self::GENERIC_MESSAGE_COMMAND;
 
-		$update_type = $this->update->getUpdateType();
-		if ($update_type === 'message')
+		$updateType = $this->update->getUpdateType();
+		if ($updateType === 'message')
 		{
 			$message = $this->update->getMessage();
 			$type    = $message->getType();
 
 			// Let's check if the message object has the type field we're looking for...
-			$command_tmp = $type === 'command' ? $message->getCommand() : $this->getCommandFromType($type);
+			$commandTemp   = $type === 'command' ? $message->getCommand() : $this->getCommandFromType($type);
 			// ...and if a fitting command class is available.
-			$command_obj = $command_tmp ? $this->getCommandObject($command_tmp) : null;
+			$commandObject = $commandTemp ? $this->getCommandObject($commandTemp) : null;
 
 			// Empty usage string denotes a non-executable command.
 			// @see https://github.com/php-telegram-bot/core/issues/772#issuecomment-388616072
-			if (($command_obj === null && $type === 'command') ||
-				($command_obj !== null && $command_obj->getUsage() !== ''))
-				$command = $command_tmp;
-		} else if ($update_type !== null) {
-			$command = $this->getCommandFromType($update_type);
+			if (($commandObject === null && $type === 'command') ||
+				($commandObject !== null && $commandObject->getUsage() !== ''))
+				$command = $commandTemp;
+		} else if ($updateType !== null) {
+			$command = $this->getCommandFromType($updateType);
 		}
 
 		// Make sure we don't try to process update that was already processed
-		$last_id = DB::selectTelegramUpdate(1, $this->update->getUpdateId());
-		if ($last_id && count($last_id) === 1)
+		$lastId = DB::selectTelegramUpdate(1, $this->update->getUpdateId());
+		if ($lastId && count($lastId) === 1)
 		{
 			TelegramLog::debug('Duplicate update received, processing aborted!');
 			return Request::emptyResponse();
@@ -403,7 +403,7 @@ class Telegram extends TelegramBotTelegram
 		/**
 		 * Filter the user input before executing the command.
 		 *
-		 * @param	bool		$should_execute_command
+		 * @param	bool		$shouldExecuteCommand
 		 * @param	Telegram	$telegram
 		 */
 		if (apply_filters('fdtbwpb_before_execute_command', true, $this))
@@ -422,10 +422,10 @@ class Telegram extends TelegramBotTelegram
 	 */
 	public function executeCommand(string $command): ServerResponse
 	{
-		$command     = mb_strtolower($command);
-		$command_obj = $this->commands_objects[$command] ?? $this->getCommandObject($command);
+		$command       = mb_strtolower($command);
+		$commandObject = $this->commands_objects[$command] ?? $this->getCommandObject($command);
 
-		if (!$command_obj || !$command_obj->isEnabled())
+		if (!$commandObject || !$commandObject->isEnabled())
 		{
 			// Failsafe in case the Generic command can't be found
 			if ($command === self::GENERIC_COMMAND)
@@ -437,9 +437,9 @@ class Telegram extends TelegramBotTelegram
 			// execute() method is executed after preExecute()
 			// This is to prevent executing a DB query without a valid connection
 			if ($this->update)
-				$this->last_command_response = $command_obj->setUpdate($this->update)->preExecute();
+				$this->last_command_response = $commandObject->setUpdate($this->update)->preExecute();
 			else
-				$this->last_command_response = $command_obj->preExecute();
+				$this->last_command_response = $commandObject->preExecute();
 		}
 
 		return $this->last_command_response;
@@ -448,15 +448,15 @@ class Telegram extends TelegramBotTelegram
 	/**
 	 * Enable a list of Admin Accounts.
 	 *
-	 * @param	array		$admin_ids List of admin IDs.
+	 * @param	array		$adminIds List of admin IDs.
 	 *
 	 * @return	Telegram
 	 */
-	public function enableAdmins(array $admin_ids): Telegram
+	public function enableAdmins(array $adminIds): Telegram
 	{
-		foreach ($admin_ids as $admin_id)
-			if (intval(trim($admin_id)))
-				$this->enableAdmin(intval(trim($admin_id)));
+		foreach ($adminIds as $adminId)
+			if (intval(trim($adminId)))
+				$this->enableAdmin(intval(trim($adminId)));
 
 		return $this;
 	}
@@ -464,39 +464,39 @@ class Telegram extends TelegramBotTelegram
 	/**
 	 * Add a single custom command class.
 	 *
-	 * @param	string		$command_class	Full command class name.
+	 * @param	string		$commandClass	Full command class name.
 	 *
 	 * @return	Telegram
 	 */
-	public function addCommandClass(string $command_class): Telegram
+	public function addCommandClass(string $commandClass): Telegram
 	{
-		if (!$command_class || !class_exists($command_class))
+		if (!$commandClass || !class_exists($commandClass))
 		{
-			$error = sprintf('Command class "%s" does not exist.', $command_class);
+			$error = sprintf('Command class "%s" does not exist.', $commandClass);
 			TelegramLog::error($error);
 			throw new \InvalidArgumentException($error);
 		}
 
-		if (!is_a($command_class, Command::class, true))
+		if (!is_a($commandClass, Command::class, true))
 		{
-			$error = sprintf('Command class "%s" does not extend "%s".', $command_class, Command::class);
+			$error = sprintf('Command class "%s" does not extend "%s".', $commandClass, Command::class);
 			TelegramLog::error($error);
 			throw new \InvalidArgumentException($error);
 		}
 
 		// Dummy object to get data from.
-		$command_object = new $command_class($this);
+		$commandObject = new $commandClass($this);
 
 		$auth = null;
-		$command_object->isSystemCommand() && $auth = Command::AUTH_SYSTEM;
-		$command_object->isAdminCommand() && $auth = Command::AUTH_ADMIN;
-		$command_object->isUserCommand() && $auth = Command::AUTH_USER;
+		$commandObject->isSystemCommand() && $auth = Command::AUTH_SYSTEM;
+		$commandObject->isAdminCommand() && $auth = Command::AUTH_ADMIN;
+		$commandObject->isUserCommand() && $auth = Command::AUTH_USER;
 
 		if ($auth)
 		{
-			$command = mb_strtolower($command_object->getName());
+			$command = mb_strtolower($commandObject->getName());
 
-			$this->command_classes[$auth][$command] = $command_class;
+			$this->command_classes[$auth][$command] = $commandClass;
 		}
 
 		return $this;
@@ -505,14 +505,14 @@ class Telegram extends TelegramBotTelegram
 	/**
 	 * Add multiple custom command classes.
 	 *
-	 * @param	array		$command_classes	List of full command class names.
+	 * @param	array		$commandClasses	List of full command class names.
 	 *
 	 * @return	Telegram
 	 */
-	public function addCommandClasses(array $command_classes): Telegram
+	public function addCommandClasses(array $commandClasses): Telegram
 	{
-		foreach ($command_classes as $command_class)
-			$this->addCommandClass($command_class);
+		foreach ($commandClasses as $commandClass)
+			$this->addCommandClass($commandClass);
 
 		return $this;
 	}
@@ -638,11 +638,11 @@ class Telegram extends TelegramBotTelegram
 	/**
 	 * Cancels all operations.
 	 *
-	 * @param	int		$chat_id
+	 * @param	int		$chatId
 	 *
 	 * @return	bool
 	 */
-	public function cancelOperations($chat_id)
+	public function cancelOperations($chatId)
 	{
 		return true;
 	}

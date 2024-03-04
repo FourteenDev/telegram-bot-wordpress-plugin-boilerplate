@@ -11,7 +11,7 @@ class Helper
 {
 	public static $instance = null;
 
-	public static function get_instance()
+	public static function getInstance()
 	{
 		self::$instance === null && self::$instance = new self;
 		return self::$instance;
@@ -22,18 +22,18 @@ class Helper
 	 *
 	 * @return	Telegram|string		Returns the error on failure.
 	 */
-	public function instantiate_telegram()
+	public function instantiateTelegram()
 	{
-		if (empty($bot_token = FDTBWPB()->option('bot_token')))
+		if (empty($botToken = FDTBWPB()->option('bot_token')))
 			return esc_html__('Bot token is not defined!', FDTBWPB_TEXT_DOMAIN);
 
-		if (empty($bot_username = FDTBWPB()->option('bot_username')))
+		if (empty($botUsername = FDTBWPB()->option('bot_username')))
 			return esc_html__('Bot username is not defined!', FDTBWPB_TEXT_DOMAIN);
-		if (stripos($bot_username, '@') === false)
-			$bot_username = "@$bot_username";
+		if (stripos($botUsername, '@') === false)
+			$botUsername = "@$botUsername";
 
 		try {
-			$telegram = new Telegram($bot_token, $bot_username);
+			$telegram = new Telegram($botToken, $botUsername);
 			// TODO: $telegram->enableAdmins($bot->get_admin_ids());
 			$telegram->addCommandsPaths([FDTBWPB_DIR . '/app/Telegram/Commands']);
 			$telegram->enableMySql();

@@ -230,15 +230,15 @@ class Request extends TelegramBotRequest
 	 */
 	private static function setUpRequestParams(array $data): array
 	{
-		$has_resource = false;
-		$multipart    = [];
+		$hasResource = false;
+		$multipart   = [];
 
 		foreach ($data as $key => &$item)
 		{
 			if ($key === 'media')
 			{
 				// Magical media input helper.
-				$item = self::mediaInputHelper($item, $has_resource, $multipart);
+				$item = self::mediaInputHelper($item, $hasResource, $multipart);
 			} else if (array_key_exists(self::$current_action, self::$input_file_fields) && in_array($key, self::$input_file_fields[self::$current_action], true)) {
 				// Allow absolute paths to local files.
 				if (is_string($item) && file_exists($item))
@@ -249,12 +249,12 @@ class Request extends TelegramBotRequest
 			}
 
 			// Reformat data array in multipart way if it contains a resource
-			$has_resource = $has_resource || is_resource($item) || $item instanceof Stream;
-			$multipart[]  = ['name' => $key, 'contents' => $item];
+			$hasResource = $hasResource || is_resource($item) || $item instanceof Stream;
+			$multipart[] = ['name' => $key, 'contents' => $item];
 		}
 		unset($item);
 
-		if ($has_resource)
+		if ($hasResource)
 			return ['multipart' => $multipart];
 
 		return ['form_params' => $data];
@@ -289,31 +289,31 @@ class Request extends TelegramBotRequest
 	 * ]);
 	 *
 	 * @param	mixed	$item
-	 * @param	bool	$has_resource
+	 * @param	bool	$hasResource
 	 * @param	array	$multipart
 	 *
 	 * @throws	TelegramException
 	 * @return	mixed
 	 */
-	private static function mediaInputHelper($item, bool &$has_resource, array &$multipart)
+	private static function mediaInputHelper($item, bool &$hasResource, array &$multipart)
 	{
-		$was_array          = is_array($item);
-		$was_array || $item = [$item];
+		$wasArray          = is_array($item);
+		$wasArray || $item = [$item];
 
 		/**
-		 * @var	InputMedia|null	$media_item
+		 * @var	InputMedia|null	$mediaItem
 		 */
-		foreach ($item as $media_item)
+		foreach ($item as $mediaItem)
 		{
-			if (!($media_item instanceof InputMedia)) continue;
+			if (!($mediaItem instanceof InputMedia)) continue;
 
 			// Make a list of all possible media that can be handled by the helper.
-			$possible_medias = array_filter([
-				'media'     => $media_item->getMedia(),
-				'thumbnail' => $media_item->getThumbnail(),
+			$possibleMedias = array_filter([
+				'media'     => $mediaItem->getMedia(),
+				'thumbnail' => $mediaItem->getThumbnail(),
 			]);
 
-			foreach ($possible_medias as $type => $media)
+			foreach ($possibleMedias as $type => $media)
 			{
 				// Allow absolute paths to local files.
 				if (is_string($media) && strpos($media, 'attach://') !== 0 && file_exists($media))
@@ -321,18 +321,18 @@ class Request extends TelegramBotRequest
 
 				if (is_resource($media) || $media instanceof Stream)
 				{
-					$has_resource = true;
-					$unique_key   = uniqid($type . '_', false);
-					$multipart[]  = ['name' => $unique_key, 'contents' => $media];
+					$hasResource = true;
+					$uniqueKey   = uniqid($type . '_', false);
+					$multipart[] = ['name' => $uniqueKey, 'contents' => $media];
 
 					// We're literally overwriting the passed media type data!
-					$media_item->$type           = 'attach://' . $unique_key;
-					$media_item->raw_data[$type] = 'attach://' . $unique_key;
+					$mediaItem->$type           = "attach://$uniqueKey";
+					$mediaItem->raw_data[$type] = "attach://$uniqueKey";
 				}
 			}
 		}
 
-		$was_array || $item = reset($item);
+		$wasArray || $item = reset($item);
 
 		return json_encode($item);
 	}
@@ -348,21 +348,21 @@ class Request extends TelegramBotRequest
 	 */
 	public static function execute(string $action, array $data = []): string
 	{
-		$request_params          = self::setUpRequestParams($data);
-		$request_params['debug'] = TelegramLog::getDebugLogTempStream();
+		$requestParams          = self::setUpRequestParams($data);
+		$requestParams['debug'] = TelegramLog::getDebugLogTempStream();
 
 		try {
-			if (!empty($proxy_update_receiver = FDTBWPB()->option('proxy_update_receiver')))
+			if (!empty($proxyUpdateReceiver = FDTBWPB()->option('proxy_update_receiver')))
 			{
-				$request_params['form_params']['token'] = FDTBWPB()->option('bot_token');
+				$requestParams['form_params']['token'] = FDTBWPB()->option('bot_token');
 				$response = self::$client->post(
-					"$proxy_update_receiver?action=$action",
-					$request_params
+					"$proxyUpdateReceiver?action=$action",
+					$requestParams
 				);
 			} else {
 				$response = self::$client->post(
 					'/bot' . self::$telegram->getApiKey() . '/' . $action,
-					$request_params
+					$requestParams
 				);
 			}
 			$result   = (string) $response->getBody();
@@ -413,13 +413,13 @@ class Request extends TelegramBotRequest
 		self::ensureValidAction($action);
 		self::addDummyParamIfNecessary($action, $data);
 
-		$bot_username = ''; // self::$telegram->getBotUsername(); // TODO: Cannot access private property
+		$botUsername = ''; // self::$telegram->getBotUsername(); // TODO: Cannot access private property
 
 		if (defined('PHPUNIT_TESTSUITE'))
 		{
-			$fake_response = self::generateGeneralFakeServerResponse($data);
+			$fakeResponse = self::generateGeneralFakeServerResponse($data);
 
-			return new ServerResponse($fake_response, $bot_username);
+			return new ServerResponse($fakeResponse, $botUsername);
 		}
 
 		self::ensureNonEmptyData($data);
@@ -429,16 +429,16 @@ class Request extends TelegramBotRequest
 		// Remember which action is currently being executed.
 		self::$current_action = $action;
 
-		$raw_response = self::execute($action, $data);
-		$response     = json_decode($raw_response, true);
+		$rawResponse = self::execute($action, $data);
+		$response    = json_decode($rawResponse, true);
 
 		if (null === $response)
 		{
-			TelegramLog::debug($raw_response);
+			TelegramLog::debug($rawResponse);
 			throw new TelegramException('Telegram returned an invalid response!');
 		}
 
-		$response = new ServerResponse($response, $bot_username);
+		$response = new ServerResponse($response, $botUsername);
 
 		if (!$response->isOk() && $response->getErrorCode() === 401 && $response->getDescription() === 'Unauthorized')
 			throw new InvalidBotTokenException();
@@ -506,19 +506,19 @@ class Request extends TelegramBotRequest
 			'encoding' => mb_internal_encoding(),
 		], (array) $extras);
 
-		$text       = $data['text'];
-		$encoding   = $extras['encoding'];
-		$max_length = $extras['split'] ?: mb_strlen($text, $encoding);
+		$text      = $data['text'];
+		$encoding  = $extras['encoding'];
+		$maxLength = $extras['split'] ?: mb_strlen($text, $encoding);
 
 		$responses = [];
 
 		do {
 			// Chop off and send the first message.
-			$data['text'] = mb_substr($text, 0, $max_length, $encoding);
+			$data['text'] = mb_substr($text, 0, $maxLength, $encoding);
 			$responses[]  = self::send('sendMessage', $data);
 
 			// Prepare the next message.
-			$text = mb_substr($text, $max_length, null, $encoding);
+			$text = mb_substr($text, $maxLength, null, $encoding);
 		} while ($text !== '');
 
 		// Add all response objects to referenced variable.
@@ -530,21 +530,21 @@ class Request extends TelegramBotRequest
 	/**
 	 * Send message to all active chats.
 	 *
-	 * @param	string				$callback_function
+	 * @param	string				$callbackFunction
 	 * @param	array				$data
-	 * @param	array				$select_chats_params
+	 * @param	array				$selectChatsParams
 	 *
 	 * @return	array
 	 * @throws	TelegramException
 	 */
 	public static function sendToActiveChats(
-		string $callback_function,
+		string $callbackFunction,
 		array $data,
-		array $select_chats_params
+		array $selectChatsParams
 	): array {
-		self::ensureValidAction($callback_function);
+		self::ensureValidAction($callbackFunction);
 
-		$chats = DB::selectChats($select_chats_params);
+		$chats = DB::selectChats($selectChatsParams);
 
 		$results = [];
 		if (is_array($chats))
@@ -552,7 +552,7 @@ class Request extends TelegramBotRequest
 			foreach ($chats as $row)
 			{
 				$data['chat_id'] = $row['chat_id'];
-				$results[]       = self::send($callback_function, $data);
+				$results[]       = self::send($callbackFunction, $data);
 			}
 		}
 
@@ -574,7 +574,7 @@ class Request extends TelegramBotRequest
 	{
 		if (true /*self::$limiter_enabled*/)
 		{
-			$limited_methods = [
+			$limitedMethods = [
 				'sendMessage',
 				'forwardMessage',
 				'copyMessage',
@@ -611,10 +611,10 @@ class Request extends TelegramBotRequest
 				'setPassportDataErrors',
 			];
 
-			$chat_id           = $data['chat_id'] ?? null;
-			$inline_message_id = $data['inline_message_id'] ?? null;
+			$chatId          = $data['chat_id'] ?? null;
+			$inlineMessageId = $data['inline_message_id'] ?? null;
 
-			if (($chat_id || $inline_message_id) && in_array($action, $limited_methods, true))
+			if (($chatId || $inlineMessageId) && in_array($action, $limitedMethods, true))
 			{
 				$timeout = 60;
 
@@ -623,17 +623,17 @@ class Request extends TelegramBotRequest
 					if ($timeout <= 0)
 						throw new TelegramException('Timed out while waiting for a request spot!');
 
-					if (!($requests = DB::getTelegramRequestCount($chat_id, $inline_message_id)))
+					if (!($requests = DB::getTelegramRequestCount($chatId, $inlineMessageId)))
 						break;
 
 					// Make sure we're handling integers here.
 					$requests = array_map('intval', $requests);
 
-					$chat_per_second   = ($requests['LIMIT_PER_SEC'] === 0);    // No more than one message per second inside a particular chat
-					$global_per_second = ($requests['LIMIT_PER_SEC_ALL'] < 30); // No more than 30 messages per second to different chats
-					$groups_per_minute = (((is_numeric($chat_id) && $chat_id > 0) || $inline_message_id !== null) || ((!is_numeric($chat_id) || $chat_id < 0) && $requests['LIMIT_PER_MINUTE'] < 20));    // No more than 20 messages per minute in groups and channels
+					$chatPerSecond   = ($requests['LIMIT_PER_SEC'] === 0); // No more than one message per second inside a particular chat
+					$globalPerSecond = ($requests['LIMIT_PER_SEC_ALL'] < 30); // No more than 30 messages per second to different chats
+					$groupsPerMinute = (((is_numeric($chatId) && $chatId > 0) || $inlineMessageId !== null) || ((!is_numeric($chatId) || $chatId < 0) && $requests['LIMIT_PER_MINUTE'] < 20)); // No more than 20 messages per minute in groups and channels
 
-					if ($chat_per_second && $global_per_second && $groups_per_minute)
+					if ($chatPerSecond && $globalPerSecond && $groupsPerMinute)
 						break;
 
 					$timeout--;

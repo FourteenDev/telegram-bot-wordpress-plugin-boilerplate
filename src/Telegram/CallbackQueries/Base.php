@@ -30,7 +30,7 @@ abstract class Base
 	 *
 	 * @var	CallbackQuery
 	 */
-	protected $callback_query;
+	protected $callbackQuery;
 
 	/**
 	 * The name of the callback.
@@ -59,7 +59,7 @@ abstract class Base
 	 *
 	 * @var	string
 	 */
-	protected $callback_data_without_command = '';
+	protected $callbackDataWithoutCommand = '';
 
 	/**
 	 * Constructor.
@@ -75,11 +75,11 @@ abstract class Base
 
 		if (!$this->update->getCallbackQuery())
 			throw new \LogicException('Current update does not have a callback query!');
-		$this->callback_query = $this->update->getCallbackQuery();
+		$this->callbackQuery = $this->update->getCallbackQuery();
 
-		if ($callback_data = $this->update->getCallbackQuery()->getData())
-			if (($colon_index = stripos($callback_data, ':')) !== false)
-				$this->callback_data_without_command = substr($callback_data, $colon_index + 1);
+		if ($callbackData = $this->update->getCallbackQuery()->getData())
+			if (($colonIndex = stripos($callbackData, ':')) !== false)
+				$this->callbackDataWithoutCommand = substr($callbackData, $colonIndex + 1);
 	}
 
 	/**
@@ -121,10 +121,10 @@ abstract class Base
 	 */
 	public function answer(string $text = '', array $data = []): ServerResponse
 	{
-		if ($callback_query = $this->update->getCallbackQuery())
+		if ($callbackQuery = $this->update->getCallbackQuery())
 		{
 			return Request::answerCallbackQuery(array_merge([
-				'callback_query_id' => $callback_query->getId(),
+				'callback_query_id' => $callbackQuery->getId(),
 				'text'              => $text,
 			], $data));
 		}

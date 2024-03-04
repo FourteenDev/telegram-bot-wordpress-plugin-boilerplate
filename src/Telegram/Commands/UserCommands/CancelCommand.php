@@ -39,16 +39,16 @@ class CancelCommand extends UserCommand
 	public function execute(): ServerResponse
 	{
 		$message = $this->getMessage();
-		$chat_id = $message->getChat()->getId();
+		$chatId = $message->getChat()->getId();
 
-		if (!$this->telegram->cancelOperations($chat_id))
+		if (!$this->telegram->cancelOperations($chatId))
 			return Request::emptyResponse();
 
 		return $this->replyToChat(
 			esc_html__('Canceled!', FDTBWPB_TEXT_DOMAIN),
 			[
 				'reply_to_message_id' => $this->getMessage()->getMessageId(),
-				'reply_markup'        => $this->get_start_buttons(),
+				'reply_markup'        => $this->getStartButtons(),
 			]
 		);
 	}
