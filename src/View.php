@@ -2,7 +2,7 @@
 
 namespace TelegramPluginBoilerplate;
 
-class Views
+class View
 {
 	public static $instance = null;
 
