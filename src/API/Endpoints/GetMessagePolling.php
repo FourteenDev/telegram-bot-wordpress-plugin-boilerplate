@@ -12,7 +12,7 @@ class GetMessagePolling extends BaseEndpoint
 	public static $instance = null;
 
 	public $namespace = 'fdtbwpb/v1/';
-	public $route     = 'get_message_polling';
+	public $route     = 'get-message-polling';
 	public $method    = 'GET';
 
 	public static function getInstance()

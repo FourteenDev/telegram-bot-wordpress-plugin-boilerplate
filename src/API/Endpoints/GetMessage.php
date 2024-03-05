@@ -11,7 +11,7 @@ class GetMessage extends BaseEndpoint
 	public static $instance = null;
 
 	public $namespace = 'fdtbwpb/v1/';
-	public $route     = 'get_message';
+	public $route     = 'get-message';
 	public $method    = 'POST';
 
 	public static function getInstance()

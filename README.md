@@ -39,13 +39,13 @@ define('WP_ENVIRONMENT_TYPE', 'local');
 ```
 And use this endpoint to handle the updates (e.g. each time you message the bot):
 ```
-https://{WEBSITE.COM}/wp-json/fdtbwpb/v1/get_message_polling
+https://{WEBSITE.COM}/wp-json/fdtbwpb/v1/get-message-polling
 ```
 
 ### Set Webhook (Production)
-To enable your bot for a production website, set the bot's webhook to the `get_message` endpoint:
+To enable your bot for a production website, set the bot's webhook to the `get-message` endpoint:
 ```
-https://api.telegram.org/bot{TOKEN}/setWebhook?url=https://{WEBSITE.COM}/wp-json/fdtbwpb/v1/get_message
+https://api.telegram.org/bot{TOKEN}/setWebhook?url=https://{WEBSITE.COM}/wp-json/fdtbwpb/v1/get-message
 ```
 
 ## Redirect requests (proxy)
