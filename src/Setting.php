@@ -6,6 +6,9 @@ class Setting
 {
 	public static $instance = null;
 
+	private $menuSlug    = FDTBWPB_SETTINGS_SLUG . '_settings';
+	private $optionsName = FDTBWPB_SETTINGS_SLUG . '_options';
+
 	public static function getInstance()
 	{
 		self::$instance === null && self::$instance = new self;
@@ -16,6 +19,7 @@ class Setting
 	{
 		add_action('admin_menu', [$this, 'createAdminMenu']);
 		add_action('admin_init', [$this, 'registerSettings']);
+
 		add_filter('plugin_action_links_' . FDTBWPB_BASENAME, [$this, 'actionLinks']);
 	}
 
@@ -29,10 +33,10 @@ class Setting
 	public function createAdminMenu()
 	{
 		add_menu_page(
-			esc_html__('Boilerplate Telegram Bot Plugin', FDTBWPB_TEXT_DOMAIN),
+			esc_html__('Telegram Bot Boilerplate Plugin', FDTBWPB_TEXT_DOMAIN),
 			esc_html__('Telegram Bot', FDTBWPB_TEXT_DOMAIN),
 			'manage_options',
-			'fdtbwpb_settings',
+			$this->menuSlug,
 			[$this, 'displaySettingsContent'],
 			'dashicons-heart'
 		);
@@ -49,7 +53,7 @@ class Setting
 	}
 
 	/**
-	 * Registers bot settings in the admin menu.
+	 * Registers plugin settings in the admin menu.
 	 *
 	 * @return	void
 	 *
@@ -57,12 +61,12 @@ class Setting
 	 */
 	public function registerSettings()
 	{
-		register_setting('fdtbwpb_settings_group', 'fdtbwpb_options');
+		register_setting("{$this->menuSlug}_group", $this->optionsName);
 
-		add_settings_section('fdtbwpb_settings_general', esc_html__('General Settings', FDTBWPB_TEXT_DOMAIN), null, 'fdtbwpb_settings_page');
-		add_settings_section('fdtbwpb_settings_proxy', esc_html__('Proxy Settings', FDTBWPB_TEXT_DOMAIN), null, 'fdtbwpb_settings_page');
+		add_settings_section("{$this->menuSlug}_general", esc_html__('General Settings', FDTBWPB_TEXT_DOMAIN), null, $this->menuSlug);
+		add_settings_section("{$this->menuSlug}_proxy", esc_html__('Proxy Settings', FDTBWPB_TEXT_DOMAIN), null, $this->menuSlug);
 
-		$settingsFields = [
+		$fields = [
 			// General section
 			'bot_token' => [
 				'id'      => 'bot_token',
@@ -106,40 +110,23 @@ class Setting
 			],
 		];
 
-		foreach ($settingsFields as $field)
+		foreach ($fields as $field)
 		{
 			$callback = !empty($field['callback']) ? $field['callback'] : [$this, $field['type'] . 'FieldCallback'];
-			$class    = !empty($field['class']) ? implode(' ', $field['class']) : '';
-			$args     = ['id' => $field['id'], 'default' => $field['default'], 'css_class' => $class] + $field['args'];
 
 			add_settings_field(
 				$field['id'],
 				$field['label'],
 				$callback,
-				'fdtbwpb_settings_page',
-				'fdtbwpb_settings_' . $field['section'],
-				$args
+				$this->menuSlug,
+				"{$this->menuSlug}_" . $field['section'],
+				['id' => $field['id'], 'default' => $field['default']] + $field['args']
 			);
 		}
 	}
 
 	/**
-	 * Adds plugin action links to the plugins page.
-	 *
-	 * @param	array	$links
-	 *
-	 * @return	array
-	 *
-	 * @hooked	action: `plugin_action_links_{FDTBWPB_BASENAME}` - 10
-	 */
-	public function actionLinks($links)
-	{
-		$links[] = '<a href="' . get_admin_url(null, 'admin.php?page=' . FDTBWPB_SETTINGS_SLUG) . '">' . esc_html__('Settings', FDTBWPB_TEXT_DOMAIN) . '</a>';
-		return $links;
-	}
-
-	/**
-	 * Outputs a textbox field.
+	 * Outputs a text input field.
 	 *
 	 * @param	array	$args
 	 *
@@ -181,15 +168,28 @@ class Setting
 		$default = !empty($args['default']) ? $args['default'] : '';
 
 		$value = FDTBWPB()->option($key);
-		if (!empty($value)) $default = $value;
+		if (empty($value)) $value = $default;
 
 		return [
-			'id'          => 'fdtbwpb_options_' . $key,
-			'name'        => 'fdtbwpb_options[' . $key . ']',
+			'id'          => "{$this->optionsName}_$key",
+			'name'        => "{$this->optionsName}[$key]",
 			'description' => !empty($args['description']) ? trim($args['description']) : '',
-			'default'     => $default,
-			'readonly'    => !empty($args['readonly']),
-			'class'       => $args['css_class'],
+			'value'       => $value,
 		];
+	}
+
+	/**
+	 * Adds plugin action links to the plugins page.
+	 *
+	 * @param	array	$links
+	 *
+	 * @return	array
+	 *
+	 * @hooked	filter: `plugin_action_links_{FDTBWPB_BASENAME}` - 10
+	 */
+	public function actionLinks($links)
+	{
+		$links[] = '<a href="' . get_admin_url(null, "admin.php?page={$this->menuSlug}") . '">' . esc_html__('Settings', FDTBWPB_TEXT_DOMAIN) . '</a>';
+		return $links;
 	}
 }

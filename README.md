@@ -12,7 +12,7 @@ A boilerplate plugin for connecting a Telegram bot to your WordPress website.
 Clone or download this repository, change its name to something else, and then you'll need to do a four-step **CASE-SENSITIVE** find and replace in all the codes:
 1. Search for `TelegramPluginBoilerplate` to capture the namespaces.
 2. Search for `FDTBWPB` to capture the constants.
-3. Search for `fdtbwpb` to capture the keys and slugs.
+3. Search for `fdtbwpb` to capture option name and slugs.
 4. Search for `telegram-plugin-boilerplate` to capture the text domains.
 
 Then, update the header in `plugin.php` with your own information.

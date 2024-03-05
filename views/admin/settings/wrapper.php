@@ -3,9 +3,9 @@
 
 	<form method="post" action="options.php">
 		<?php
-		settings_fields('fdtbwpb_settings_group');
+		settings_fields(FDTBWPB_SETTINGS_SLUG . '_settings_group');
 
-		do_settings_sections('fdtbwpb_settings_page');
+		do_settings_sections(FDTBWPB_SETTINGS_SLUG . '_settings');
 
 		submit_button();
 		?>

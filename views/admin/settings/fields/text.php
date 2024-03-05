@@ -1,4 +1,4 @@
-<input class="regular-text<?php echo !empty($class) ? ' ' . $class : ''; ?>" type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $default; ?>" <?php echo $readonly ? 'readonly' : ''; ?>>
+<input type="text" id="<?php echo $id; ?>" name="<?php echo $name; ?>" value="<?php echo $value; ?>" />
 <?php if (!empty($description)) : ?>
 	<p><?php echo $description; ?></p>
 <?php endif; ?>
