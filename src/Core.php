@@ -69,8 +69,9 @@ class Core
 	 */
 	public function view($filePath, $passedArray = [], $echo = true)
 	{
-		if ($echo) echo View::getInstance()->section($filePath, $passedArray);
-		else return View::getInstance()->section($filePath, $passedArray);
+		if (!$echo) return View::getInstance()->display($filePath, $passedArray);
+
+		echo View::getInstance()->display($filePath, $passedArray);
 	}
 
 	/**
