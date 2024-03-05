@@ -2,7 +2,7 @@
 
 namespace TelegramPluginBoilerplate;
 
-class Settings
+class Setting
 {
 	public static $instance = null;
 

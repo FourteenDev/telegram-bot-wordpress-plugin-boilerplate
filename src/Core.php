@@ -29,7 +29,7 @@ class Core
 
 	public function adminClasses()
 	{
-		Settings::getInstance();
+		Setting::getInstance();
 	}
 
 	public function frontendClasses() {}
