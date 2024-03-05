@@ -35,7 +35,7 @@ class Helper
 		try {
 			$telegram = new Telegram($botToken, $botUsername);
 			// TODO: $telegram->enableAdmins($bot->get_admin_ids());
-			$telegram->addCommandsPaths([FDTBWPB_DIR . '/app/Telegram/Commands']);
+			$telegram->addCommandsPaths([FDTBWPB_DIR . '/src/Telegram/Commands']);
 			$telegram->enableMySql();
 			$telegram->enableLogging();
 			$telegram->enableLimiter(['enabled' => true]);

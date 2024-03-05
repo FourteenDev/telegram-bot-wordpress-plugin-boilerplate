@@ -18,13 +18,13 @@ class API
 	}
 
 	/**
-	 * Calls the `getInstance()` method on every file in the `app/API/Endpoints/` directory.
+	 * Calls the `getInstance()` method on every file in the `src/API/Endpoints/` directory.
 	 *
 	 * @return	void
 	 */
 	private function instantiateAllEndpoints()
 	{
-		foreach (glob(FDTBWPB_DIR . '/app/API/Endpoints/*.php') as $file)
+		foreach (glob(FDTBWPB_DIR . '/src/API/Endpoints/*.php') as $file)
 		{
 			$class = '\\' . __NAMESPACE__ . '\\API\\Endpoints\\' . basename($file, '.php');
 
