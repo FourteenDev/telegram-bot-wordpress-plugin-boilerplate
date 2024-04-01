@@ -124,6 +124,7 @@ class Request extends TelegramBotRequest
 		'reopenGeneralForumTopic',
 		'hideGeneralForumTopic',
 		'unhideGeneralForumTopic',
+		'unpinAllGeneralForumTopicMessages',
 		'answerCallbackQuery',
 		'answerInlineQuery',
 		'setMyCommands',

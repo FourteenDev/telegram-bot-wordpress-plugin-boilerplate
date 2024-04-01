@@ -128,7 +128,7 @@ class Telegram extends TelegramBotTelegram
 						$commands[$command] = $commandObject;
 				}
 			} catch (\Exception $e) {
-				throw new TelegramException('Error getting commands from path: ' . $path, $e->getCode());
+				throw new TelegramException('Error getting commands from path: ' . $path, 0, $e);
 			}
 		}
 
