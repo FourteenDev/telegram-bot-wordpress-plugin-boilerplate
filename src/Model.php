@@ -25,6 +25,8 @@ class Model
 	/**
 	 * Creates all the necessary tables if they haven't been created yet.
 	 *
+	 * Tables are based on `v0.82.0` of Longman PHP Telegram Bot library.
+	 *
 	 * @return	void
 	 *
 	 * @hooked	action: `plugins_loaded` - 10
@@ -153,6 +155,7 @@ class Model
 				`game` TEXT COMMENT 'Game object. Message is a game, information about the game',
 				`photo` TEXT COMMENT 'Array of PhotoSize objects. Message is a photo, available sizes of the photo',
 				`sticker` TEXT COMMENT 'Sticker object. Message is a sticker, information about the sticker',
+				`story` TEXT DEFAULT NULL COMMENT 'Story object. Message is a forwarded story',
 				`video` TEXT COMMENT 'Video object. Message is a video, information about the video',
 				`voice` TEXT COMMENT 'Voice Object. Message is a Voice, information about the Voice',
 				`video_note` TEXT COMMENT 'VoiceNote Object. Message is a Video Note, information about the Video Note',
