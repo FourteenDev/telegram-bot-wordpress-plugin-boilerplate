@@ -11,6 +11,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Fixed
 ### Security
 
+## [v1.2.1] - 2024-04-01
+### Changed
+- Updated Model class and other extended classes based on `v0.82.0` of Longman PHP Telegram Bot library. (#1)
+
 ## [v1.2.0] - 2024-03-06
 ### Changed
 - Changed project name.
@@ -29,6 +33,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Added proxy (middleman server) support.
 - Added this changelog file.
 
-[Unreleased]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.2.0...main
+[Unreleased]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.2.1...main
+[v1.2.1]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.2.0...v1.2.1
 [v1.2.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.1.0...v1.2.0
 [v1.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.0.0...v1.1.0
