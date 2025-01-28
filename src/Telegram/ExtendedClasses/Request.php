@@ -562,7 +562,7 @@ class Request extends TelegramBotRequest
 
 	/**
 	 * This functions delays API requests to prevent reaching Telegram API limits
-	 *  Can be disabled while in execution by 'Request::setLimiter(false)'.
+	 * Can be disabled while in execution by 'Request::setLimiter(false)'.
 	 *
 	 * @link	https://core.telegram.org/bots/faq#my-bot-is-hitting-limits-how-do-i-avoid-this
 	 *

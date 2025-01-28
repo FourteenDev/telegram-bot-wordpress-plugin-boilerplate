@@ -122,11 +122,11 @@ abstract class BaseEndpoint
 	}
 
 	/**
-	 * Gets header authorization.
+	 * Returns header authorization.
 	 *
 	 * @return	string|null
 	 *
-	 * @source	https://StackOverflow.com/a/40582472/1930153
+	 * @source	https://StackOverflow.com/a/40582472/
 	 */
 	private function getAuthorizationHeader()
 	{

@@ -8,7 +8,7 @@ unset($_POST['token']);
 
 preg_match('/(\d+):[\w\-]+/', $token, $matches);
 if (!isset($matches[1]))
-    die('Invalid token!');
+	die('Invalid token!');
 
 $handle = \curl_init();
 
