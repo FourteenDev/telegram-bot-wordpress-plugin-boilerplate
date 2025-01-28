@@ -5,6 +5,7 @@ namespace TelegramPluginBoilerplate\API\Endpoints;
 use Longman\TelegramBot\Entities\ServerResponse;
 use Longman\TelegramBot\TelegramLog;
 use TelegramPluginBoilerplate\API\BaseEndpoint;
+use TelegramPluginBoilerplate\Helpers\TelegramHelper;
 use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class GetMessagePolling extends BaseEndpoint
@@ -33,7 +34,7 @@ class GetMessagePolling extends BaseEndpoint
 		if (wp_get_environment_type() !== 'local')
 			return $this->getRestReponse(401, esc_html__('Not allowed!', FDTBWPB_TEXT_DOMAIN));
 
-		$telegram = FDTBWPB()->helper()->instantiateTelegram();
+		$telegram = TelegramHelper::instantiateTelegram();
 		if (!$telegram instanceof Telegram)
 			return $this->getRestReponse(502, $telegram);
 

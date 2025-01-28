@@ -4,6 +4,7 @@ namespace TelegramPluginBoilerplate\API\Endpoints;
 
 use Longman\TelegramBot\TelegramLog;
 use TelegramPluginBoilerplate\API\BaseEndpoint;
+use TelegramPluginBoilerplate\Helpers\TelegramHelper;
 use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class GetMessage extends BaseEndpoint
@@ -29,7 +30,7 @@ class GetMessage extends BaseEndpoint
 	 */
 	public function handle($request)
 	{
-		$telegram = FDTBWPB()->helper()->instantiateTelegram();
+		$telegram = TelegramHelper::instantiateTelegram();
 		if (!$telegram instanceof Telegram)
 			return $this->getRestReponse(502, $telegram);
 

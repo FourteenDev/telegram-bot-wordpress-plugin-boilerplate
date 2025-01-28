@@ -1,28 +1,20 @@
 <?php
 
-namespace TelegramPluginBoilerplate;
+namespace TelegramPluginBoilerplate\Helpers;
 
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Exception\TelegramLogException;
 use Longman\TelegramBot\TelegramLog;
 use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
-class Helper
+class TelegramHelper
 {
-	public static $instance = null;
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
-
 	/**
 	 * Instantiates and returns Telegram object.
 	 *
 	 * @return	Telegram|string		Returns the error on failure.
 	 */
-	public function instantiateTelegram()
+	public static function instantiateTelegram()
 	{
 		if (empty($botToken = FDTBWPB()->option('bot_token')))
 			return esc_html__('Bot token is not defined!', FDTBWPB_TEXT_DOMAIN);

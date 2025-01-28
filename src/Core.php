@@ -87,14 +87,4 @@ class Core
 
 		return isset($this->options[$optionName]) ? $this->options[$optionName] : null;
 	}
-
-	/**
-	 * Returns `Helper` class.
-	 *
-	 * @return	Helper
-	 */
-	public function helper()
-	{
-		return Helper::getInstance();
-	}
 }
