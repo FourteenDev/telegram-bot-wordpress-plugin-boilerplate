@@ -49,7 +49,13 @@ class Setting
 	 */
 	public function displaySettingsContent()
 	{
-		FDTBWPB()->view('admin.settings.wrapper');
+		$activeTab = (!empty($_GET['tab']) && array_key_exists($_GET['tab'], $this->getTabs())) ? sanitize_key($_GET['tab']) : 'general';
+		$args      = [
+			'activeTab' => $activeTab,
+			'tabs'      => $this->getTabs(),
+		];
+
+		FDTBWPB()->view('admin.settings.wrapper', $args);
 	}
 
 	/**
@@ -63,8 +69,8 @@ class Setting
 	{
 		register_setting("{$this->menuSlug}_group", $this->optionsName);
 
-		add_settings_section("{$this->menuSlug}_general", esc_html__('General Settings', FDTBWPB_TEXT_DOMAIN), null, $this->menuSlug);
-		add_settings_section("{$this->menuSlug}_proxy", esc_html__('Proxy Settings', FDTBWPB_TEXT_DOMAIN), null, $this->menuSlug);
+		foreach ($this->getTabs() as $tabSlug => $tabLabel)
+			add_settings_section("{$this->menuSlug}_$tabSlug", $tabLabel, null, $this->menuSlug);
 
 		$fields = [
 			// General section
@@ -123,6 +129,20 @@ class Setting
 				['id' => $field['id'], 'default' => $field['default']] + $field['args']
 			);
 		}
+	}
+
+	/**
+	 * Returns tabs for the settings page.
+	 *
+	 * @return	array
+	 */
+	public function getTabs()
+	{
+		$tabs = [
+			'general' => esc_html__('General Settings', FDTBWPB_TEXT_DOMAIN),
+			'proxy'   => esc_html__('Proxy Tab', FDTBWPB_TEXT_DOMAIN),
+		];
+		return apply_filters('fdtbwpb_settings_tabs', $tabs);
 	}
 
 	/**

@@ -1,0 +1,85 @@
+.fdtbwpb-tab-group {
+	display: block;
+	float: left;
+	width: 100%;
+	margin-top: 18px;
+	padding: 6px;
+	border-radius: 3px;
+	overflow: hidden;
+	background-color: transparent;
+}
+
+.fdtbwpb-tab {
+	float: left;
+	margin: 0;
+	padding-right: 30px;
+	width: 298px;
+	background-color: transparent;
+}
+
+.rtl .fdtbwpb-tab {
+	float: right;
+	width: 312px;
+	padding-right: 0;
+	padding-left: 30px;
+}
+
+.fdtbwpb-tab li {
+	position: relative;
+	margin: 0;
+}
+
+.fdtbwpb-tab li .active {
+	filter: unset;
+	border-radius: 2px;
+	box-shadow: 0px 2px 4px rgb(0 0 0 / 8%);
+	opacity: 1;
+	background: #FFFFFF;
+}
+
+.fdtbwpb-tab li a {
+	display: flex;
+	margin: 0 -1px 0px 0;
+	padding: 13px 14px;
+	color: #000000;
+	align-items: center;
+	font-weight: 600;
+	font-size: 16px;
+	text-decoration: none;
+	line-height: 24px;
+	letter-spacing: 0.02em;
+	opacity: 0.5;
+	transition: 0.2s;
+}
+
+.rtl .fdtbwpb-tab li a {
+	margin: 0 0 0 -1px;
+}
+
+.fdtbwpb-tab-content {
+	display: grid;
+	min-height: 680px;
+	margin: 0 6px 0 30px;
+	padding: 21px 33px 6px;
+	border-radius: 2px;
+	box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
+	background-color: #fff;
+}
+
+.rtl .fdtbwpb-tab-content {
+	margin: 0 30px 0 0;
+}
+
+.fdtbwpb-tab-content tr.tr-header th {
+	color: #ffffff;
+	padding: 14px 12px 12px 12px;
+	white-space: nowrap;
+	background: #f0f0f1;
+	font-weight: bold;
+}
+
+.fdtbwpb-tab-content tr th label {
+	padding: 16px;
+	color: #000000;
+	white-space: nowrap;
+}
