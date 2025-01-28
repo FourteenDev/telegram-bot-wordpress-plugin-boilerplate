@@ -16,23 +16,12 @@ class Core
 
 	public function __construct()
 	{
-		$this->globalClasses();
-		if (is_admin()) $this->adminClasses();
-		else $this->frontendClasses();
-	}
-
-	public function globalClasses()
-	{
 		Model::getInstance();
 		API::getInstance();
-	}
 
-	public function adminClasses()
-	{
-		Setting::getInstance();
+		if (is_admin())
+			Setting::getInstance();
 	}
-
-	public function frontendClasses() {}
 
 	/**
 	 * Returns plugin's URL path, without any slashes in the end (e.g. `https://Site.com/wp-content/plugins/my-plugin`).
@@ -59,11 +48,21 @@ class Core
 	}
 
 	/**
-	 * Returns a plugin view.
+	 * Returns `Model` class.
 	 *
-	 * @param	string		$filePath		Separate path parts with dots (`.`).
-	 * @param	array		$passedArray
-	 * @param	bool		$echo			Echo/print the view or just return the section/view.
+	 * @return	Model
+	 */
+	public function model()
+	{
+		return Model::getInstance();
+	}
+
+	/**
+	 * Returns a view from `views/` folder.
+	 *
+	 * @param	string		$filePath		File path without `.php` extension, where path parts are separated with dots (e.g. `path.to.file`).
+	 * @param	array		$passedArray	Input data to pass to the file. The array will be extracted into multiple variables (e.g. `['var1' => 'Foo', 'var2' => 'Bar']`).
+	 * @param	bool		$echo			Echo/print the view or just return the view (to save in a variable).
 	 *
 	 * @return	mixed
 	 */
@@ -75,13 +74,18 @@ class Core
 	}
 
 	/**
-	 * Returns `Model` class.
+	 * Returns a plugin option.
 	 *
-	 * @return	Model
+	 * @param	string		$optionName
+	 *
+	 * @return	mixed|null
 	 */
-	public function model()
+	public function option($optionName)
 	{
-		return Model::getInstance();
+		if (empty($this->options))
+			$this->options = get_option(FDTBWPB_SETTINGS_SLUG . '_options');
+
+		return isset($this->options[$optionName]) ? $this->options[$optionName] : null;
 	}
 
 	/**
@@ -92,22 +96,5 @@ class Core
 	public function helper()
 	{
 		return Helper::getInstance();
-	}
-
-	/**
-	 * Returns a plugin option.
-	 *
-	 * @param	string		$optionName
-	 *
-	 * @return	mixed|null
-	 */
-	public function option($optionName)
-	{
-		if (empty($this->options)) $this->options = get_option('fdtbwpb_options');
-
-		if (isset($this->options[$optionName]) && !empty($this->options[$optionName]))
-			return $this->options[$optionName];
-
-		return null;
 	}
 }
