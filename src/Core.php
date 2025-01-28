@@ -17,6 +17,7 @@ class Core
 	public function __construct()
 	{
 		Model::getInstance();
+		Asset::getInstance();
 		API::getInstance();
 
 		if (is_admin())
