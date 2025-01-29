@@ -56,7 +56,7 @@ class MoreSettings extends Base
 	public function getFields()
 	{
 		return [
-			'example_field_more' => [
+			'example_field_more'  => [
 				'id'      => 'example_field_more',
 				'label'   => esc_html__('More Example Field', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
@@ -64,12 +64,20 @@ class MoreSettings extends Base
 				'default' => '',
 				'args'    => [],
 			],
-			'test_field_more'    => [
+			'test_field_more'     => [
 				'id'      => 'test_field_more',
 				'label'   => esc_html__('More Second Tab Field', 'telegram-plugin-boilerplate'),
 				'section' => 'second',
 				'type'    => 'text',
 				'default' => '',
+				'args'    => [],
+			],
+			'test_checkbox_field' => [
+				'id'      => 'test_checkbox_field',
+				'label'   => esc_html__('Checkbox Field', 'telegram-plugin-boilerplate'),
+				'section' => 'second',
+				'type'    => 'checkbox',
+				'default' => true,
 				'args'    => [],
 			],
 		];
