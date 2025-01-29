@@ -22,6 +22,8 @@ class Core
 
 		if (is_admin())
 			Setting::getInstance();
+
+		add_action('plugins_loaded', [$this, 'i18n']);
 	}
 
 	/**
@@ -87,5 +89,15 @@ class Core
 			$this->options = get_option(FDTBWPB_SETTINGS_SLUG . '_options');
 
 		return isset($this->options[$optionName]) ? $this->options[$optionName] : null;
+	}
+
+	/**
+	 * Loads plugin's textdomain.
+	 *
+	 * @return	void
+	 */
+	public function i18n()
+	{
+		load_plugin_textdomain('wordpress-boilerplate-plugin', false, basename(FDWPBP_DIR) . DIRECTORY_SEPARATOR . 'languages');
 	}
 }
