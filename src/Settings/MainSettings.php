@@ -26,8 +26,8 @@ class MainSettings extends Base
 	public function addSubmenu($submenus)
 	{
 		$submenus['settings'] = [
-			'page_title' => esc_html__('Telegram Bot Boilerplate Plugin', FDTBWPB_TEXT_DOMAIN),
-			'menu_title' => esc_html__('Telegram Bot', FDTBWPB_TEXT_DOMAIN),
+			'page_title' => esc_html__('Telegram Bot Boilerplate Plugin', 'telegram-plugin-boilerplate'),
+			'menu_title' => esc_html__('Telegram Bot', 'telegram-plugin-boilerplate'),
 			'callback'   => [$this, 'displayContent'],
 			'position'   => 0,
 		];
@@ -43,8 +43,8 @@ class MainSettings extends Base
 	public function getTabs()
 	{
 		return apply_filters('fdtbwpb_settings_main_tabs', [
-			'general' => esc_html__('General Settings', FDTBWPB_TEXT_DOMAIN),
-			'proxy'   => esc_html__('Proxy Settings', FDTBWPB_TEXT_DOMAIN),
+			'general' => esc_html__('General Settings', 'telegram-plugin-boilerplate'),
+			'proxy'   => esc_html__('Proxy Settings', 'telegram-plugin-boilerplate'),
 		]);
 	}
 
@@ -59,7 +59,7 @@ class MainSettings extends Base
 			// General section
 			'bot_token' => [
 				'id'      => 'bot_token',
-				'label'   => esc_html__('Bot token', FDTBWPB_TEXT_DOMAIN),
+				'label'   => esc_html__('Bot token', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
 				'default' => '',
@@ -67,34 +67,34 @@ class MainSettings extends Base
 			],
 			'bot_username' => [
 				'id'      => 'bot_username',
-				'label'   => esc_html__('Bot username', FDTBWPB_TEXT_DOMAIN),
+				'label'   => esc_html__('Bot username', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
 				'default' => '',
 				'args'    => [
-					'description' => esc_html__('With @', FDTBWPB_TEXT_DOMAIN),
+					'description' => esc_html__('With @', 'telegram-plugin-boilerplate'),
 				],
 			],
 			'admin_ids' => [
 				'id'      => 'admin_ids',
-				'label'   => esc_html__('Admins IDs', FDTBWPB_TEXT_DOMAIN),
+				'label'   => esc_html__('Admins IDs', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
 				'default' => '',
 				'args'    => [
-					'description' => esc_html__('Enter Telegram ID (numeric) of admins, separate IDs with a comma (,).', FDTBWPB_TEXT_DOMAIN),
+					'description' => esc_html__('Enter Telegram ID (numeric) of admins, separate IDs with a comma (,).', 'telegram-plugin-boilerplate'),
 				],
 			],
 
 			// Proxy section
 			'proxy_update_receiver' => [
 				'id'      => 'proxy_update_receiver',
-				'label'   => esc_html__('Update receiver URL', FDTBWPB_TEXT_DOMAIN),
+				'label'   => esc_html__('Update receiver URL', 'telegram-plugin-boilerplate'),
 				'section' => 'proxy',
 				'type'    => 'text',
 				'default' => '',
 				'args'    => [
-					'description' => esc_html__('Find forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', FDTBWPB_TEXT_DOMAIN),
+					'description' => esc_html__('Find forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', 'telegram-plugin-boilerplate'),
 				],
 			],
 		]);

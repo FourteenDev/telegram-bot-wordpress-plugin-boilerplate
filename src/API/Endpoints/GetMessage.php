@@ -40,7 +40,7 @@ class GetMessage extends BaseEndpoint
 		} catch (\Exception $e) {
 			TelegramLog::error($e);
 
-			return $this->getRestReponse(502, esc_html__('Error on handling the updates!', FDTBWPB_TEXT_DOMAIN));
+			return $this->getRestReponse(502, esc_html__('Error on handling the updates!', 'telegram-plugin-boilerplate'));
 		}
 	}
 }

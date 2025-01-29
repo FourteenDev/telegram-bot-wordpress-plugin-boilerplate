@@ -44,6 +44,6 @@ class CancelCommand extends UserCommand
 		if (!$this->telegram->cancelOperations($chatId))
 			return Request::emptyResponse();
 
-		return $this->replyToChat(esc_html__('Canceled!', FDTBWPB_TEXT_DOMAIN), ['reply_to_message_id' => $this->getMessage()->getMessageId()]);
+		return $this->replyToChat(esc_html__('Canceled!', 'telegram-plugin-boilerplate'), ['reply_to_message_id' => $this->getMessage()->getMessageId()]);
 	}
 }

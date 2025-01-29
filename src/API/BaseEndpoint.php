@@ -83,8 +83,8 @@ abstract class BaseEndpoint
 		if (empty($token))
 		{
 			return new \WP_Error(
-				esc_html__('Token Not Found', FDTBWPB_TEXT_DOMAIN),
-				esc_html__('No token is defined to receive requests', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('Token Not Found', 'telegram-plugin-boilerplate'),
+				esc_html__('No token is defined to receive requests', 'telegram-plugin-boilerplate'),
 				['status' => 500],
 			);
 		}
@@ -92,8 +92,8 @@ abstract class BaseEndpoint
 		if (empty($headerAuth))
 		{
 			return new \WP_Error(
-				esc_html__('Authorization Missing', FDTBWPB_TEXT_DOMAIN),
-				esc_html__('Not authorized', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('Authorization Missing', 'telegram-plugin-boilerplate'),
+				esc_html__('Not authorized', 'telegram-plugin-boilerplate'),
 				['status' => 401],
 			);
 		}
@@ -103,8 +103,8 @@ abstract class BaseEndpoint
 			$headerAuth = explode(' ', $headerAuth)[1];
 		} else {
 			return new \WP_Error(
-				esc_html__('Token Missing', FDTBWPB_TEXT_DOMAIN),
-				esc_html__('Not authorized', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('Token Missing', 'telegram-plugin-boilerplate'),
+				esc_html__('Not authorized', 'telegram-plugin-boilerplate'),
 				['status' => 401],
 			);
 		}
@@ -112,8 +112,8 @@ abstract class BaseEndpoint
 		if ($token != $headerAuth)
 		{
 			return new \WP_Error(
-				esc_html__('Invalid Token', FDTBWPB_TEXT_DOMAIN),
-				esc_html__('Not authorized', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('Invalid Token', 'telegram-plugin-boilerplate'),
+				esc_html__('Not authorized', 'telegram-plugin-boilerplate'),
 				['status' => 401],
 			);
 		}

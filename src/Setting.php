@@ -48,8 +48,8 @@ class Setting
 	public function createAdminMenu()
 	{
 		add_menu_page(
-			esc_html__('Telegram Bot Boilerplate Plugin', FDTBWPB_TEXT_DOMAIN),
-			esc_html__('Telegram Bot', FDTBWPB_TEXT_DOMAIN),
+			esc_html__('Telegram Bot Boilerplate Plugin', 'telegram-plugin-boilerplate'),
+			esc_html__('Telegram Bot', 'telegram-plugin-boilerplate'),
 			'manage_options',
 			$this->menuSlug,
 			'',
@@ -86,7 +86,7 @@ class Setting
 	 */
 	public function actionLinks($links)
 	{
-		$links[] = '<a href="' . get_admin_url(null, "admin.php?page={$this->menuSlug}") . '">' . esc_html__('Settings', FDTBWPB_TEXT_DOMAIN) . '</a>';
+		$links[] = '<a href="' . get_admin_url(null, "admin.php?page={$this->menuSlug}") . '">' . esc_html__('Settings', 'telegram-plugin-boilerplate') . '</a>';
 		return $links;
 	}
 }

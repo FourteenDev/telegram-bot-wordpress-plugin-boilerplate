@@ -26,8 +26,8 @@ class MoreSettings extends Base
 	public function addSubmenu($submenus)
 	{
 		$submenus['more'] = [
-			'page_title' => esc_html__('More Boilerplate Settings', FDTBWPB_TEXT_DOMAIN),
-			'menu_title' => esc_html__('More Settings', FDTBWPB_TEXT_DOMAIN),
+			'page_title' => esc_html__('More Boilerplate Settings', 'telegram-plugin-boilerplate'),
+			'menu_title' => esc_html__('More Settings', 'telegram-plugin-boilerplate'),
 			'callback'   => [$this, 'displayContent'],
 			'position'   => 1,
 		];
@@ -43,8 +43,8 @@ class MoreSettings extends Base
 	public function getTabs()
 	{
 		return [
-			'general' => esc_html__('More General', FDTBWPB_TEXT_DOMAIN),
-			'second'  => esc_html__('More Second', FDTBWPB_TEXT_DOMAIN),
+			'general' => esc_html__('More General', 'telegram-plugin-boilerplate'),
+			'second'  => esc_html__('More Second', 'telegram-plugin-boilerplate'),
 		];
 	}
 
@@ -58,7 +58,7 @@ class MoreSettings extends Base
 		return [
 			'example_field_more' => [
 				'id'      => 'example_field_more',
-				'label'   => esc_html__('More Example Field', FDTBWPB_TEXT_DOMAIN),
+				'label'   => esc_html__('More Example Field', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
 				'default' => '',
@@ -66,7 +66,7 @@ class MoreSettings extends Base
 			],
 			'test_field_more'    => [
 				'id'      => 'test_field_more',
-				'label'   => esc_html__('More Second Tab Field', FDTBWPB_TEXT_DOMAIN),
+				'label'   => esc_html__('More Second Tab Field', 'telegram-plugin-boilerplate'),
 				'section' => 'second',
 				'type'    => 'text',
 				'default' => '',

@@ -32,7 +32,7 @@ class GetMessagePolling extends BaseEndpoint
 	public function handle($request)
 	{
 		if (wp_get_environment_type() !== 'local')
-			return $this->getRestReponse(401, esc_html__('Not allowed!', FDTBWPB_TEXT_DOMAIN));
+			return $this->getRestReponse(401, esc_html__('Not allowed!', 'telegram-plugin-boilerplate'));
 
 		$telegram = TelegramHelper::instantiateTelegram();
 		if (!$telegram instanceof Telegram)
@@ -47,7 +47,7 @@ class GetMessagePolling extends BaseEndpoint
 		} catch (\Exception $e) {
 			TelegramLog::error($e);
 
-			return $this->getRestReponse(502, esc_html__('Error on handling the updates!', FDTBWPB_TEXT_DOMAIN));
+			return $this->getRestReponse(502, esc_html__('Error on handling the updates!', 'telegram-plugin-boilerplate'));
 		}
 	}
 }

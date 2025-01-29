@@ -45,7 +45,7 @@ class StartCommand extends UserCommand
 		if ($this->telegram->isAdmin())
 		{
 			return $this->replyToChat(
-				esc_html__('Welcome Admin!', FDTBWPB_TEXT_DOMAIN),
+				esc_html__('Welcome Admin!', 'telegram-plugin-boilerplate'),
 				[
 					'reply_to_message_id' => $this->getMessage()->getMessageId(),
 					'reply_markup'        => $this->getStartButtons(),
@@ -54,7 +54,7 @@ class StartCommand extends UserCommand
 		}
 
 		return $this->replyToChat(
-			esc_html__('Welcome!', FDTBWPB_TEXT_DOMAIN),
+			esc_html__('Welcome!', 'telegram-plugin-boilerplate'),
 			[
 				'reply_to_message_id' => $this->getMessage()->getMessageId(),
 				'reply_markup'        => $this->getStartButtons(),
@@ -70,8 +70,8 @@ class StartCommand extends UserCommand
 	private function getStartButtons()
 	{
 		$keyboard = new Keyboard(
-			esc_html__('Test 1', FDTBWPB_TEXT_DOMAIN),
-			esc_html__('Test 2', FDTBWPB_TEXT_DOMAIN)
+			esc_html__('Test 1', 'telegram-plugin-boilerplate'),
+			esc_html__('Test 2', 'telegram-plugin-boilerplate')
 		);
 
 		$keyboard->setResizeKeyboard(true)

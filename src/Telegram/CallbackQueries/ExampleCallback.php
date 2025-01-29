@@ -37,6 +37,6 @@ class ExampleCallback extends Base
 
 		// Some other stuff
 
-		return $this->answer(esc_html__('Example answer!', FDTBWPB_TEXT_DOMAIN), ['show_alert' => true]);
+		return $this->answer(esc_html__('Example answer!', 'telegram-plugin-boilerplate'), ['show_alert' => true]);
 	}
 }

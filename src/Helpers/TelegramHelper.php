@@ -17,10 +17,10 @@ class TelegramHelper
 	public static function instantiateTelegram()
 	{
 		if (empty($botToken = FDTBWPB()->option('bot_token')))
-			return esc_html__('Bot token is not defined!', FDTBWPB_TEXT_DOMAIN);
+			return esc_html__('Bot token is not defined!', 'telegram-plugin-boilerplate');
 
 		if (empty($botUsername = FDTBWPB()->option('bot_username')))
-			return esc_html__('Bot username is not defined!', FDTBWPB_TEXT_DOMAIN);
+			return esc_html__('Bot username is not defined!', 'telegram-plugin-boilerplate');
 		if (stripos($botUsername, '@') === false)
 			$botUsername = "@$botUsername";
 
@@ -37,9 +37,9 @@ class TelegramHelper
 		} catch (TelegramException $e) {
 			TelegramLog::error($e);
 
-			return esc_html__('Error on initializing the bot!', FDTBWPB_TEXT_DOMAIN);
+			return esc_html__('Error on initializing the bot!', 'telegram-plugin-boilerplate');
 		} catch (TelegramLogException $e) {
-			return esc_html__('Error on logging the exception!', FDTBWPB_TEXT_DOMAIN);
+			return esc_html__('Error on logging the exception!', 'telegram-plugin-boilerplate');
 		}
 
 		return $telegram;

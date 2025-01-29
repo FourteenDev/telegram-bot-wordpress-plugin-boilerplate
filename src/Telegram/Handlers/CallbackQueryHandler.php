@@ -49,7 +49,7 @@ class CallbackQueryHandler
 	private static function getInvalidCallbackError($telegram, $update)
 	{
 		/* if ($update->getCallbackQuery()->getMessage()->getChat()->getId() !== SOMETHING)
-			return esc_html__('Invalid for some reason.', FDTBWPB_TEXT_DOMAIN); */
+			return esc_html__('Invalid for some reason.', 'telegram-plugin-boilerplate'); */
 
 		// Run any other updates and database queries here
 
@@ -79,7 +79,7 @@ class CallbackQueryHandler
 			return Request::answerCallbackQuery(
 				[
 					'callback_query_id' => $update->getCallbackQuery()->getId(),
-					'text'              => esc_html__('Invalid callback!', FDTBWPB_TEXT_DOMAIN),
+					'text'              => esc_html__('Invalid callback!', 'telegram-plugin-boilerplate'),
 					'show_alert'        => true,
 				]
 			);
@@ -106,7 +106,7 @@ class CallbackQueryHandler
 		return Request::answerCallbackQuery(
 			[
 				'callback_query_id' => $update->getCallbackQuery()->getId(),
-				'text'              => esc_html__('Invalid button!', FDTBWPB_TEXT_DOMAIN),
+				'text'              => esc_html__('Invalid button!', 'telegram-plugin-boilerplate'),
 				'show_alert'        => true,
 			]
 		);

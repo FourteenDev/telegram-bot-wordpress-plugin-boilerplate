@@ -41,8 +41,8 @@ class UpdateHandler
 		$commands = ['message'];
 
 		$replaces = [
-			'/contact' => esc_html__('✉️ Contact admin', FDTBWPB_TEXT_DOMAIN),
-			'/profile' => esc_html__('👤 My profile', FDTBWPB_TEXT_DOMAIN),
+			'/contact' => esc_html__('✉️ Contact admin', 'telegram-plugin-boilerplate'),
+			'/profile' => esc_html__('👤 My profile', 'telegram-plugin-boilerplate'),
 		];
 
 		foreach ($methods as $index => $method)
