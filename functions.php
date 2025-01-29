@@ -21,5 +21,5 @@ function fdtbwpb_get_plugin_data()
 {
 	if (!is_admin()) return [];
 	if (!function_exists('get_plugin_data')) require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	return get_plugin_data(FDWPBP_FILE);
+	return get_plugin_data(FDTBWPB_FILE);
 }
