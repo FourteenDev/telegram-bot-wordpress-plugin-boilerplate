@@ -28,6 +28,20 @@ define('FDTBWPB_OPTIONS_KEY_DB_VERSION', 'fdtbwpb_db_version');
 require_once 'vendor/autoload.php';
 require_once 'functions.php';
 
+// Uncomment this to check for a required plugin/function before calling the core class
+/* if (!function_exists('get_field'))
+{
+	add_action('admin_notices', function ()
+	{
+		?>
+		<div class="notice notice-error">
+			<p><?php esc_html_e('Telegram Bot WordPress Plugin Boilerplate: Please enable ACF plugin!', 'telegram-plugin-boilerplate'); ?></p>
+		</div>
+		<?php
+	});
+	return;
+} */
+
 function FDTBWPB()
 {
 	return Core::getInstance();
