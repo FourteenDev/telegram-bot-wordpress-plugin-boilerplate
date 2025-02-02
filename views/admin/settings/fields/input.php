@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) exit;
+
 $valueAttribute = $type === 'number' ? intval($value) : esc_attr($value);
 $valueAttribute = $type === 'checkbox' ? '1' : $valueAttribute;
 ?>
