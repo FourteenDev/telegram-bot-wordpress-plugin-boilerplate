@@ -2,11 +2,11 @@
 
 namespace TelegramPluginBoilerplate;
 
-class Setting
+class Menu
 {
 	public static $instance = null;
 
-	private $menuSlug = FDTBWPB_SETTINGS_SLUG . '_settings';
+	private $menuSlug = FDTBWPB_MENUS_SLUG . '_settings';
 
 	public static function getInstance()
 	{
@@ -16,7 +16,7 @@ class Setting
 
 	public function __construct()
 	{
-		$this->instantiateSettings();
+		$this->instantiateMenus();
 
 		add_action('admin_menu', [$this, 'createAdminMenu']);
 
@@ -24,15 +24,15 @@ class Setting
 	}
 
 	/**
-	 * Calls the `getInstance()` method on settings file in the `src/Settings/` directory.
+	 * Calls the `getInstance()` method on all PHP files in the `src/Menus/` directory that their name ends with "Menu".
 	 *
 	 * @return	void
 	 */
-	private function instantiateSettings()
+	private function instantiateMenus()
 	{
-		foreach (glob(FDTBWPB_DIR . '/src/Settings/*Settings.php') as $file)
+		foreach (glob(FDTBWPB_DIR . '/src/Menus/*Menu.php') as $file)
 		{
-			$class = '\\' . __NAMESPACE__ . '\\Settings\\' . basename($file, '.php');
+			$class = '\\' . __NAMESPACE__ . '\\Menus\\' . basename($file, '.php');
 
 			if (class_exists($class)) $class::getInstance();
 		}
@@ -57,7 +57,7 @@ class Setting
 		);
 
 		$position = 0;
-		foreach (apply_filters('fdtbwpb_settings_submenus', []) as $slug => $submenu)
+		foreach (apply_filters('fdtbwpb_menus_submenus', []) as $slug => $submenu)
 		{
 			if (empty($submenu)) continue;
 
@@ -66,7 +66,7 @@ class Setting
 				esc_html($submenu['page_title']),
 				esc_html($submenu['menu_title']),
 				!empty($submenu['capability']) ? sanitize_key($submenu['capability']) : 'manage_options',
-				FDTBWPB_SETTINGS_SLUG . '_' . sanitize_key($slug),
+				FDTBWPB_MENUS_SLUG . '_' . sanitize_key($slug),
 				$submenu['callback'],
 				!empty($submenu['position']) ? intval($submenu['position']) : $position
 			);

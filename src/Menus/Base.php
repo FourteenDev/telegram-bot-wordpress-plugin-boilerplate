@@ -1,13 +1,13 @@
 <?php
 
-namespace TelegramPluginBoilerplate\Settings;
+namespace TelegramPluginBoilerplate\Menus;
 
 abstract class Base
 {
-	protected $optionsName = FDTBWPB_SETTINGS_SLUG . '_options';
+	protected $optionsName = FDTBWPB_MENUS_SLUG . '_options';
 
 	/**
-	 * **(REQUIRED)** Slug for this submenu. Recommended format: `FDTBWPB_SETTINGS_SLUG . '_{NAME}'`.
+	 * **(REQUIRED)** Slug for this submenu. Recommended format: `FDTBWPB_MENUS_SLUG . '_{NAME}'`.
 	 *
 	 * @var	string
 	 */
@@ -18,7 +18,7 @@ abstract class Base
 		if (empty($this->menuSlug))
 			throw new \LogicException(get_class($this) . ' must initialize $menuSlug property!');
 
-		add_filter('fdtbwpb_settings_submenus', [$this, 'addSubmenu']);
+		add_filter('fdtbwpb_menus_submenus', [$this, 'addSubmenu']);
 		add_action('admin_init', [$this, 'registerSettings']);
 
 		/* global $pagenow;
@@ -46,7 +46,7 @@ abstract class Base
 	 *
 	 * @return	array
 	 *
-	 * @hooked	filter: `fdtbwpb_settings_submenus` - 10
+	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
 	abstract function addSubmenu($submenus);
 

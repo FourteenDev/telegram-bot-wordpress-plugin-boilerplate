@@ -21,7 +21,7 @@ class Core
 		API::getInstance();
 
 		if (is_admin())
-			Setting::getInstance();
+			Menu::getInstance();
 
 		add_action('plugins_loaded', [$this, 'i18n']);
 	}
@@ -86,7 +86,7 @@ class Core
 	public function option($optionName)
 	{
 		if (empty($this->options))
-			$this->options = get_option(FDTBWPB_SETTINGS_SLUG . '_options');
+			$this->options = get_option(FDTBWPB_MENUS_SLUG . '_options');
 
 		return isset($this->options[$optionName]) ? $this->options[$optionName] : null;
 	}

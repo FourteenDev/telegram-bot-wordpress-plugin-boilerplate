@@ -1,12 +1,12 @@
 <?php
 
-namespace TelegramPluginBoilerplate\Settings;
+namespace TelegramPluginBoilerplate\Menus;
 
-class MainSettings extends Base
+class MainMenu extends Base
 {
 	public static $instance = null;
 
-	protected $menuSlug = FDTBWPB_SETTINGS_SLUG . '_settings';
+	protected $menuSlug = FDTBWPB_MENUS_SLUG . '_settings';
 
 	public static function getInstance()
 	{
@@ -21,7 +21,7 @@ class MainSettings extends Base
 	 *
 	 * @return	array
 	 *
-	 * @hooked	filter: `fdtbwpb_settings_submenus` - 10
+	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
 	public function addSubmenu($submenus)
 	{
@@ -42,7 +42,7 @@ class MainSettings extends Base
 	 */
 	public function getTabs()
 	{
-		return apply_filters('fdtbwpb_settings_main_tabs', [
+		return apply_filters('fdtbwpb_menus_main_tabs', [
 			'general' => esc_html__('General Settings', 'telegram-plugin-boilerplate'),
 			'proxy'   => esc_html__('Proxy Settings', 'telegram-plugin-boilerplate'),
 		]);
@@ -55,9 +55,9 @@ class MainSettings extends Base
 	 */
 	public function getFields()
 	{
-		return apply_filters('fdtbwpb_settings_main_fields', [
+		return apply_filters('fdtbwpb_menus_main_fields', [
 			// General section
-			'bot_token' => [
+			'bot_token'    => [
 				'id'      => 'bot_token',
 				'label'   => esc_html__('Bot token', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
@@ -75,7 +75,7 @@ class MainSettings extends Base
 					'description' => esc_html__('With @', 'telegram-plugin-boilerplate'),
 				],
 			],
-			'admin_ids' => [
+			'admin_ids'    => [
 				'id'      => 'admin_ids',
 				'label'   => esc_html__('Admins IDs', 'telegram-plugin-boilerplate'),
 				'section' => 'general',

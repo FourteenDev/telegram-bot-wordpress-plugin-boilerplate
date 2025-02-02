@@ -1,12 +1,12 @@
 <?php
 
-namespace TelegramPluginBoilerplate\Settings;
+namespace TelegramPluginBoilerplate\Menus;
 
-class MoreSettings extends Base
+class SecondMenu extends Base
 {
 	public static $instance = null;
 
-	protected $menuSlug = FDTBWPB_SETTINGS_SLUG . '_more';
+	protected $menuSlug = FDTBWPB_MENUS_SLUG . '_second';
 
 	public static function getInstance()
 	{
@@ -21,13 +21,13 @@ class MoreSettings extends Base
 	 *
 	 * @return	array
 	 *
-	 * @hooked	filter: `fdtbwpb_settings_submenus` - 10
+	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
 	public function addSubmenu($submenus)
 	{
-		$submenus['more'] = [
+		$submenus['second'] = [
 			'page_title' => esc_html__('More Boilerplate Settings', 'telegram-plugin-boilerplate'),
-			'menu_title' => esc_html__('More Settings', 'telegram-plugin-boilerplate'),
+			'menu_title' => esc_html__('Second Menu', 'telegram-plugin-boilerplate'),
 			'callback'   => [$this, 'displayContent'],
 			'position'   => 1,
 		];
@@ -43,8 +43,8 @@ class MoreSettings extends Base
 	public function getTabs()
 	{
 		return [
-			'general' => esc_html__('More General', 'telegram-plugin-boilerplate'),
-			'second'  => esc_html__('More Second', 'telegram-plugin-boilerplate'),
+			'general' => esc_html__('General', 'telegram-plugin-boilerplate'),
+			'second'  => esc_html__('Second', 'telegram-plugin-boilerplate'),
 		];
 	}
 
@@ -56,24 +56,24 @@ class MoreSettings extends Base
 	public function getFields()
 	{
 		return [
-			'example_field_more'  => [
-				'id'      => 'example_field_more',
-				'label'   => esc_html__('More Example Field', 'telegram-plugin-boilerplate'),
+			'example_field_second' => [
+				'id'      => 'example_field_second',
+				'label'   => esc_html__('Example Field', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
 				'default' => '',
 				'args'    => [],
 			],
-			'test_field_more'     => [
-				'id'      => 'test_field_more',
-				'label'   => esc_html__('More Second Tab Field', 'telegram-plugin-boilerplate'),
+			'test_field_second'    => [
+				'id'      => 'test_field_second',
+				'label'   => esc_html__('Second Tab Field', 'telegram-plugin-boilerplate'),
 				'section' => 'second',
 				'type'    => 'text',
 				'default' => '',
 				'args'    => [],
 			],
-			'test_checkbox_field' => [
-				'id'      => 'test_checkbox_field',
+			'test_checkbox_second' => [
+				'id'      => 'test_checkbox_second',
 				'label'   => esc_html__('Checkbox Field', 'telegram-plugin-boilerplate'),
 				'section' => 'second',
 				'type'    => 'checkbox',

@@ -22,7 +22,7 @@ define('FDTBWPB_FILE', __FILE__);
 define('FDTBWPB_URL', plugin_dir_url(FDTBWPB_FILE));
 define('FDTBWPB_DIR', plugin_dir_path(FDTBWPB_FILE));
 define('FDTBWPB_BASENAME', plugin_basename(FDTBWPB_FILE));
-define('FDTBWPB_SETTINGS_SLUG', 'fdtbwpb');
+define('FDTBWPB_MENUS_SLUG', 'fdtbwpb');
 define('FDTBWPB_OPTIONS_KEY_DB_VERSION', 'fdtbwpb_db_version');
 
 require_once 'vendor/autoload.php';
