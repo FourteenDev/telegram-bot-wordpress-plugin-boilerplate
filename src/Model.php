@@ -575,6 +575,6 @@ class Model
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;"
 		);
 
-		add_option(FDTBWPB_OPTIONS_KEY_DB_VERSION, trim(FDTBWPB_VERSION));
+		update_option(FDTBWPB_OPTIONS_KEY_DB_VERSION, trim(FDTBWPB_VERSION));
 	}
 }
