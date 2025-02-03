@@ -6,7 +6,11 @@ class Model
 {
 	public static $instance = null;
 
+	/** @var	\wpdb */
 	private $wpdb;
+
+	/** @var	string */
+	private $charsetCollate;
 
 	public static function getInstance()
 	{
@@ -17,7 +21,9 @@ class Model
 	public function __construct()
 	{
 		global $wpdb;
-		$this->wpdb = $wpdb;
+
+		$this->wpdb           = $wpdb;
+		$this->charsetCollate = $wpdb->get_charset_collate();
 
 		add_action('plugins_loaded', [$this, 'initializeTables']);
 	}
@@ -34,6 +40,13 @@ class Model
 	public function initializeTables()
 	{
 		if (trim(get_option(FDTBWPB_OPTIONS_KEY_DB_VERSION, '')) === trim(FDTBWPB_VERSION)) return;
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		// Example query:
+		/* dbDelta("CREATE TABLE `{$this->wpdb->prefix}some_table` (
+			...
+		) {$this->charsetCollate};"); */
 
 		$this->wpdb->query(
 			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_user` (
