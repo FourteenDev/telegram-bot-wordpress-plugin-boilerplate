@@ -67,6 +67,7 @@ abstract class Base
 		foreach ($this->getFields() as $field)
 		{
 			$callback = !empty($field['callback']) ? $field['callback'] : [$this, $field['type'] . 'FieldCallback'];
+			$args     = !empty($field['args']) && is_array($field['args']) ? $field['args'] : [];
 
 			add_settings_field(
 				$field['id'],
@@ -78,7 +79,7 @@ abstract class Base
 					'id'      => $field['id'],
 					'default' => $field['default'],
 					'type'    => $field['type'],
-				], $field['args'])
+				], $args)
 			);
 		}
 	}
@@ -129,13 +130,18 @@ abstract class Base
 	 *
 	 * @return	array	Format: `[
 	 * 		'test_field' => [
-	 *			'id'      => 'test_field',
-	 *			'label'   => 'Label',
-	 *			'section' => '{tab_slug}',
-	 *			'type'    => 'text',
-	 *			'default' => '',
-	 *			'args'    => [
+	 *			'id'       => 'test_field',
+	 *			'label'    => 'Label',
+	 *			'section'  => '{tab_slug}',
+	 *			'type'     => 'text',
+	 *			'default'  => '',
+	 *			// 'callback' => [$this, 'customCallback'], // This is optional. A default callback will be called if you've provided the 'type'.
+	 *			'args'     => [
+	 *				 // You can add built-in WP arguments here:
 	 *				'description' => 'Description',
+	 *				'class'       => 'row-class',
+	 *				'label_for'   => 'field-id',
+	 *				...
 	 *			],
 	 *		],
 	 *		...
