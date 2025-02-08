@@ -19,6 +19,7 @@ class Menu
 		$this->instantiateMenus();
 
 		add_action('admin_menu', [$this, 'createAdminMenu']);
+		// add_filter('submenu_file', [$this, 'removeDefaultSubmenu']); // Uncomment this if you want to remove the default submenu with similar name
 
 		// Uncomment these if you have custom acf-json files
 		// add_filter('acf/settings/save_json', [$this, 'registerEditAcfJsonPath']);
@@ -77,6 +78,19 @@ class Menu
 
 			$position++;
 		}
+	}
+
+	/**
+	 * Removes the default submenu with similar name.
+	 *
+	 * @return	void
+	 * @source	https://StackOverflow.com/a/47577455
+	 *
+	 * @hooked	action: `submenu_file` - 10
+	 */
+	public function removeDefaultSubmenu()
+	{
+		remove_submenu_page($this->menuSlug, $this->menuSlug);
 	}
 
 	/**
