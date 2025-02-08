@@ -29,7 +29,7 @@ class SecondMenu extends Base
 			'page_title' => esc_html__('More Boilerplate Settings', 'telegram-plugin-boilerplate'),
 			'menu_title' => esc_html__('Second Menu', 'telegram-plugin-boilerplate'),
 			'callback'   => [$this, 'displayContent'],
-			'position'   => 1,
+			'position'   => 2,
 		];
 
 		return $submenus;

@@ -29,7 +29,7 @@ class MainMenu extends Base
 			'page_title' => esc_html__('Telegram Bot Boilerplate Plugin', 'telegram-plugin-boilerplate'),
 			'menu_title' => esc_html__('Telegram Bot', 'telegram-plugin-boilerplate'),
 			'callback'   => [$this, 'displayContent'],
-			'position'   => 0,
+			'position'   => 1,
 		];
 
 		return $submenus;
