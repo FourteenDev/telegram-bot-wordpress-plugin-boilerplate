@@ -20,6 +20,10 @@ class Menu
 
 		add_action('admin_menu', [$this, 'createAdminMenu']);
 
+		// Uncomment these if you have custom acf-json files
+		// add_filter('acf/settings/save_json', [$this, 'registerEditAcfJsonPath']);
+		// add_filter('acf/settings/load_json', [$this, 'registerEditAcfJsonPath']);
+
 		add_filter('plugin_action_links_' . FDTBWPB_BASENAME, [$this, 'actionLinks']);
 	}
 
@@ -73,6 +77,37 @@ class Menu
 
 			$position++;
 		}
+	}
+
+	/**
+	 * Registers new path to save/load ACF JSON files.
+	 *
+	 * @param	string|array	$paths	The default paths where ACF saves JSON files.
+	 *
+	 * @return	array					Edited path array.
+	 * @source 	https://ImranhSayed.Medium.com/saving-the-acf-json-to-your-plugin-or-theme-file-f3b72b99257b
+	 *
+	 * @hooked	filter: `acf/settings/save_json` - 10
+	 * @hooked	filter: `acf/settings/load_json` - 10
+	 */
+	public function registerEditAcfJsonPath($paths)
+	{
+		// Remove original path
+		// unset($paths[0]);
+
+		$newPath = FDWPBP()->dir('acf-json');
+		if (!is_writable($newPath))
+			return $paths;
+
+		if (!file_exists($newPath))
+			mkdir($newPath, 0777, true);
+
+		// `$paths` is a string while saving.
+		if (!is_array($paths))
+			return $newPath;
+
+		$paths[] = $newPath;
+		return $paths;
 	}
 
 	/**
