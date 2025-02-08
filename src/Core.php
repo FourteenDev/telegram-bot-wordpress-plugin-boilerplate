@@ -22,6 +22,8 @@ class Core
 
 		if (is_admin())
 			Menu::getInstance();
+		else
+			Shortcode::getInstance();
 
 		Service::getInstance();
 
