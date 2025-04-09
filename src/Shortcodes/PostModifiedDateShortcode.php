@@ -2,12 +2,9 @@
 
 namespace TelegramPluginBoilerplate\Shortcodes;
 
-class PostModifiedDate
+class PostModifiedDateShortcode
 {
-	public function __construct()
-	{
-		add_shortcode('post_modified_date', [$this, 'run']);
-	}
+	public static $tag = 'post_modified_date';
 
 	/**
 	 * Runs the shortcode.
