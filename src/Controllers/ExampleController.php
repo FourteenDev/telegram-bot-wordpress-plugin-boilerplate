@@ -8,9 +8,9 @@ class ExampleController
 {
 	private $exampleModel;
 
-	public function __construct()
+	public function __construct(ExampleModel $exampleModel)
 	{
-		$this->exampleModel = new ExampleModel();
+		$this->exampleModel = $exampleModel;
 	}
 
 	/**

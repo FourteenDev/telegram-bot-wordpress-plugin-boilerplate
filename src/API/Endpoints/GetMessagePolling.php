@@ -10,17 +10,9 @@ use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class GetMessagePolling extends BaseEndpoint
 {
-	public static $instance = null;
-
 	public $namespace = 'fdtbwpb/v1/';
 	public $route     = 'get-message-polling';
 	public $method    = 'GET';
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
 
 	/**
 	 * Uses `getUpdates` method and fetches updates from Telegram.

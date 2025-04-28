@@ -8,21 +8,9 @@ use TelegramPluginBoilerplate\Services\Integrations\RankMath;
 
 class Service
 {
-	public static $instance = null;
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
-
-	public function __construct()
-	{
-		// Posts
-		// new Post();
-
-		// Integrations
-		// new Elementor();
-		// new RankMath();
-	}
+	public function __construct(
+		/* Post $postService,
+		Elementor $elementorService,
+		RankMath $rankMathService */
+	) {}
 }

@@ -4,15 +4,7 @@ namespace TelegramPluginBoilerplate\Menus;
 
 class MainMenu extends Base
 {
-	public static $instance = null;
-
 	protected $menuSlug = FDTBWPB_MENUS_SLUG . '_settings';
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
 
 	/**
 	 * Adds the submenu.

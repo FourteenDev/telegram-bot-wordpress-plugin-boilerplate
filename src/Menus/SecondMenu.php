@@ -4,15 +4,7 @@ namespace TelegramPluginBoilerplate\Menus;
 
 class SecondMenu extends Base
 {
-	public static $instance = null;
-
 	protected $menuSlug = FDTBWPB_MENUS_SLUG . '_second';
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
 
 	/**
 	 * Adds the submenu.

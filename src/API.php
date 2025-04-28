@@ -4,16 +4,11 @@ namespace TelegramPluginBoilerplate;
 
 class API
 {
-	public static $instance = null;
+	protected $container;
 
-	public static function getInstance()
+	public function __construct(Container $container)
 	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
-
-	public function __construct()
-	{
+		$this->container = $container;
 		$this->instantiateAllEndpoints();
 	}
 
@@ -28,7 +23,8 @@ class API
 		{
 			$class = '\\' . __NAMESPACE__ . '\\API\\Endpoints\\' . basename($file, '.php');
 
-			if (class_exists($class)) $class::getInstance();
+			if (class_exists($class))
+				$this->container->make($class);
 		}
 	}
 }

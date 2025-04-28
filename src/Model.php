@@ -4,19 +4,11 @@ namespace TelegramPluginBoilerplate;
 
 class Model
 {
-	public static $instance = null;
-
 	/** @var	\wpdb */
 	private $wpdb;
 
 	/** @var	string */
 	private $charsetCollate;
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
 
 	public function __construct()
 	{

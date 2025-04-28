@@ -4,16 +4,6 @@ namespace TelegramPluginBoilerplate;
 
 class View
 {
-	public static $instance = null;
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
-
-	public function __construct() {}
-
 	/**
 	 * Requires/Executes the given file from `views/` folder.
 	 *

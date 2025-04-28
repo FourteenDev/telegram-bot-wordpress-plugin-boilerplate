@@ -353,7 +353,7 @@ class Telegram extends TelegramBotTelegram
 		/* if ($this->isAdmin())
 			$this->addCommandsPath(TB_BASE_COMMANDS_PATH . '/AdminCommands', false); */
 
-		UpdateHandler::getInstance();
+		new UpdateHandler();
 		/**
 		 * Filters the user input before getting the commands list.
 		 *

@@ -7,14 +7,6 @@ use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class UpdateHandler
 {
-	public static $instance = null;
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
-
 	public function __construct()
 	{
 		// add_filter('fdtbwpb_before_get_commands_list', [$this, 'editUpdateText'], 10);

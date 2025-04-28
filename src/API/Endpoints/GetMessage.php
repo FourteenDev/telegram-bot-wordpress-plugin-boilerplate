@@ -9,17 +9,9 @@ use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class GetMessage extends BaseEndpoint
 {
-	public static $instance = null;
-
 	public $namespace = 'fdtbwpb/v1/';
 	public $route     = 'get-message';
 	public $method    = 'POST';
-
-	public static function getInstance()
-	{
-		self::$instance === null && self::$instance = new self;
-		return self::$instance;
-	}
 
 	/**
 	 * Handles API request when the authorization was successful.
