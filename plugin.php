@@ -13,6 +13,7 @@
  * Domain Path: /languages
  */
 
+use TelegramPluginBoilerplate\Container;
 use TelegramPluginBoilerplate\Core;
 
 if (!defined('ABSPATH')) return;
@@ -42,8 +43,17 @@ require_once 'functions.php';
 	return;
 } */
 
+// Initialize container and bind Core class
+$fdtbwpbContainer = new Container();
+$fdtbwpbContainer->singleton(Container::class, function() use ($fdtbwpbContainer) { return $fdtbwpbContainer; });
+$fdtbwpbContainer->singleton(Core::class);
+
+// Initialize the core
+$core = $fdtbwpbContainer->make(Core::class);
+
 function FDTBWPB()
 {
-	return Core::getInstance();
+	global $fdtbwpbContainer;
+	return $fdtbwpbContainer->make(Core::class);
 }
 FDTBWPB();
