@@ -157,7 +157,7 @@ abstract class BaseEndpoint
 	 *
 	 * @return	\WP_REST_Response
 	 */
-	protected function getRestReponse($status, $message = null, ...$sprintfParams)
+	protected function getRestResponse($status, $message = null, ...$sprintfParams)
 	{
 		$return = new \WP_REST_Response();
 

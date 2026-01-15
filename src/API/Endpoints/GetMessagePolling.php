@@ -24,22 +24,22 @@ class GetMessagePolling extends BaseEndpoint
 	public function handle($request)
 	{
 		if (wp_get_environment_type() !== 'local')
-			return $this->getRestReponse(401, esc_html__('Not allowed!', 'telegram-plugin-boilerplate'));
+			return $this->getRestResponse(401, esc_html__('Not allowed!', 'telegram-plugin-boilerplate'));
 
 		$telegram = TelegramHelper::instantiateTelegram();
 		if (!$telegram instanceof Telegram)
-			return $this->getRestReponse(502, $telegram);
+			return $this->getRestResponse(502, $telegram);
 
 		try {
 			$serverResponse = $telegram->handleGetUpdates();
 			if ($serverResponse instanceof ServerResponse && $serverResponse->isOk())
-				return $this->getRestReponse(200);
+				return $this->getRestResponse(200);
 
-			return $this->getRestReponse(502, $serverResponse->printError(true));
+			return $this->getRestResponse(502, $serverResponse->printError(true));
 		} catch (\Exception $e) {
 			TelegramLog::error($e);
 
-			return $this->getRestReponse(502, esc_html__('Error on handling the updates!', 'telegram-plugin-boilerplate'));
+			return $this->getRestResponse(502, esc_html__('Error on handling the updates!', 'telegram-plugin-boilerplate'));
 		}
 	}
 }

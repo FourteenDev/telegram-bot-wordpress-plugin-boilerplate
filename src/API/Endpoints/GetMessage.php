@@ -24,15 +24,15 @@ class GetMessage extends BaseEndpoint
 	{
 		$telegram = TelegramHelper::instantiateTelegram();
 		if (!$telegram instanceof Telegram)
-			return $this->getRestReponse(502, $telegram);
+			return $this->getRestResponse(502, $telegram);
 
 		try {
-			if ($telegram->handle()) return $this->getRestReponse(200);
-			else return $this->getRestReponse(502);
+			if ($telegram->handle()) return $this->getRestResponse(200);
+			else return $this->getRestResponse(502);
 		} catch (\Exception $e) {
 			TelegramLog::error($e);
 
-			return $this->getRestReponse(502, esc_html__('Error on handling the updates!', 'telegram-plugin-boilerplate'));
+			return $this->getRestResponse(502, esc_html__('Error on handling the updates!', 'telegram-plugin-boilerplate'));
 		}
 	}
 }
