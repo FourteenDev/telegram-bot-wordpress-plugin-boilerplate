@@ -72,12 +72,14 @@ abstract class BaseEndpoint
 	 * Checks authorization headers for token.
 	 *
 	 * @return	void
+	 *
+	 * @todo			Fetch token from settings
 	 */
 	public function checkPermission()
 	{
-		return true;
+		return true; // TODO: Remove this line
 
-		$token      = '-';
+		$token      = '-'; // TODO: Change this
 		$headerAuth = $this->getAuthorizationHeader();
 
 		if (empty($token))
