@@ -6,32 +6,32 @@ use TelegramPluginBoilerplate\Shortcodes\ShortcodeManager;
 
 class Core
 {
-	protected $container;
+	/**
+	 * Dependency injection container.
+	 *
+	 * @var	Container
+	 */
+	protected Container $container;
 
-	private $options;
+	/**
+	 * Plugin options.
+	 *
+	 * @var	array<string, mixed>
+	 */
+	private array $options = [];
 
+	/**
+	 * Constructor.
+	 *
+	 * @param	Container	$container	Dependency injection container.
+	 */
 	public function __construct(Container $container)
 	{
 		$this->container = $container;
 		$this->container->singleton(Core::class, function () { return $this; });
 
 		$this->registerDependencies();
-
-		// Initialize dependencies through container
-		$this->container->make(Model::class);
-		$this->container->make(Asset::class);
-		$this->container->make(API::class);
-
-		if (is_admin())
-		{
-			$this->container->make(Menu::class);
-		} else {
-			$this->container->make(ShortcodeManager::class);
-		}
-
-		$this->container->make(Service::class);
-
-		add_action('plugins_loaded', [$this, 'i18n']);
+		$this->setupHooks();
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Core
 	 *
 	 * @return	void
 	 */
-	private function registerDependencies()
+	private function registerDependencies(): void
 	{
 		$this->container->singleton(Model::class);
 		$this->container->singleton(Asset::class);
@@ -51,13 +51,49 @@ class Core
 	}
 
 	/**
+	 * Sets WordPress hooks and initializes components up.
+	 *
+	 * @return	void
+	 */
+	private function setupHooks(): void
+	{
+		// Initialize dependencies through container
+		$this->container->make(Model::class);
+		$this->container->make(Asset::class);
+		$this->container->make(API::class);
+
+		if (\is_admin())
+		{
+			$this->container->make(Menu::class);
+		} else {
+			$this->container->make(ShortcodeManager::class);
+		}
+
+		$this->container->make(Service::class);
+
+		\add_action('init', [$this, 'i18n'], 1);
+	}
+
+	/**
+	 * Loads plugin's textdomain.
+	 *
+	 * @return	void
+	 *
+	 * @hooked	action: `init` - 1
+	 */
+	public function i18n()
+	{
+		load_plugin_textdomain('telegram-plugin-boilerplate', false, basename(FDTBWPB_DIR) . DIRECTORY_SEPARATOR . 'languages');
+	}
+
+	/**
 	 * Returns plugin's URL path, without any slashes in the end (e.g. `https://Site.com/wp-content/plugins/my-plugin`).
 	 *
 	 * @param	string	$path	Path to append to the end of the URL, without any slashes in the beginning (e.g. `path/to/my-file.php`).
 	 *
 	 * @return	string
 	 */
-	public function url($path = '')
+	public function url(string $path = ''): string
 	{
 		return untrailingslashit(FDTBWPB_URL . $path);
 	}
@@ -69,7 +105,7 @@ class Core
 	 *
 	 * @return	string
 	 */
-	public function dir($path = '')
+	public function dir(string $path = ''): string
 	{
 		return untrailingslashit(FDTBWPB_DIR . $path);
 	}
@@ -79,7 +115,7 @@ class Core
 	 *
 	 * @return	Model
 	 */
-	public function model()
+	public function model(): Model
 	{
 		return $this->container->make(Model::class);
 	}
@@ -89,41 +125,33 @@ class Core
 	 *
 	 * @param	string		$filePath		File path without `.php` extension, where path parts are separated with dots (e.g. `path.to.file`).
 	 * @param	array		$passedArray	Input data to pass to the file. The array will be extracted into multiple variables (e.g. `['var1' => 'Foo', 'var2' => 'Bar']`).
-	 * @param	bool		$echo			Echo/print the view or just return the view (to save in a variable).
+	 * @param	bool		$echo			Echo/print the view or just return the view.
 	 *
 	 * @return	mixed
 	 */
-	public function view($filePath, $passedArray = [], $echo = true)
+	public function view(string $filePath, array $passedArray = [], bool $echo = true): mixed
 	{
 		$view = $this->container->make(View::class);
 
 		if (!$echo) return $view->display($filePath, $passedArray);
 
 		echo $view->display($filePath, $passedArray);
+		return null;
 	}
 
 	/**
 	 * Returns a plugin option.
 	 *
-	 * @param	string		$optionName
+	 * @param	string	$optionName	Option name.
+	 * @param	mixed	$default	Default value if option not found.
 	 *
-	 * @return	mixed|null
+	 * @return	mixed
 	 */
-	public function option($optionName)
+	public function option(string $optionName, mixed $default = null): mixed
 	{
 		if (empty($this->options))
-			$this->options = get_option(FDTBWPB_MENUS_SLUG . '_options');
+			$this->options = get_option(FDTBWPB_MENUS_SLUG . '_options', []);
 
-		return isset($this->options[$optionName]) ? $this->options[$optionName] : null;
-	}
-
-	/**
-	 * Loads plugin's textdomain.
-	 *
-	 * @return	void
-	 */
-	public function i18n()
-	{
-		load_plugin_textdomain('wordpress-boilerplate-plugin', false, basename(FDTBWPB_DIR) . DIRECTORY_SEPARATOR . 'languages');
+		return $this->options[$optionName] ?? $default;
 	}
 }
