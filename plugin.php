@@ -61,6 +61,8 @@ $core = $fdtbwpbContainer->make(Core::class);
 function FDTBWPB()
 {
 	global $fdtbwpbContainer;
+	if (!$fdtbwpbContainer) return null; // Happens only when activating the plugin
+
 	return $fdtbwpbContainer->make(Core::class);
 }
 FDTBWPB();
