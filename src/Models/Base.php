@@ -29,6 +29,11 @@ abstract class Base
 	protected const TYPE_DATE_BETWEEN = 'date_between';
 	protected const TYPE_NULL         = 'null';
 
+	/**
+	 * Constructor.
+	 *
+	 * @global	\wpdb	$wpdb
+	 */
 	public function __construct()
 	{
 		if (empty($this->table)) throw new \LogicException(get_class($this) . ' must initialize $table property!');

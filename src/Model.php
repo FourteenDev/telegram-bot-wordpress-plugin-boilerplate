@@ -10,6 +10,11 @@ class Model
 	/** @var	string */
 	private $charsetCollate;
 
+	/**
+	 * Constructor.
+	 *
+	 * @global	\wpdb	$wpdb
+	 */
 	public function __construct()
 	{
 		global $wpdb;

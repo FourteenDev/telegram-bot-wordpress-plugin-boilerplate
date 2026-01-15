@@ -51,6 +51,13 @@ $fdtbwpbContainer->singleton(Core::class);
 // Initialize the core
 $core = $fdtbwpbContainer->make(Core::class);
 
+/**
+ * Returns the core class of the plugin.
+ *
+ * @global	Container	$fdtbwpbContainer
+ *
+ * @return	Core
+ */
 function FDTBWPB()
 {
 	global $fdtbwpbContainer;

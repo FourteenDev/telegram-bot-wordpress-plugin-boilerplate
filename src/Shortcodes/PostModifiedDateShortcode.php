@@ -9,6 +9,8 @@ class PostModifiedDateShortcode
 	/**
 	 * Runs the shortcode.
 	 *
+	 * @global	\WP_Post	$post
+	 *
 	 * @param	array	$atts
 	 *
 	 * @return	string
