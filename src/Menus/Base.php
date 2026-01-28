@@ -162,7 +162,7 @@ abstract class Base
 	public function inputFieldCallback($args)
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
-		if (empty($id)) return;
+		if (empty($id)) return '';
 
 		FDTBWPB()->view('admin.settings.fields.input', $this->getSettingsValue($id, $args));
 	}
@@ -216,7 +216,7 @@ abstract class Base
 	public function textareaFieldCallback($args)
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
-		if (empty($id)) return;
+		if (empty($id)) return '';
 
 		FDTBWPB()->view('admin.settings.fields.textarea', $this->getSettingsValue($id, $args));
 	}
