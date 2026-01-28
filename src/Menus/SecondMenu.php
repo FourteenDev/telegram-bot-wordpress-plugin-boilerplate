@@ -6,6 +6,14 @@ class SecondMenu extends Base
 {
 	protected $menuSlug = FDTBWPB_MENUS_SLUG . '_second';
 
+	public function __construct()
+	{
+		parent::__construct();
+
+		// Uncomment if you want to change select options programmatically
+		// add_filter('fdtbwpb_menus_second_fields', [$this, 'populateSelectValues']);
+	}
+
 	/**
 	 * Adds the submenu.
 	 *
@@ -47,7 +55,7 @@ class SecondMenu extends Base
 	 */
 	public function getFields()
 	{
-		return [
+		return apply_filters('fdtbwpb_menus_second_fields', [
 			'example_field_second' => [
 				'id'      => 'example_field_second',
 				'label'   => esc_html__('Example Field', 'telegram-plugin-boilerplate'),
@@ -82,6 +90,44 @@ class SecondMenu extends Base
 					'placeholder' => esc_html__('Placeholder', 'telegram-plugin-boilerplate'),
 				],
 			],
-		];
+			'test_select_field' => [
+				'id'      => 'test_select_field',
+				'label'   => esc_html__('Select Field', 'telegram-plugin-boilerplate'),
+				'section' => 'second',
+				'type'    => 'select',
+				'default' => '',
+				'args'    => [
+					'options'  => [
+						// Either keep the options empty here and populate them using the `fdtbwpb_menus_second_fields` filter like below
+						// '' => '',
+
+						// Or add options manually yourself
+						'key1' => esc_html__('Value 01', 'telegram-plugin-boilerplate'),
+						'key2' => esc_html__('Value 02', 'telegram-plugin-boilerplate'),
+					],
+					// 'multiple' => true,
+				],
+			],
+		]);
+	}
+
+	/**
+	 * Adds some example values to the select field.
+	 *
+	 * @param	array	$fields
+	 *
+	 * @return	array
+	 *
+	 * @hooked	filter: `fdtbwpb_menus_second_fields` - 10
+	 */
+	public function populateSelectValues($fields)
+	{
+		if (empty($fields['test_select_field'])) return $fields;
+
+		$fields['test_select_field']['args']['options'] = [];
+		foreach ([1, 2, 3, 4, 5] as $number)
+			$fields['test_select_field']['args']['options']["key$number"] = "Value 0$number";
+
+		return $fields;
 	}
 }

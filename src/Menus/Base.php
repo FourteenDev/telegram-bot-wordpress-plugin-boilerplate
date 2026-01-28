@@ -222,6 +222,21 @@ abstract class Base
 	}
 
 	/**
+	 * Outputs a select input field.
+	 *
+	 * @param	array	$args
+	 *
+	 * @return	string
+	 */
+	public function selectFieldCallback($args)
+	{
+		$id = !empty($args['id']) ? $args['id'] : '';
+		if (empty($id)) return '';
+
+		FDTBWPB()->view('admin.settings.fields.select', $this->getSettingsValue($id, $args));
+	}
+
+	/**
 	 * Returns field's value.
 	 *
 	 * @param	string	$key
@@ -240,7 +255,7 @@ abstract class Base
 			'id'          => "{$this->optionsName}_$key",
 			'name'        => "{$this->optionsName}[$key]",
 			'description' => !empty($args['description']) && $args['type'] !== 'hidden' ? trim($args['description']) : '',
-			'value'       => esc_attr($value),
+			'value'       => is_array($value) ? array_map('esc_attr', $value) : esc_attr($value),
 			'type'        => esc_attr($args['type']),
 			'placeholder' => !empty($args['placeholder']) ? esc_attr($args['placeholder']) : '',
 		]);
