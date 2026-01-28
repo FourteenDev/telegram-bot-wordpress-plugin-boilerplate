@@ -1,6 +1,6 @@
 # Telegram Bot WordPress Plugin Boilerplate
 
-`v3.1.0` ([Changelog](CHANGELOG.md))
+`v3.2.0` ([Changelog](CHANGELOG.md))
 
 Libraries used: [PHP Telegram Bot](https://GitHub.com/php-telegram-bot/core)
 
