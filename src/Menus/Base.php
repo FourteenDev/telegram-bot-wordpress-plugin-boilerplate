@@ -227,7 +227,7 @@ abstract class Base
 	 * @param	string	$key
 	 * @param	array	$args
 	 *
-	 * @return	string
+	 * @return	array
 	 */
 	private function getSettingsValue($key, $args)
 	{
@@ -236,14 +236,14 @@ abstract class Base
 		$value = isset($args['value']) ? $args['value'] : FDTBWPB()->option($key);
 		if ($value === null) $value = $default;
 
-		return [
+		return array_merge($args, [
 			'id'          => "{$this->optionsName}_$key",
 			'name'        => "{$this->optionsName}[$key]",
 			'description' => !empty($args['description']) && $args['type'] !== 'hidden' ? trim($args['description']) : '',
 			'value'       => esc_attr($value),
 			'type'        => esc_attr($args['type']),
 			'placeholder' => !empty($args['placeholder']) ? esc_attr($args['placeholder']) : '',
-		];
+		]);
 	}
 
 	/**
