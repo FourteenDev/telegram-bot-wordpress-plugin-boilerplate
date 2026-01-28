@@ -207,6 +207,21 @@ abstract class Base
 	}
 
 	/**
+	 * Outputs a textarea input field.
+	 *
+	 * @param	array	$args
+	 *
+	 * @return	string
+	 */
+	public function textareaFieldCallback($args)
+	{
+		$id = !empty($args['id']) ? $args['id'] : '';
+		if (empty($id)) return;
+
+		FDTBWPB()->view('admin.settings.fields.textarea', $this->getSettingsValue($id, $args));
+	}
+
+	/**
 	 * Returns field's value.
 	 *
 	 * @param	string	$key
@@ -227,6 +242,7 @@ abstract class Base
 			'description' => !empty($args['description']) && $args['type'] !== 'hidden' ? trim($args['description']) : '',
 			'value'       => esc_attr($value),
 			'type'        => esc_attr($args['type']),
+			'placeholder' => !empty($args['placeholder']) ? esc_attr($args['placeholder']) : '',
 		];
 	}
 
