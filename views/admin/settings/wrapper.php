@@ -14,7 +14,7 @@
 	settings_errors("{$menuSlug}_group");
 	?>
 	<div class="fdtbwpb-wrap__main">
-		<h1><?php esc_html($title); ?></h1>
+		<h1><?php echo esc_html($title); ?></h1>
 
 		<div class="fdtbwpb-tab-group">
 			<ul class="fdtbwpb-tab">
