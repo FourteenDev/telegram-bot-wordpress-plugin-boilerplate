@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * This file contains functions that may be called directly without a WordPress hook.
+ */
+
+/**
  * Get current plugin's metadata.
  *
  * @return	array	Plugin data listed below (*Values will be empty if not supplied by the plugin*):
