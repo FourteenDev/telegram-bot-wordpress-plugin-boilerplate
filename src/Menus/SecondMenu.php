@@ -64,16 +64,16 @@ class SecondMenu extends Base
 				'label'   => esc_html__('Example Field', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
-				'default' => '',
-				'args'    => [],
+				'default' => 'Hello',
 			],
 			'test_field_second'    => [
 				'id'      => 'test_field_second',
 				'label'   => esc_html__('Second Tab Field', 'telegram-plugin-boilerplate'),
 				'section' => 'second',
 				'type'    => 'text',
-				'default' => '',
-				'args'    => [],
+				'args'    => [
+					'description' => nl2br(esc_html__("Second tab description. \nSecond line.", 'telegram-plugin-boilerplate')),
+				],
 			],
 			'test_checkbox_second' => [
 				'id'      => 'test_checkbox_second',
@@ -81,14 +81,12 @@ class SecondMenu extends Base
 				'section' => 'second',
 				'type'    => 'checkbox',
 				'default' => true,
-				'args'    => [],
 			],
 			'test_textarea_field' => [
 				'id'      => 'test_textarea_field',
 				'label'   => esc_html__('Textarea Field', 'telegram-plugin-boilerplate'),
 				'section' => 'second',
 				'type'    => 'textarea',
-				'default' => '',
 				'args'    => [
 					'placeholder' => esc_html__('Placeholder', 'telegram-plugin-boilerplate'),
 				],
@@ -98,7 +96,6 @@ class SecondMenu extends Base
 				'label'   => esc_html__('Select Field', 'telegram-plugin-boilerplate'),
 				'section' => 'second',
 				'type'    => 'select',
-				'default' => '',
 				'args'    => [
 					'options'  => [
 						// Either keep the options empty here and populate them using the `fdtbwpb_menus_second_fields` filter like below

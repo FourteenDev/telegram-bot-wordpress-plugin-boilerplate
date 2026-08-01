@@ -77,7 +77,7 @@ abstract class Base
 				"{$this->menuSlug}_" . $field['section'],
 				array_merge([
 					'id'      => $field['id'],
-					'default' => $field['default'],
+					'default' => $field['default'] ?? '',
 					'type'    => $field['type'],
 				], $args)
 			);

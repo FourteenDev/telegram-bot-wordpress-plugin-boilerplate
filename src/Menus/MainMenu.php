@@ -54,15 +54,12 @@ class MainMenu extends Base
 				'label'   => esc_html__('Bot token', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
-				'default' => '',
-				'args'    => [],
 			],
 			'bot_username' => [
 				'id'      => 'bot_username',
 				'label'   => esc_html__('Bot username', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
-				'default' => '',
 				'args'    => [
 					'description' => esc_html__('With @', 'telegram-plugin-boilerplate'),
 				],
@@ -72,7 +69,6 @@ class MainMenu extends Base
 				'label'   => esc_html__('Admins IDs', 'telegram-plugin-boilerplate'),
 				'section' => 'general',
 				'type'    => 'text',
-				'default' => '',
 				'args'    => [
 					'description' => esc_html__('Enter Telegram ID (numeric) of admins, separate IDs with a comma (,).', 'telegram-plugin-boilerplate'),
 				],
@@ -84,7 +80,6 @@ class MainMenu extends Base
 				'label'   => esc_html__('Update receiver URL', 'telegram-plugin-boilerplate'),
 				'section' => 'proxy',
 				'type'    => 'text',
-				'default' => '',
 				'args'    => [
 					'description' => esc_html__('Find forward-to-telegram.php that exists in the project root, upload it on a middleman server and enter its full URL here.', 'telegram-plugin-boilerplate'),
 				],
