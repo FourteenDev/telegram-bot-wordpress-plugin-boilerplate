@@ -157,7 +157,7 @@ abstract class Base
 	 *
 	 * @param	array	$args
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	public function inputFieldCallback($args)
 	{
@@ -172,7 +172,7 @@ abstract class Base
 	 *
 	 * @param	array	$args
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	public function textFieldCallback($args)
 	{
@@ -184,7 +184,7 @@ abstract class Base
 	 *
 	 * @param	array	$args
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	public function numberFieldCallback($args)
 	{
@@ -196,7 +196,7 @@ abstract class Base
 	 *
 	 * @param	array	$args
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	public function checkboxFieldCallback($args)
 	{
@@ -211,7 +211,7 @@ abstract class Base
 	 *
 	 * @param	array	$args
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	public function textareaFieldCallback($args)
 	{
@@ -226,7 +226,7 @@ abstract class Base
 	 *
 	 * @param	array	$args
 	 *
-	 * @return	string
+	 * @return	void
 	 */
 	public function selectFieldCallback($args)
 	{
