@@ -12,6 +12,9 @@ class SecondMenu extends Base
 
 		// Uncomment if you want to change select options programmatically
 		// add_filter('fdtbwpb_menus_second_fields', [$this, 'populateSelectValues']);
+
+		// Uncomment if you want to sanitize a specific field before saving (Or use `fdtbwpb_before_validate_settings` filter to access all input values)
+		// add_filter('fdtbwpb_validate_input_example_field_second', [$this, 'sanitizeExampleField']);
 	}
 
 	/**
@@ -129,5 +132,22 @@ class SecondMenu extends Base
 			$fields['test_select_field']['args']['options']["key$number"] = "Value 0$number";
 
 		return $fields;
+	}
+
+	/**
+	 * Sanitizes the `example_field_second` option.
+	 *
+	 * @param	string	$value		Submitted value.
+	 *
+	 * @return	string				Sanitized value.
+	 *
+	 * @hooked	filter: `fdtbwpb_validate_input_example_field_second` - 10
+	 */
+	public function sanitizeExampleField($value)
+	{
+		if ($value == 'this')
+			$value = 'that';
+
+		return $value;
 	}
 }
