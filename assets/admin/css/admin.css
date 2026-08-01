@@ -83,3 +83,7 @@
 	color: #000000;
 	white-space: nowrap;
 }
+
+.fdtbwpb-tab-content textarea {
+	resize: both;
+}
