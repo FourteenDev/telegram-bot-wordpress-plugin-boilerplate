@@ -23,6 +23,6 @@ class Asset
 		// if (strpos($hookSuffix, FDTBWPB_MENUS_SLUG) !== false)
 		wp_enqueue_style('fdtbwpb_admin', FDTBWPB()->url('assets/admin/css/admin.css'), [], FDTBWPB_VERSION);
 
-		wp_enqueue_script('fdtbwpb_admin', FDTBWPB()->url('assets/admin/js/admin.js'), [], FDTBWPB_VERSION, true);
+		wp_enqueue_script('fdtbwpb_admin', FDTBWPB()->url('assets/admin/js/admin.js'), ['jquery'], FDTBWPB_VERSION, true);
 	}
 }
