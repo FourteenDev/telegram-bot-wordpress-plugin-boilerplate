@@ -2,10 +2,16 @@
 
 namespace TelegramPluginBoilerplate\Shortcodes;
 
+use TelegramPluginBoilerplate\Container;
+
 class ShortcodeManager
 {
-	public function __construct()
+	private Container $container;
+
+	public function __construct(Container $container)
 	{
+		$this->container = $container;
+
 		$this->registerAllShortcodes();
 	}
 
@@ -21,7 +27,7 @@ class ShortcodeManager
 			$class = '\\' . __NAMESPACE__ . '\\' . basename($file, '.php');
 
 			if (class_exists($class) && !empty($class::$tag))
-				add_shortcode($class::$tag, [new $class(), 'run']);
+				add_shortcode($class::$tag, [$this->container->make($class), 'run']);
 		}
 	}
 }
