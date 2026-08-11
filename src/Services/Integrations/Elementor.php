@@ -18,7 +18,7 @@ class Elementor
 	 *
 	 * @hooked	action: `elementor/frontend/before_render` - 10
 	 */
-	public function doSomeAction($element)
+	public function doSomeAction($element): void
 	{
 		if ($element->get_name() !== 'some-element') return;
 

@@ -48,7 +48,7 @@ abstract class Base
 	 *
 	 * @return	string
 	 */
-	public function getTable()
+	public function getTable(): string
 	{
 		return $this->table;
 	}
@@ -61,7 +61,7 @@ abstract class Base
 	 *
 	 * @return	?array
 	 */
-	public function getResults($query, $params = [])
+	public function getResults($query, $params = []): ?array
 	{
 		return $this->wpdb->get_results($this->wpdb->prepare($query, ...$params), ARRAY_A);
 	}
@@ -74,7 +74,7 @@ abstract class Base
 	 *
 	 * @return	?array
 	 */
-	public function getRow($query, $params = [])
+	public function getRow($query, $params = []): ?array
 	{
 		return $this->wpdb->get_row($this->wpdb->prepare($query, ...$params), ARRAY_A);
 	}
@@ -87,7 +87,7 @@ abstract class Base
 	 *
 	 * @return	?string
 	 */
-	public function getVar($query, $params = [])
+	public function getVar($query, $params = []): ?string
 	{
 		return $this->wpdb->get_var($this->wpdb->prepare($query, ...$params), ARRAY_A);
 	}
@@ -100,7 +100,7 @@ abstract class Base
 	 *
 	 * @return	int|false			Inserted row ID, or `false` on failure.
 	 */
-	public function insert($data, $format = [])
+	public function insert($data, $format = []): int|false
 	{
 		$this->wpdb->insert($this->table, $data, $format);
 		return $this->wpdb->insert_id;
@@ -116,7 +116,7 @@ abstract class Base
 	 *
 	 * @return	int|false					Number of affected rows, or `false` on failure.
 	 */
-	public function update($data, $where, $format = [], $whereFormat = [])
+	public function update($data, $where, $format = [], $whereFormat = []): int|false
 	{
 		return $this->wpdb->update($this->table, $data, $where, $format, $whereFormat);
 	}
@@ -129,7 +129,7 @@ abstract class Base
 	 *
 	 * @return	int|false					Number of deleted rows, or `false` on failure.
 	 */
-	public function delete($where, $whereFormat = [])
+	public function delete($where, $whereFormat = []): int|false
 	{
 		return $this->wpdb->delete($this->table, $where, $whereFormat);
 	}
@@ -142,7 +142,7 @@ abstract class Base
 	 *
 	 * @return	int|bool			`true` for `CREATE`, `ALTER`, `TRUNCATE` and `DROP`. Number of affected/selected rows for all other queries. `false` on error.
 	 */
-	public function query($query, $params = [])
+	public function query($query, $params = []): int|bool
 	{
 		return $this->wpdb->query($this->wpdb->prepare($query, ...$params));
 	}
@@ -152,7 +152,7 @@ abstract class Base
 	 *
 	 * @return	int
 	 */
-	public function getLastInsertId()
+	public function getLastInsertId(): int
 	{
 		return $this->wpdb->insert_id;
 	}
@@ -162,7 +162,7 @@ abstract class Base
 	 *
 	 * @return	string
 	 */
-	public function getLastError()
+	public function getLastError(): string
 	{
 		return $this->wpdb->last_error;
 	}
@@ -189,7 +189,7 @@ abstract class Base
 	 *
 	 * @return	?array					Database query results.
 	 */
-	public function runSelect($columns = [], $where = [], $limit = 0, $offset = 0, $orderBy = '', $orderType = 'DESC')
+	public function runSelect($columns = [], $where = [], $limit = 0, $offset = 0, $orderBy = '', $orderType = 'DESC'): ?array
 	{
 		$query = 'SELECT ';
 		if (!empty($columns) && is_array($columns)) $query .= implode(', ', $columns);
@@ -262,7 +262,7 @@ abstract class Base
 	 *
 	 * @return	int
 	 */
-	public function runCount($columnName = '*', $where = [])
+	public function runCount($columnName = '*', $where = []): int
 	{
 		$query      = "SELECT COUNT(`$columnName`) FROM {$this->table} WHERE 1";
 		$parameters = [];
@@ -318,7 +318,7 @@ abstract class Base
 	 *
 	 * @return	int|false|null		Inserted row's ID.
 	 */
-	public function runInsert($data)
+	public function runInsert($data): int|false|null
 	{
 		if (empty($data) || !is_array($data)) return null;
 

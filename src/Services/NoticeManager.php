@@ -11,7 +11,7 @@ class NoticeManager
 	 *
 	 * @return	void
 	 */
-	public static function success(string $message)
+	public static function success(string $message): void
 	{
 		add_action('admin_notices', function() use ($message)
 		{

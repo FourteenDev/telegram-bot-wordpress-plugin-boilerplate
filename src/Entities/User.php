@@ -39,7 +39,7 @@ class User
 	 *
 	 * @return	\WP_User
 	 */
-	public function getUser()
+	public function getUser(): \WP_User
 	{
 		return $this->wpUser;
 	}
@@ -49,7 +49,7 @@ class User
 	 *
 	 * @return	int
 	 */
-	public function getId()
+	public function getId(): int
 	{
 		return $this->wpUser->ID;
 	}
@@ -59,7 +59,7 @@ class User
 	 *
 	 * @return	string
 	 */
-	public function getLogin()
+	public function getLogin(): string
 	{
 		return $this->wpUser->user_login;
 	}
@@ -69,7 +69,7 @@ class User
 	 *
 	 * @return	string
 	 */
-	public function getNiceName()
+	public function getNiceName(): string
 	{
 		return $this->wpUser->user_nicename;
 	}
@@ -79,7 +79,7 @@ class User
 	 *
 	 * @return	string
 	 */
-	public function getDisplayName()
+	public function getDisplayName(): string
 	{
 		return $this->wpUser->display_name;
 	}
@@ -89,7 +89,7 @@ class User
 	 *
 	 * @return	string
 	 */
-	public function getNickName()
+	public function getNickName(): string
 	{
 		return $this->wpUser->nickname;
 	}
@@ -99,7 +99,7 @@ class User
 	 *
 	 * @return	string
 	 */
-	public function getFirstName()
+	public function getFirstName(): string
 	{
 		return $this->wpUser->first_name;
 	}
@@ -109,7 +109,7 @@ class User
 	 *
 	 * @return	string
 	 */
-	public function getLastName()
+	public function getLastName(): string
 	{
 		return $this->wpUser->last_name;
 	}
@@ -119,7 +119,7 @@ class User
 	 *
 	 * @return	int
 	 */
-	public function getTelegramId()
+	public function getTelegramId(): int
 	{
 		return intval(get_user_meta($this->getId(), '_telegram_user_id', true));
 	}
@@ -129,7 +129,7 @@ class User
 	 *
 	 * @return	string
 	 */
-	public function getTelegramUsername()
+	public function getTelegramUsername(): string
 	{
 		return str_replace('@', '', trim(get_user_meta($this->getId(), '_telegram_username', true)));
 	}

@@ -12,12 +12,12 @@ class View
 	 *
 	 * @return	void
 	 */
-	public function require($file, $data = [])
+	public function require($file, $data = []): void
 	{
 		$file = rtrim($file, '.php');
 		$file = str_replace('.', DIRECTORY_SEPARATOR, trim($file));
 		$file = FDTBWPB_DIR . 'views' . DIRECTORY_SEPARATOR . $file . '.php';
-		if (!file_exists($file)) return '';
+		if (!file_exists($file)) return;
 
 		extract($data);
 		require $file;
@@ -31,7 +31,7 @@ class View
 	 *
 	 * @return	string|false
 	 */
-	public function display($file, $data = [])
+	public function display($file, $data = []): string|false
 	{
 		ob_start();
 		$this->require($file, $data);

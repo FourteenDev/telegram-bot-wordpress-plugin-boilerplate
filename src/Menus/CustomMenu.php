@@ -15,7 +15,7 @@ class CustomMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
-	public function addSubmenu($submenus)
+	public function addSubmenu($submenus): array
 	{
 		$submenus['custom'] = [
 			'page_title' => esc_html__('Custom Menu', 'telegram-plugin-boilerplate'),
@@ -32,7 +32,7 @@ class CustomMenu extends Base
 	 *
 	 * @return	void
 	 */
-	public function displayContent()
+	public function displayContent(): void
 	{
 		FDTBWPB()->view('admin.menus.custom-menu', ['test' => 'Test']);
 	}

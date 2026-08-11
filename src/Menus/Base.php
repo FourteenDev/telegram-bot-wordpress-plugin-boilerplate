@@ -48,7 +48,7 @@ abstract class Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
-	abstract function addSubmenu($submenus);
+	abstract function addSubmenu($submenus): array;
 
 	/**
 	 * Registers settings for this submenu.
@@ -57,7 +57,7 @@ abstract class Base
 	 *
 	 * @hooked	action: `admin_init` - 10
 	 */
-	public function registerSettings()
+	public function registerSettings(): void
 	{
 		register_setting("{$this->menuSlug}_group", $this->optionsName, [$this, 'validateSettings']);
 
@@ -91,7 +91,7 @@ abstract class Base
 	 *
 	 * @return	array
 	 */
-	public function validateSettings($input)
+	public function validateSettings($input): array
 	{
 		$options = get_option($this->optionsName, []);
 		if (!is_array($options)) $options = [];
@@ -120,7 +120,7 @@ abstract class Base
 	 *
 	 * @return	array	Format: `['tab_slug' => 'Tab Name', 'tab_slug' => 'Tab Name', ...]`.
 	 */
-	protected function getTabs()
+	protected function getTabs(): array
 	{
 		return [];
 	}
@@ -147,7 +147,7 @@ abstract class Base
 	 *		...
 	 * ]`.
 	 */
-	protected function getFields()
+	protected function getFields(): array
 	{
 		return [];
 	}
@@ -159,10 +159,10 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function inputFieldCallback($args)
+	public function inputFieldCallback($args): void
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
-		if (empty($id)) return '';
+		if (empty($id)) return;
 
 		FDTBWPB()->view('admin.settings.fields.input', $this->getSettingsValue($id, $args));
 	}
@@ -174,7 +174,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function textFieldCallback($args)
+	public function textFieldCallback($args): void
 	{
 		$this->inputFieldCallback($args);
 	}
@@ -186,7 +186,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function numberFieldCallback($args)
+	public function numberFieldCallback($args): void
 	{
 		$this->inputFieldCallback($args);
 	}
@@ -198,7 +198,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function checkboxFieldCallback($args)
+	public function checkboxFieldCallback($args): void
 	{
 		// Add a hidden input before checkouts to prevent them from unsetting from the options when unchecked
 		$this->inputFieldCallback(array_merge($args, ['type' => 'hidden', 'value' => '0']));
@@ -213,10 +213,10 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function textareaFieldCallback($args)
+	public function textareaFieldCallback($args): void
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
-		if (empty($id)) return '';
+		if (empty($id)) return;
 
 		FDTBWPB()->view('admin.settings.fields.textarea', $this->getSettingsValue($id, $args));
 	}
@@ -228,10 +228,10 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function selectFieldCallback($args)
+	public function selectFieldCallback($args): void
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
-		if (empty($id)) return '';
+		if (empty($id)) return;
 
 		FDTBWPB()->view('admin.settings.fields.select', $this->getSettingsValue($id, $args));
 	}
@@ -244,7 +244,7 @@ abstract class Base
 	 *
 	 * @return	array
 	 */
-	private function getSettingsValue($key, $args)
+	private function getSettingsValue($key, $args): array
 	{
 		$default = !empty($args['default']) ? $args['default'] : '';
 
@@ -266,7 +266,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function displayContent()
+	public function displayContent(): void
 	{
 		$tabs       = $this->getTabs();
 		$defaultTab = !empty($tabs) ? sanitize_key(array_key_first($tabs)) : 'general';

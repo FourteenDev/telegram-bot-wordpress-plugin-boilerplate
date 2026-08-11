@@ -46,7 +46,7 @@ abstract class BaseEndpoint
 	 *
 	 * @hooked	action: `rest_api_init` - 10
 	 */
-	public function initialize()
+	public function initialize(): void
 	{
 		register_rest_route(
 			$this->namespace,
@@ -71,11 +71,11 @@ abstract class BaseEndpoint
 	/**
 	 * Checks authorization headers for token.
 	 *
-	 * @return	void
+	 * @return	bool|\WP_Error
 	 *
 	 * @todo			Fetch token from settings
 	 */
-	public function checkPermission()
+	public function checkPermission(): bool|\WP_Error
 	{
 		return true; // TODO: Remove this line
 
@@ -130,7 +130,7 @@ abstract class BaseEndpoint
 	 *
 	 * @source	https://StackOverflow.com/a/40582472/
 	 */
-	private function getAuthorizationHeader()
+	private function getAuthorizationHeader(): string|null
 	{
 		$headers = null;
 
@@ -159,7 +159,7 @@ abstract class BaseEndpoint
 	 *
 	 * @return	\WP_REST_Response
 	 */
-	protected function getRestResponse($status, $message = null, ...$sprintfParams)
+	protected function getRestResponse($status, $message = null, ...$sprintfParams): \WP_REST_Response
 	{
 		$return = new \WP_REST_Response();
 

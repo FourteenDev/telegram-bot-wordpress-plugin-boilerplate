@@ -18,7 +18,7 @@ class ExampleController
 	 *
 	 * @return	array
 	 */
-	public function getActiveItems()
+	public function getActiveItems(): array
 	{
 		return $this->exampleModel->getActiveItems();
 	}

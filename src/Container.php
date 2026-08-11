@@ -34,7 +34,7 @@ class Container
 	 *
 	 * @throws	\Exception					When invalid concrete implementation provided.
 	 */
-	public function bind($abstract, $concrete = null, $shared = false)
+	public function bind($abstract, $concrete = null, $shared = false): void
 	{
 		$concrete = $concrete ?? $abstract;
 
@@ -52,7 +52,7 @@ class Container
 	 *
 	 * @return	void
 	 */
-	public function singleton($abstract, $concrete = null)
+	public function singleton($abstract, $concrete = null): void
 	{
 		$this->bind($abstract, $concrete, true);
 	}
@@ -67,7 +67,7 @@ class Container
 	 *
 	 * @throws	\Exception 			When concrete cannot be resolved or class reflection fails.
 	 */
-	public function make($abstract, $parameters = [])
+	public function make($abstract, $parameters = []): object
 	{
 		if (isset($this->instances[$abstract]))
 			return $this->instances[$abstract];
@@ -91,7 +91,7 @@ class Container
 	 *
 	 * @throws	\Exception				When Class is not found or dependencies cannot be resolved.
 	 */
-	protected function build($concrete, $parameters)
+	protected function build(string $concrete, array $parameters): object
 	{
 		try {
 			$reflector = new \ReflectionClass($concrete);
@@ -115,7 +115,7 @@ class Container
 	 *
 	 * @throws	\Exception								When a dependency cannot be resolved.
 	 */
-	protected function resolveDependencies($dependencies, $parameters)
+	protected function resolveDependencies(array $dependencies, array $parameters): array
 	{
 		$results = [];
 

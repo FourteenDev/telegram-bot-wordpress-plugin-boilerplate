@@ -18,7 +18,7 @@ class Asset
 	 *
 	 * @hooked	action: `admin_enqueue_scripts` - 10
 	 */
-	public function enqueueAdminScripts($hookSuffix)
+	public function enqueueAdminScripts($hookSuffix): void
 	{
 		// if (strpos($hookSuffix, FDTBWPB_MENUS_SLUG) !== false)
 		wp_enqueue_style('fdtbwpb_admin', FDTBWPB()->url('assets/admin/css/admin.css'), [], FDTBWPB_VERSION);

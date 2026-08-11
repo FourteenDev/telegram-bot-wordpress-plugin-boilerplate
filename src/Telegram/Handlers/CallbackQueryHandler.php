@@ -19,7 +19,7 @@ class CallbackQueryHandler
 	 *
 	 * @return	ServerResponse
 	 */
-	public static function handleCallbackQuery($telegram, $update)
+	public static function handleCallbackQuery($telegram, $update): ServerResponse
 	{
 		if ($invalidReason = self::getInvalidCallbackError($telegram, $update))
 		{
@@ -46,7 +46,7 @@ class CallbackQueryHandler
 	 *
 	 * @return	string|null				Why the callback is invalid? (`null` means the callback was valid)
 	 */
-	private static function getInvalidCallbackError($telegram, $update)
+	private static function getInvalidCallbackError($telegram, $update): string|null
 	{
 		/* if ($update->getCallbackQuery()->getMessage()->getChat()->getId() !== SOMETHING)
 			return esc_html__('Invalid for some reason.', 'telegram-plugin-boilerplate'); */
@@ -69,7 +69,7 @@ class CallbackQueryHandler
 	 *
 	 * @return	ServerResponse
 	 */
-	private static function handleCallbackData($telegram, $update)
+	private static function handleCallbackData($telegram, $update): ServerResponse
 	{
 		if (!$update->getCallbackQuery()) return Request::emptyResponse();
 

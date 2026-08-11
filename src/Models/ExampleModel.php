@@ -11,7 +11,7 @@ class ExampleModel extends Base
 	 *
 	 * @return	array
 	 */
-	public function getActiveItems()
+	public function getActiveItems(): array
 	{
 		return $this->runSelect([], [['name' => 'status', 'value' => 'active', 'type' => parent::TYPE_STRING]]);
 	}
@@ -23,7 +23,7 @@ class ExampleModel extends Base
 	 *
 	 * @return	int
 	 */
-	public function countItems($activeOnly = false)
+	public function countItems($activeOnly = false): int
 	{
 		$where = $activeOnly ? [['name' => 'status', 'value' => 'active', 'type' => parent::TYPE_STRING]] : [];
 		return $this->runCount('id', $where);
@@ -36,7 +36,7 @@ class ExampleModel extends Base
 	 *
 	 * @return	int					Inserted row's ID. `0` on error.
 	 */
-	public function insertItem($isActive = true)
+	public function insertItem($isActive = true): int
 	{
 		return intval($this->runInsert([['name' => 'status', 'value' => $isActive ? 'active' : '', 'type' => parent::TYPE_STRING]]));
 	}

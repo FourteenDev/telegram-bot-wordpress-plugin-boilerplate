@@ -28,7 +28,7 @@ class Menu
 	 *
 	 * @return	void
 	 */
-	private function instantiateMenus()
+	private function instantiateMenus(): void
 	{
 		foreach (glob(FDTBWPB_DIR . '/src/Menus/*Menu.php') as $file)
 		{
@@ -46,7 +46,7 @@ class Menu
 	 *
 	 * @hooked	action: `admin_menu` - 10
 	 */
-	public function createAdminMenu()
+	public function createAdminMenu(): void
 	{
 		add_menu_page(
 			esc_html__('Telegram Bot Boilerplate Plugin', 'telegram-plugin-boilerplate'),
@@ -84,7 +84,7 @@ class Menu
 	 *
 	 * @hooked	action: `submenu_file` - 10
 	 */
-	public function removeDefaultSubmenu()
+	public function removeDefaultSubmenu(): void
 	{
 		remove_submenu_page($this->menuSlug, $this->menuSlug);
 	}
@@ -100,7 +100,7 @@ class Menu
 	 * @hooked	filter: `acf/settings/save_json` - 10
 	 * @hooked	filter: `acf/settings/load_json` - 10
 	 */
-	public function registerEditAcfJsonPath($paths)
+	public function registerEditAcfJsonPath($paths): array
 	{
 		// Remove original path
 		// unset($paths[0]);
@@ -129,7 +129,7 @@ class Menu
 	 *
 	 * @hooked	filter: `plugin_action_links_{FDTBWPB_BASENAME}` - 10
 	 */
-	public function actionLinks($links)
+	public function actionLinks($links): array
 	{
 		$links[] = '<a href="' . get_admin_url(null, "admin.php?page={$this->menuSlug}") . '">' . esc_html__('Settings', 'telegram-plugin-boilerplate') . '</a>';
 		return $links;

@@ -15,7 +15,7 @@ class MainMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
-	public function addSubmenu($submenus)
+	public function addSubmenu($submenus): array
 	{
 		$submenus['settings'] = [
 			'page_title' => esc_html__('Telegram Bot Boilerplate Plugin', 'telegram-plugin-boilerplate'),
@@ -32,7 +32,7 @@ class MainMenu extends Base
 	 *
 	 * @return	array
 	 */
-	public function getTabs()
+	public function getTabs(): array
 	{
 		return apply_filters('fdtbwpb_menus_main_tabs', [
 			'general' => esc_html__('General Settings', 'telegram-plugin-boilerplate'),
@@ -45,7 +45,7 @@ class MainMenu extends Base
 	 *
 	 * @return	array
 	 */
-	public function getFields()
+	public function getFields(): array
 	{
 		return apply_filters('fdtbwpb_menus_main_fields', [
 			// General section

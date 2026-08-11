@@ -15,7 +15,7 @@ class PostModifiedDateShortcode
 	 *
 	 * @return	string
 	 */
-	public function run($atts)
+	public function run($atts): string
 	{
 		$atts = shortcode_atts(
 			[

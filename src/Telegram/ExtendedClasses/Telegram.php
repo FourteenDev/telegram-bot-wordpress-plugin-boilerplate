@@ -522,7 +522,7 @@ class Telegram extends TelegramBotTelegram
 	 *
 	 * @return	Update
 	 */
-	public function getUpdate()
+	public function getUpdate(): Update
 	{
 		return $this->update;
 	}
@@ -532,7 +532,7 @@ class Telegram extends TelegramBotTelegram
 	 *
 	 * @return	void
 	 */
-	public function enableLogging()
+	public function enableLogging(): void
 	{
 		// https://github.com/php-telegram-bot/core/blob/master/doc/01-utils.md#logging
 		//
@@ -642,7 +642,7 @@ class Telegram extends TelegramBotTelegram
 	 *
 	 * @return	bool
 	 */
-	public function cancelOperations($chatId)
+	public function cancelOperations($chatId): bool
 	{
 		return true;
 	}

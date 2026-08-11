@@ -296,7 +296,7 @@ class Request extends TelegramBotRequest
 	 * @throws	TelegramException
 	 * @return	mixed
 	 */
-	private static function mediaInputHelper($item, bool &$hasResource, array &$multipart)
+	private static function mediaInputHelper($item, bool &$hasResource, array &$multipart): mixed
 	{
 		$wasArray          = is_array($item);
 		$wasArray || $item = [$item];
@@ -389,9 +389,9 @@ class Request extends TelegramBotRequest
 	 * @param	string	$file
 	 *
 	 * @throws	TelegramException
-	 * @return	resource
+	 * @return	resource|false
 	 */
-	public static function encodeFile(string $file)
+	public static function encodeFile(string $file): mixed
 	{
 		$fp = fopen($file, 'rb');
 		if ($fp === false)

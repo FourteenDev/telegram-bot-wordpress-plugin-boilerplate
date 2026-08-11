@@ -26,7 +26,7 @@ class SecondMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
-	public function addSubmenu($submenus)
+	public function addSubmenu($submenus): array
 	{
 		$submenus['second'] = [
 			'page_title' => esc_html__('More Boilerplate Settings', 'telegram-plugin-boilerplate'),
@@ -43,7 +43,7 @@ class SecondMenu extends Base
 	 *
 	 * @return	array
 	 */
-	public function getTabs()
+	public function getTabs(): array
 	{
 		return [
 			'general' => esc_html__('General', 'telegram-plugin-boilerplate'),
@@ -56,7 +56,7 @@ class SecondMenu extends Base
 	 *
 	 * @return	array
 	 */
-	public function getFields()
+	public function getFields(): array
 	{
 		return apply_filters('fdtbwpb_menus_second_fields', [
 			'example_field_second' => [
@@ -120,7 +120,7 @@ class SecondMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_second_fields` - 10
 	 */
-	public function populateSelectValues($fields)
+	public function populateSelectValues($fields): array
 	{
 		if (empty($fields['test_select_field'])) return $fields;
 
@@ -140,7 +140,7 @@ class SecondMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_validate_input_example_field_second` - 10
 	 */
-	public function sanitizeExampleField($value)
+	public function sanitizeExampleField($value): string
 	{
 		if ($value == 'this')
 			$value = 'that';

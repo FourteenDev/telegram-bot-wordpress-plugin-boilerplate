@@ -16,7 +16,7 @@ class RankMath
 	 *
 	 * @hooked	action: `rank_math/vars/register_extra_replacements` - 10
 	 */
-	public function registerNewVariables()
+	public function registerNewVariables(): void
 	{
 		// Some action
 	}

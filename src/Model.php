@@ -34,7 +34,7 @@ class Model
 	 *
 	 * @hooked	action: `plugins_loaded` - 10
 	 */
-	public function initializeTables()
+	public function initializeTables(): void
 	{
 		if (trim(get_option(FDTBWPB_OPTIONS_KEY_DB_VERSION, '')) === trim(FDTBWPB_VERSION)) return;
 

@@ -81,7 +81,7 @@ class Core
 	 *
 	 * @hooked	action: `init` - 1
 	 */
-	public function i18n()
+	public function i18n(): void
 	{
 		load_plugin_textdomain('telegram-plugin-boilerplate', false, basename(FDTBWPB_DIR) . DIRECTORY_SEPARATOR . 'languages');
 	}
@@ -127,9 +127,9 @@ class Core
 	 * @param	array		$passedArray	Input data to pass to the file. The array will be extracted into multiple variables (e.g. `['var1' => 'Foo', 'var2' => 'Bar']`).
 	 * @param	bool		$echo			Echo/print the view or just return the view.
 	 *
-	 * @return	mixed
+	 * @return	string|false|null
 	 */
-	public function view(string $filePath, array $passedArray = [], bool $echo = true): mixed
+	public function view(string $filePath, array $passedArray = [], bool $echo = true): string|false|null
 	{
 		$view = $this->container->make(View::class);
 

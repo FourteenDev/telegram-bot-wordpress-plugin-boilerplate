@@ -17,7 +17,7 @@ class API
 	 *
 	 * @return	void
 	 */
-	private function instantiateAllEndpoints()
+	private function instantiateAllEndpoints(): void
 	{
 		foreach (glob(FDTBWPB_DIR . '/src/API/Endpoints/*.php') as $file)
 		{

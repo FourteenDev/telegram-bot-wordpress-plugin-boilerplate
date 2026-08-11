@@ -235,7 +235,7 @@ abstract class Command extends TelegramBotCommand
 	 *
 	 * @return	Command
 	 */
-	public function __call(string $name, array $arguments)
+	public function __call(string $name, array $arguments): Command
 	{
 		if ($this->update === null)
 			return null;
@@ -253,7 +253,7 @@ abstract class Command extends TelegramBotCommand
 	 *
 	 * @return	mixed
 	 */
-	public function getConfig(?string $name = null, $default = null)
+	public function getConfig(?string $name = null, $default = null): mixed
 	{
 		if ($name === null)
 			return $this->config;

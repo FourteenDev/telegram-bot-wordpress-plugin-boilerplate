@@ -21,7 +21,7 @@ class GetMessagePolling extends BaseEndpoint
 	 *
 	 * @return	\WP_REST_Response
 	 */
-	public function handle($request)
+	public function handle($request): \WP_REST_Response
 	{
 		if (wp_get_environment_type() !== 'local')
 			return $this->getRestResponse(401, esc_html__('Not allowed!', 'telegram-plugin-boilerplate'));

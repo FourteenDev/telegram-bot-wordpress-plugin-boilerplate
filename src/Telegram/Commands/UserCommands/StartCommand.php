@@ -67,7 +67,7 @@ class StartCommand extends UserCommand
 	 *
 	 * @return	Keyboard|null
 	 */
-	private function getStartButtons()
+	private function getStartButtons(): Keyboard|null
 	{
 		$keyboard = new Keyboard(
 			esc_html__('Test 1', 'telegram-plugin-boilerplate'),

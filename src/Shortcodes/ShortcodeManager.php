@@ -14,7 +14,7 @@ class ShortcodeManager
 	 *
 	 * @return	void
 	 */
-	private function registerAllShortcodes()
+	private function registerAllShortcodes(): void
 	{
 		foreach (glob(FDTBWPB_DIR . '/src/Shortcodes/*Shortcode.php') as $file)
 		{

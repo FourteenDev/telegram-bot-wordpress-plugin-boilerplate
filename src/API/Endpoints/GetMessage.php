@@ -20,7 +20,7 @@ class GetMessage extends BaseEndpoint
 	 *
 	 * @return	\WP_REST_Response
 	 */
-	public function handle($request)
+	public function handle($request): \WP_REST_Response
 	{
 		$telegram = TelegramHelper::instantiateTelegram();
 		if (!$telegram instanceof Telegram)

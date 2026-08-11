@@ -26,7 +26,7 @@ class UpdateHandler
 	 *
 	 * @hooked	filter: `fdtbwpb_before_get_commands_list` - 10
 	 */
-	public function editUpdateText($update)
+	public function editUpdateText($update): Update|false
 	{
 		$methods  = ['getMessage', 'getEditedMessage'];
 		$fields   = ['message', 'edited_message']; // Method's field name in Bot API
@@ -78,7 +78,7 @@ class UpdateHandler
 	 *
 	 * @hooked	filter: `fdtbwpb_before_execute_command` - 10
 	 */
-	public function handleUpdateBeforeCommandExecute($shouldExecuteCommand, $telegram)
+	public function handleUpdateBeforeCommandExecute($shouldExecuteCommand, $telegram): bool
 	{
 		if ($telegram->isAdmin()) return true; // Example
 

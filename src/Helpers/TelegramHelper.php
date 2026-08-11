@@ -14,7 +14,7 @@ class TelegramHelper
 	 *
 	 * @return	Telegram|string		Returns the error on failure.
 	 */
-	public static function instantiateTelegram()
+	public static function instantiateTelegram(): Telegram|string
 	{
 		if (empty($botToken = FDTBWPB()->option('bot_token')))
 			return esc_html__('Bot token is not defined!', 'telegram-plugin-boilerplate');
