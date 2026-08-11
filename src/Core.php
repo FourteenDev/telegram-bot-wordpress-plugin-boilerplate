@@ -30,8 +30,12 @@ class Core
 		$this->container = $container;
 		$this->container->singleton(Core::class, function () { return $this; });
 
-		$this->registerDependencies();
-		$this->setupHooks();
+		try {
+			$this->registerDependencies();
+			$this->setupHooks();
+		} catch (\Exception $e) {
+			$this->handleInitializationError($e);
+		}
 	}
 
 	/**
@@ -72,6 +76,30 @@ class Core
 		$this->container->make(Service::class);
 
 		\add_action('init', [$this, 'i18n'], 1);
+	}
+
+	/**
+	 * Handles initialization errors gracefully.
+	 *
+	 * @param	\Exception	$e	The exception that occurred.
+	 *
+	 * @return	void
+	 */
+	private function handleInitializationError(\Exception $e): void
+	{
+		error_log("Plugin initialization failed: {$e->getMessage()} \n" .
+			"file: {$e->getFile()} \n" .
+			"line: {$e->getLine()} \n" .
+			"trace: {$e->getTraceAsString()}");
+
+		\add_action('admin_notices', function() use ($e)
+		{
+			?>
+			<div class="notice notice-error">
+				<p><?php esc_html_e('TelegramPluginBoilerplate: Initialization failed. Please check the error logs.', 'telegram-plugin-boilerplate'); ?></p>
+			</div>
+			<?php
+		});
 	}
 
 	/**
