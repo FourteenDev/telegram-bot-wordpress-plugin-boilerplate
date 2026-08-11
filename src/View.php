@@ -12,7 +12,7 @@ class View
 	 *
 	 * @return	void
 	 */
-	public function require($file, $data = []): void
+	public function require(string $file, array $data = []): void
 	{
 		$file = rtrim($file, '.php');
 		$file = str_replace('.', DIRECTORY_SEPARATOR, trim($file));
@@ -31,7 +31,7 @@ class View
 	 *
 	 * @return	string|false
 	 */
-	public function display($file, $data = []): string|false
+	public function display(string $file, array $data = []): string|false
 	{
 		ob_start();
 		$this->require($file, $data);

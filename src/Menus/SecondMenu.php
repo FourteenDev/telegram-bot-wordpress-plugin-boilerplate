@@ -4,7 +4,7 @@ namespace TelegramPluginBoilerplate\Menus;
 
 class SecondMenu extends Base
 {
-	protected $menuSlug = FDTBWPB_MENUS_SLUG . '_second';
+	protected string $menuSlug = FDTBWPB_MENUS_SLUG . '_second';
 
 	public function __construct()
 	{
@@ -26,7 +26,7 @@ class SecondMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
-	public function addSubmenu($submenus): array
+	public function addSubmenu(array $submenus): array
 	{
 		$submenus['second'] = [
 			'page_title' => esc_html__('More Boilerplate Settings', 'telegram-plugin-boilerplate'),
@@ -120,7 +120,7 @@ class SecondMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_second_fields` - 10
 	 */
-	public function populateSelectValues($fields): array
+	public function populateSelectValues(array $fields): array
 	{
 		if (empty($fields['test_select_field'])) return $fields;
 
@@ -140,7 +140,7 @@ class SecondMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_validate_input_example_field_second` - 10
 	 */
-	public function sanitizeExampleField($value): string
+	public function sanitizeExampleField(string $value): string
 	{
 		if ($value == 'this')
 			$value = 'that';

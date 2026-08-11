@@ -4,9 +4,9 @@ namespace TelegramPluginBoilerplate;
 
 class Menu
 {
-	protected $container;
+	protected Container $container;
 
-	private $menuSlug = FDTBWPB_MENUS_SLUG . '_settings';
+	private string $menuSlug = FDTBWPB_MENUS_SLUG . '_settings';
 
 	public function __construct(Container $container)
 	{

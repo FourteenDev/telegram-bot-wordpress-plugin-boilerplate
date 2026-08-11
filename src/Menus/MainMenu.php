@@ -4,7 +4,7 @@ namespace TelegramPluginBoilerplate\Menus;
 
 class MainMenu extends Base
 {
-	protected $menuSlug = FDTBWPB_MENUS_SLUG . '_settings';
+	protected string $menuSlug = FDTBWPB_MENUS_SLUG . '_settings';
 
 	/**
 	 * Adds the submenu.
@@ -15,7 +15,7 @@ class MainMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
-	public function addSubmenu($submenus): array
+	public function addSubmenu(array $submenus): array
 	{
 		$submenus['settings'] = [
 			'page_title' => esc_html__('Telegram Bot Boilerplate Plugin', 'telegram-plugin-boilerplate'),

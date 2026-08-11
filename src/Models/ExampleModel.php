@@ -4,7 +4,7 @@ namespace TelegramPluginBoilerplate\Models;
 
 class ExampleModel extends Base
 {
-	protected $table = 'table_name';
+	protected string $table = 'table_name';
 
 	/**
 	 * Returns active items. (Example)
@@ -23,7 +23,7 @@ class ExampleModel extends Base
 	 *
 	 * @return	int
 	 */
-	public function countItems($activeOnly = false): int
+	public function countItems(bool $activeOnly = false): int
 	{
 		$where = $activeOnly ? [['name' => 'status', 'value' => 'active', 'type' => parent::TYPE_STRING]] : [];
 		return $this->runCount('id', $where);
@@ -36,7 +36,7 @@ class ExampleModel extends Base
 	 *
 	 * @return	int					Inserted row's ID. `0` on error.
 	 */
-	public function insertItem($isActive = true): int
+	public function insertItem(bool $isActive = true): int
 	{
 		return intval($this->runInsert([['name' => 'status', 'value' => $isActive ? 'active' : '', 'type' => parent::TYPE_STRING]]));
 	}

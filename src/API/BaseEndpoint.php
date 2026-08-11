@@ -9,21 +9,21 @@ abstract class BaseEndpoint
 	 *
 	 * @var	string
 	 */
-	protected $namespace = 'v1';
+	protected string $namespace = 'v1';
 
 	/**
 	 * **(REQUIRED)** The base URL for route you are adding.
 	 *
 	 * @var	string
 	 */
-	protected $route = null;
+	protected string $route = '';
 
 	/**
 	 * The method used for the endpoint.
 	 *
 	 * @var	string
 	 */
-	protected $method = 'GET';
+	protected string $method = 'GET';
 
 	public function __construct()
 	{
@@ -62,11 +62,11 @@ abstract class BaseEndpoint
 	/**
 	 * Handles the main logic and functions of this endpoint.
 	 *
-	 * @param	array	$request
+	 * @param	\WP_REST_Request	$request
 	 *
 	 * @return	void
 	 */
-	abstract function handle($request);
+	abstract function handle(\WP_REST_Request $request);
 
 	/**
 	 * Checks authorization headers for token.
@@ -159,7 +159,7 @@ abstract class BaseEndpoint
 	 *
 	 * @return	\WP_REST_Response
 	 */
-	protected function getRestResponse($status, $message = null, ...$sprintfParams): \WP_REST_Response
+	protected function getRestResponse(int $status, string $message = '', string|int|float ...$sprintfParams): \WP_REST_Response
 	{
 		$return = new \WP_REST_Response();
 

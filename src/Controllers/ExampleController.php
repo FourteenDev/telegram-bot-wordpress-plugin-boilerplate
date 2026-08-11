@@ -6,7 +6,7 @@ use TelegramPluginBoilerplate\Models\ExampleModel;
 
 class ExampleController
 {
-	private $exampleModel;
+	private ExampleModel $exampleModel;
 
 	public function __construct(ExampleModel $exampleModel)
 	{

@@ -4,7 +4,7 @@ namespace TelegramPluginBoilerplate;
 
 class API
 {
-	protected $container;
+	protected Container $container;
 
 	public function __construct(Container $container)
 	{

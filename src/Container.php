@@ -14,14 +14,14 @@ class Container
 	 *
 	 * @var	array<string, array{concrete: callable|string, shared: bool}>
 	 */
-	protected $bindings = [];
+	protected array $bindings = [];
 
 	/**
 	 * Singleton instances.
 	 *
 	 * @var	array<string, object>
 	 */
-	protected $instances = [];
+	protected array $instances = [];
 
 	/**
 	 * Binds a class or interface to a concrete implementation.
@@ -34,7 +34,7 @@ class Container
 	 *
 	 * @throws	\Exception					When invalid concrete implementation provided.
 	 */
-	public function bind($abstract, $concrete = null, $shared = false): void
+	public function bind(string $abstract, callable|string $concrete = null, bool $shared = false): void
 	{
 		$concrete = $concrete ?? $abstract;
 
@@ -52,7 +52,7 @@ class Container
 	 *
 	 * @return	void
 	 */
-	public function singleton($abstract, $concrete = null): void
+	public function singleton(string $abstract, callable|string $concrete = null): void
 	{
 		$this->bind($abstract, $concrete, true);
 	}
@@ -67,7 +67,7 @@ class Container
 	 *
 	 * @throws	\Exception 			When concrete cannot be resolved or class reflection fails.
 	 */
-	public function make($abstract, $parameters = []): object
+	public function make(string $abstract, array $parameters = []): object
 	{
 		if (isset($this->instances[$abstract]))
 			return $this->instances[$abstract];

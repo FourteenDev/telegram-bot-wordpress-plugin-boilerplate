@@ -7,15 +7,15 @@ use Longman\TelegramBot\Entities\User as LongmanUser;
 class User
 {
 	/** @var \WP_User */
-	private $wpUser;
+	private \WP_User $wpUser;
 
 	/**
 	 * Creates/Retrieves user.
 	 *
-	 * @param	LongmanUser		$tgUser		Try to find a WordPress user in the database with this Telegram ID.
-	 * @param	\WP_User		$wpUser
+	 * @param	?LongmanUser	$tgUser		Try to find a WordPress user in the database with this Telegram ID.
+	 * @param	?\WP_User		$wpUser
 	 */
-	public function __construct($tgUser = null, $wpUser = null)
+	public function __construct(?LongmanUser $tgUser = null, ?\WP_User $wpUser = null)
 	{
 		if ($wpUser instanceof \WP_User)
 		{

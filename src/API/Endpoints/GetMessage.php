@@ -9,9 +9,9 @@ use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 
 class GetMessage extends BaseEndpoint
 {
-	public $namespace = 'fdtbwpb/v1/';
-	public $route     = 'get-message';
-	public $method    = 'POST';
+	public string $namespace = 'fdtbwpb/v1/';
+	public string $route     = 'get-message';
+	public string $method    = 'POST';
 
 	/**
 	 * Handles API request when the authorization was successful.
@@ -20,7 +20,7 @@ class GetMessage extends BaseEndpoint
 	 *
 	 * @return	\WP_REST_Response
 	 */
-	public function handle($request): \WP_REST_Response
+	public function handle(\WP_REST_Request $request): \WP_REST_Response
 	{
 		$telegram = TelegramHelper::instantiateTelegram();
 		if (!$telegram instanceof Telegram)

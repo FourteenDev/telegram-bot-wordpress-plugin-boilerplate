@@ -4,14 +4,14 @@ namespace TelegramPluginBoilerplate\Menus;
 
 abstract class Base
 {
-	protected $optionsName = FDTBWPB_MENUS_SLUG . '_options';
+	protected string $optionsName = FDTBWPB_MENUS_SLUG . '_options';
 
 	/**
 	 * **(REQUIRED)** Slug for this submenu. Recommended format: `FDTBWPB_MENUS_SLUG . '_{NAME}'`.
 	 *
 	 * @var	string
 	 */
-	protected $menuSlug = '';
+	protected string $menuSlug = '';
 
 	public function __construct()
 	{
@@ -48,7 +48,7 @@ abstract class Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
-	abstract function addSubmenu($submenus): array;
+	abstract function addSubmenu(array $submenus): array;
 
 	/**
 	 * Registers settings for this submenu.
@@ -91,7 +91,7 @@ abstract class Base
 	 *
 	 * @return	array
 	 */
-	public function validateSettings($input): array
+	public function validateSettings(array $input): array
 	{
 		$options = get_option($this->optionsName, []);
 		if (!is_array($options)) $options = [];
@@ -159,7 +159,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function inputFieldCallback($args): void
+	public function inputFieldCallback(array $args): void
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
@@ -174,7 +174,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function textFieldCallback($args): void
+	public function textFieldCallback(array $args): void
 	{
 		$this->inputFieldCallback($args);
 	}
@@ -186,7 +186,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function numberFieldCallback($args): void
+	public function numberFieldCallback(array $args): void
 	{
 		$this->inputFieldCallback($args);
 	}
@@ -198,7 +198,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function checkboxFieldCallback($args): void
+	public function checkboxFieldCallback(array $args): void
 	{
 		// Add a hidden input before checkouts to prevent them from unsetting from the options when unchecked
 		$this->inputFieldCallback(array_merge($args, ['type' => 'hidden', 'value' => '0']));
@@ -213,7 +213,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function textareaFieldCallback($args): void
+	public function textareaFieldCallback(array $args): void
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
@@ -228,7 +228,7 @@ abstract class Base
 	 *
 	 * @return	void
 	 */
-	public function selectFieldCallback($args): void
+	public function selectFieldCallback(array $args): void
 	{
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
@@ -243,8 +243,10 @@ abstract class Base
 	 * @param	array	$args
 	 *
 	 * @return	array
+	 *
+	 * @todo	More args: minlength + maxlength + cols + rows
 	 */
-	private function getSettingsValue($key, $args): array
+	private function getSettingsValue(string $key, array $args): array
 	{
 		$default = !empty($args['default']) ? $args['default'] : '';
 

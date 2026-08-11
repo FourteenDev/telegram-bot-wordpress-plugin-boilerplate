@@ -4,7 +4,7 @@ namespace TelegramPluginBoilerplate\Menus;
 
 class CustomMenu extends Base
 {
-	protected $menuSlug = FDTBWPB_MENUS_SLUG . '_custom';
+	protected string $menuSlug = FDTBWPB_MENUS_SLUG . '_custom';
 
 	/**
 	 * Adds the submenu.
@@ -15,7 +15,7 @@ class CustomMenu extends Base
 	 *
 	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
 	 */
-	public function addSubmenu($submenus): array
+	public function addSubmenu(array $submenus): array
 	{
 		$submenus['custom'] = [
 			'page_title' => esc_html__('Custom Menu', 'telegram-plugin-boilerplate'),
