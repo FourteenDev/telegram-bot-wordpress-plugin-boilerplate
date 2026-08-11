@@ -2,6 +2,9 @@
 
 namespace TelegramPluginBoilerplate\Services\Posts;
 
+/**
+ * Handles post related features and modifications. (Example service class)
+ */
 class Post
 {
 	public function __construct()

@@ -4,6 +4,9 @@ namespace TelegramPluginBoilerplate\Shortcodes;
 
 use TelegramPluginBoilerplate\Container;
 
+/**
+ * Manages registration of shortcodes.
+ */
 class ShortcodeManager
 {
 	private Container $container;

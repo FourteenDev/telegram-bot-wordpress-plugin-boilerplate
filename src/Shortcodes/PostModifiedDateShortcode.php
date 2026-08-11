@@ -2,6 +2,9 @@
 
 namespace TelegramPluginBoilerplate\Shortcodes;
 
+/**
+ * Returns the post modified date in the given format.
+ */
 class PostModifiedDateShortcode
 {
 	public static $tag = 'post_modified_date';

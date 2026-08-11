@@ -2,6 +2,9 @@
 
 namespace TelegramPluginBoilerplate\Services;
 
+/**
+ * Manages admin notice messages for the plugin.
+ */
 class NoticeManager
 {
 	/**
