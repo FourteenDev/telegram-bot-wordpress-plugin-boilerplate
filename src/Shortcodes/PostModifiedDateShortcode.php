@@ -23,7 +23,7 @@ class PostModifiedDateShortcode
 				'format'  => '',
 			],
 			$atts,
-			'post_modified_date'
+			self::$tag
 		);
 
 		// Get post ID from user's input or from the current post
