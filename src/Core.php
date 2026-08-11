@@ -2,6 +2,7 @@
 
 namespace TelegramPluginBoilerplate;
 
+use TelegramPluginBoilerplate\Services\NoticeManager;
 use TelegramPluginBoilerplate\Shortcodes\ShortcodeManager;
 
 class Core
@@ -28,14 +29,28 @@ class Core
 	public function __construct(Container $container)
 	{
 		$this->container = $container;
-		$this->container->singleton(Core::class, function () { return $this; });
+		$this->container->singleton(Core::class, function() { return $this; });
 
 		try {
+			$this->initializeComponents();
 			$this->registerDependencies();
 			$this->setupHooks();
 		} catch (\Exception $e) {
 			$this->handleInitializationError($e);
 		}
+	}
+
+	/**
+	 * Initializes core components.
+	 *
+	 * @return	void
+	 *
+	 * @throws	\Exception
+	 */
+	private function initializeComponents(): void
+	{
+		NoticeManager::init();
+		$this->container->singleton(NoticeManager::class, function() { return NoticeManager::class; });
 	}
 
 	/**
