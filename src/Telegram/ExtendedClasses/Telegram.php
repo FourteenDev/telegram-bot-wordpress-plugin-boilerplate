@@ -234,13 +234,13 @@ class Telegram extends TelegramBotTelegram
 		$offset = 0;
 		$limit  = null;
 
-		// By default, get update types sent by Telegram.
-		$allowedUpdates = [];
+		// By default, get update types sent by Telegram. (Variable name is snake case because it'll be sent directly to the request class)
+		$allowed_updates = [];
 
 		$offset         = $data['offset'] ?? $offset;
 		$limit          = $data['limit'] ?? $limit;
 		$timeout        = $data['timeout'] ?? $timeout;
-		$allowedUpdates = $data['allowed_updates'] ?? $allowedUpdates;
+		$allowed_updates = $data['allowed_updates'] ?? $allowed_updates;
 
 		// Take custom input into account.
 		if ($customInput = $this->getCustomInput())
