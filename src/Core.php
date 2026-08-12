@@ -2,6 +2,7 @@
 
 namespace TelegramPluginBoilerplate;
 
+use TelegramPluginBoilerplate\Services\Logging\Logger;
 use TelegramPluginBoilerplate\Services\NoticeManager;
 use TelegramPluginBoilerplate\Shortcodes\ShortcodeManager;
 
@@ -13,6 +14,13 @@ class Core
 	 * @var	Container
 	 */
 	protected Container $container;
+
+	/**
+	 * Logger instance.
+	 *
+	 * @var	Logger
+	 */
+	private Logger $logger;
 
 	/**
 	 * Plugin options.
@@ -35,6 +43,9 @@ class Core
 			$this->initializeComponents();
 			$this->registerDependencies();
 			$this->setupHooks();
+
+			// $this->logger->info('Plugin initialized successfully');
+			// Or in other classes: FDTBWPB()->log()->info('Text');
 		} catch (\Exception $e) {
 			$this->handleInitializationError($e);
 		}
@@ -49,6 +60,9 @@ class Core
 	 */
 	private function initializeComponents(): void
 	{
+		$this->logger = new Logger();
+		$this->container->singleton(Logger::class, function() { return $this->logger; });
+
 		NoticeManager::init();
 		$this->container->singleton(NoticeManager::class, function() { return NoticeManager::class; });
 	}
@@ -102,10 +116,19 @@ class Core
 	 */
 	private function handleInitializationError(\Exception $e): void
 	{
-		error_log("Plugin initialization failed: {$e->getMessage()} \n" .
-			"file: {$e->getFile()} \n" .
-			"line: {$e->getLine()} \n" .
-			"trace: {$e->getTraceAsString()}");
+		if (!empty($this->logger))
+		{
+			$this->logger->critical("Plugin initialization failed: {$e->getMessage()}", [
+				'file'  => $e->getFile(),
+				'line'  => $e->getLine(),
+				'trace' => $e->getTraceAsString(),
+			]);
+		} else {
+			error_log("Plugin initialization failed: {$e->getMessage()} \n" .
+				"file: {$e->getFile()} \n" .
+				"line: {$e->getLine()} \n" .
+				"trace: {$e->getTraceAsString()}");
+		}
 
 		\add_action('admin_notices', function() use ($e)
 		{
@@ -196,5 +219,15 @@ class Core
 			$this->options = get_option(FDTBWPB_MENUS_SLUG . '_options', []);
 
 		return $this->options[$optionName] ?? $default;
+	}
+
+	/**
+	 * Returns logger instance.
+	 *
+	 * @return	Logger
+	 */
+	public function log(): Logger
+	{
+		return $this->logger;
 	}
 }
