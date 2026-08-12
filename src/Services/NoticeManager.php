@@ -47,9 +47,9 @@ class NoticeManager
 	{
 		$notice = [
 			'id'          => uniqid(FDTBWPB_MENUS_SLUG . '_notice_', true),
-			'type'        => $type,
-			'message'     => $message,
-			'dismissible' => $dismissible,
+			'type'        => sanitize_key($type),
+			'message'     => wp_kses_post($message),
+			'dismissible' => filter_var($dismissible, FILTER_VALIDATE_BOOLEAN),
 			'timestamp'   => time(),
 		];
 		self::$notices[] = $notice;
