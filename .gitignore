@@ -28,3 +28,40 @@ Icon?
 ehthumbs.db
 [Tt]humbs.db
 [Dd]esktop.ini
+
+# ==========================================
+# AI Tools, Agents, and LLM Context Files
+# ==========================================
+# General AI ignore / exclusion configs
+.aiignore
+.aiexclude
+# Claude Code & Anthropic tools
+.claude/
+.claude_profile
+.claudecode/
+# GitHub Copilot & Cody (Sourcegraph)
+.copilot/
+.cody/
+# Cursor
+.cursor/
+.cursorrules
+# Local LLM tools / Ollama caches
+.ollama/
+.llm/
+
+# ==========================================
+# AI Planning, Initialization, and Context Files
+# ==========================================
+# Tool-specific project instructions
+#CLAUDE.md
+CLAUDE.local.md
+# AI-generated plans and execution logs
+*plan.md
+*PLAN.md
+ai_plan/
+ai-plans/
+# Agent initialization and state logs
+*init.md
+*INIT.md
+.ai-init/
+agent-state.md
