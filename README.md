@@ -1,15 +1,20 @@
 # Telegram Bot WordPress Plugin Boilerplate
 
+A **scalable and advanced** WordPress boilerplate plugin for connecting a Telegram bot to your website.
+
 `v3.2.0` ([Changelog](CHANGELOG.md))
 
 Libraries used: [PHP Telegram Bot](https://GitHub.com/php-telegram-bot/core)
 
-A boilerplate plugin for connecting a Telegram bot to your WordPress website.
+## Requirements
 
----
+- **PHP**: 8.0 or higher
+- **WordPress**: 5.0 or higher
+- **Composer**: For dependency management
 
-## Quick Start
-Clone or download this repository, change its name to something else, and then you'll need to do a four-step **CASE-SENSITIVE** find and replace in all the codes:
+## Installation
+
+Clone or download this repository, and then you'll need to do a four-step **CASE-SENSITIVE** find and replace in all the codes:
 1. Search for `TelegramPluginBoilerplate` to capture the namespaces.
 2. Search for `FDTBWPB` to capture the constants.
 3. Search for `fdtbwpb` to capture option name and slugs.
@@ -18,7 +23,9 @@ Clone or download this repository, change its name to something else, and then y
 Then, update the header in `plugin.php` with your own information.
 
 ## Composer Setup
-```
+
+**AFTER** you have done the find and replace, run this command in the plugin root:
+```bash
 $ composer install
 ```
 
@@ -49,6 +56,7 @@ https://api.telegram.org/bot{TOKEN}/setWebhook?url=https://{WEBSITE.COM}/wp-json
 ```
 
 ## Redirect requests (proxy)
+
 If your server can't access Telegram, you can use a middleman server to redirect requests:
 - Change `CURLOPT_URL`'s value in [forward.php](forward.php)
 - Upload [forward.php](forward.php) and [forward-to-telegram.php](forward-to-telegram.php) to your middleman server
@@ -56,7 +64,35 @@ If your server can't access Telegram, you can use a middleman server to redirect
 - Copy the `forward-to-telegram`'s full link in the plugin's settings
 
 ## Debugging
+
 You can see bot's error log file here:
 ```
 wp-content/plugins/telegram-plugin-boilerplate/logs/
 ```
+
+## More Examples and Documentation
+
+You can find more examples and sample codes/methods/classes in the base [WordPress Plugin Boilerplate](https://github.com/FourteenDev/wordpress-plugin-boilerplate) repository.
+
+## Translating the Plugin
+
+1. Open terminal in the plugin root, and run this command to generate the POT file with WP-CLI:
+```bash
+$ wp i18n make-pot . languages/telegram-plugin-boilerplate.pot
+```
+
+2. Create translations with PoEdit:
+	- Open PoEdit and choose "Create new translation" or "New from POT file".
+	- Select `languages/telegram-plugin-boilerplate.pot`.
+	- Choose your target language locale, for example `de_DE` for German.
+	- Translate each string.
+	- Save the file as `languages/telegram-plugin-boilerplate-de_DE.po`.
+	- PoEdit will automatically generate `languages/telegram-plugin-boilerplate-de_DE.mo`.
+
+3. Keep translations up to date:
+   - After adding or changing strings, regenerate the POT file.
+   - Reopen the updated POT in PoEdit and choose "Update from POT file" to update your translations.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
