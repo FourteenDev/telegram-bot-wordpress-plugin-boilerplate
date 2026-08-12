@@ -2,7 +2,7 @@
 
 A **scalable and advanced** WordPress boilerplate plugin for connecting a Telegram bot to your website.
 
-`v3.2.0` ([Changelog](CHANGELOG.md))
+`v3.3.0` ([Changelog](CHANGELOG.md))
 
 Libraries used: [PHP Telegram Bot](https://GitHub.com/php-telegram-bot/core)
 

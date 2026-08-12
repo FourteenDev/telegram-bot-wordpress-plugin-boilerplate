@@ -11,6 +11,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Fixed
 ### Security
 
+## [v3.3.0] - 2026-08-12
+### Added
+- Added `Logger` class to log errors and debug messages.
+- Added an example method on how to sanitize/validate settings fields.
+- Added settings updated notice and `settings_errors()` to settings wrapper view.
+- Added `resize: both;` CSS rule to textareas in settings.
+- Handled possible initialization errors.
+- Added PHPDoc to most of the classes.
+### Changed
+- Improved `NoticeManager` class.
+- Changed return type of settings callback in `Base.php` class to `void`.
+- Renamed `Post` service class to `Posts`.
+- Updated `.gitignore` file to ignore AI related files and folders.
+### Fixed
+- Added missing method return types.
+- Added most of the missing attribute and function parameters type declarations.
+- Added missing dependency injections.
+- Added a missing `echo` in settings wrapper view file.
+- Fixed undefined variable `$allowed_updates` warning in `Telegram.php` extended class.
+
 ## [v3.2.0] - 2026-01-28
 ### Added
 - Added textarea HTML element field (#3).
@@ -96,7 +116,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Added proxy (middleman server) support.
 - Added this changelog file.
 
-[Unreleased]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.2.0...main
+[Unreleased]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.3.0...main
+[v3.3.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.2.0...v3.3.0
 [v3.2.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.1.0...v3.2.0
 [v3.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.0.0...v3.1.0
 [v3.0.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v2.1.0...v3.0.0
