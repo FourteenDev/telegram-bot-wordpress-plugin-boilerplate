@@ -117,12 +117,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Added this changelog file.
 
 [Unreleased]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.3.0...main
-[v3.3.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.2.0...v3.3.0
-[v3.2.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.1.0...v3.2.0
-[v3.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.0.0...v3.1.0
-[v3.0.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v2.1.0...v3.0.0
-[v2.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v2.0.0...v2.1.0
-[v2.0.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.2.1...v2.0.0
-[v1.2.1]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.2.0...v1.2.1
-[v1.2.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.1.0...v1.2.0
-[v1.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v1.0.0...v1.1.0
+[v3.3.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v3.3.0
+[v3.2.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v3.2.0
+[v3.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v3.1.0
+[v3.0.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v3.0.0
+[v2.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v2.1.0
+[v2.0.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v2.0.0
+[v1.2.1]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v1.2.1
+[v1.2.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v1.2.0
+[v1.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v1.1.0
