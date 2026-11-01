@@ -3,7 +3,7 @@
 namespace TelegramPluginBoilerplate\Shortcodes;
 
 /**
- * Returns the post modified date in the given format.
+ * Returns the post modified date in the given format. (Example shortcode)
  */
 class PostModifiedDateShortcode
 {

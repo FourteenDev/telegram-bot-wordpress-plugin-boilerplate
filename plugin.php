@@ -36,7 +36,7 @@ require_once 'functions.php';
 	{
 		?>
 		<div class="notice notice-error">
-			<p><?php esc_html_e('Telegram Bot WordPress Plugin Boilerplate: Please enable ACF plugin!', 'telegram-plugin-boilerplate'); ?></p>
+			<p><?php esc_html_e('TelegramPluginBoilerplate: Please enable ACF plugin!', 'telegram-plugin-boilerplate'); ?></p>
 		</div>
 		<?php
 	});
@@ -56,9 +56,9 @@ $core = $fdtbwpbContainer->make(Core::class);
  *
  * @global	Container	$fdtbwpbContainer
  *
- * @return	Core
+ * @return	Core|null
  */
-function FDTBWPB()
+function FDTBWPB(): Core|null
 {
 	global $fdtbwpbContainer;
 	if (!$fdtbwpbContainer) return null; // Happens only when activating the plugin

@@ -24,7 +24,7 @@ class Menu
 	}
 
 	/**
-	 * Calls the `getInstance()` method on all PHP files in the `src/Menus/` directory that their name ends with "Menu".
+	 * Registers (calls `__construct` on) all PHP files in the `src/Menus/` directory that their name ends with "Menu".
 	 *
 	 * @return	void
 	 */
