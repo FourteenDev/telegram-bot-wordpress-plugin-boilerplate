@@ -7,7 +7,7 @@ use TelegramPluginBoilerplate\Container;
 /**
  * Manages registration of shortcodes.
  */
-class ShortcodeManager
+class ShortcodesManager
 {
 	private Container $container;
 

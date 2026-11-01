@@ -4,7 +4,7 @@ namespace TelegramPluginBoilerplate;
 
 use TelegramPluginBoilerplate\Services\Logging\Logger;
 use TelegramPluginBoilerplate\Services\NoticeManager;
-use TelegramPluginBoilerplate\Shortcodes\ShortcodeManager;
+use TelegramPluginBoilerplate\Shortcodes\ShortcodesManager;
 
 class Core
 {
@@ -78,7 +78,7 @@ class Core
 		$this->container->singleton(Asset::class);
 		$this->container->singleton(API::class);
 		$this->container->singleton(Menu::class);
-		$this->container->singleton(ShortcodeManager::class);
+		$this->container->singleton(ShortcodesManager::class);
 		$this->container->singleton(Service::class);
 		$this->container->singleton(View::class);
 	}
@@ -99,7 +99,7 @@ class Core
 		{
 			$this->container->make(Menu::class);
 		} else {
-			$this->container->make(ShortcodeManager::class);
+			$this->container->make(ShortcodesManager::class);
 		}
 
 		$this->container->make(Service::class);
