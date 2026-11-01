@@ -94,27 +94,27 @@ class Menu
 	 *
 	 * @param	string|array	$paths	The default paths where ACF saves JSON files.
 	 *
-	 * @return	array					Edited path array.
+	 * @return	string|array			Edited path array.
 	 * @source 	https://ImranhSayed.Medium.com/saving-the-acf-json-to-your-plugin-or-theme-file-f3b72b99257b
 	 *
 	 * @hooked	filter: `acf/settings/save_json` - 10
 	 * @hooked	filter: `acf/settings/load_json` - 10
 	 */
-	public function registerEditAcfJsonPath($paths): array
+	public function registerEditAcfJsonPath($paths): string|array
 	{
-		// Remove original path
-		// unset($paths[0]);
-
 		$newPath = FDWPBP()->dir('acf-json');
-		if (!is_writable($newPath))
-			return $paths;
-
 		if (!file_exists($newPath))
-			mkdir($newPath, 0777, true);
+			mkdir($newPath, 0755, true);
+
+		if (!is_writable($newPath) || !chmod($newPath, 0755))
+			return $paths;
 
 		// `$paths` is a string while saving.
 		if (!is_array($paths))
 			return $newPath;
+
+		// Remove original path
+		unset($paths[0]);
 
 		$paths[] = $newPath;
 		return $paths;
