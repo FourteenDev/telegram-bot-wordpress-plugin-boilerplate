@@ -2,18 +2,32 @@
 
 namespace TelegramPluginBoilerplate\Models;
 
+use TelegramPluginBoilerplate\Model;
+
 class ExampleModel extends Base
 {
 	protected string $table = 'table_name';
 
 	/**
-	 * Returns active items. (Example)
+	 * Constructor.
+	 *
+	 * @param	Model	$queryBuilder	Query builder instance.
+	 *
+	 * @example	`$exampleModel = new ExampleModel(FDTBWPB()->model());`
+	 */
+	public function __construct(Model $queryBuilder)
+	{
+		parent::__construct($queryBuilder);
+	}
+
+	/**
+	 * Returns items with `home` in their URL. (Example)
 	 *
 	 * @return	array
 	 */
-	public function getActiveItems(): array
+	public function getHomeUrls(): array
 	{
-		return $this->runSelect([], [['name' => 'status', 'value' => 'active', 'type' => parent::TYPE_STRING]]);
+		return $this->selectFrom()->where('url', 'LIKE', '%home%')->getResults();
 	}
 
 	/**
@@ -25,19 +39,6 @@ class ExampleModel extends Base
 	 */
 	public function countItems(bool $activeOnly = false): int
 	{
-		$where = $activeOnly ? [['name' => 'status', 'value' => 'active', 'type' => parent::TYPE_STRING]] : [];
-		return $this->runCount('id', $where);
-	}
-
-	/**
-	 * Inserts a new items in the table. (Example)
-	 *
-	 * @param	bool	$isActive
-	 *
-	 * @return	int					Inserted row's ID. `0` on error.
-	 */
-	public function insertItem(bool $isActive = true): int
-	{
-		return intval($this->runInsert([['name' => 'status', 'value' => $isActive ? 'active' : '', 'type' => parent::TYPE_STRING]]));
+		return $this->count($activeOnly ? ['status', '=', 'active'] : []);
 	}
 }

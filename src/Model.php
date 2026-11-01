@@ -2,6 +2,9 @@
 
 namespace TelegramPluginBoilerplate;
 
+/**
+ * Database query builder.
+ */
 class Model
 {
 	/** @var	\wpdb */
@@ -9,6 +12,56 @@ class Model
 
 	/** @var	string */
 	private string $charsetCollate;
+
+	/** @var	string */
+	private string $operation = '';
+
+	/** @var	string */
+	private string $table = '';
+
+	/** @var	string */
+	private string $fields = '*';
+
+	/** @var	string */
+	private string $whereRelation = 'AND';
+
+	/** @var	array<string> */
+	private array $whereClauses = [];
+
+	/** @var	array<mixed> */
+	private array $valuesToPrepare = [];
+
+	/** @var	array<string> */
+	private array $joinClauses = [];
+
+	/**
+	 * Set clauses for `INSERT` query.
+	 *
+	 * @var	array<array>
+	 */
+	private array $insertSetClauses = [];
+
+	/**
+	 * Set clauses for `UPDATE` query.
+	 *
+	 * @var	array<string>
+	 */
+	private array $updateSetClauses = [];
+
+	/** @var	array<string> */
+	private array $rawWhereClause = [];
+
+	/** @var	string */
+	private string $orderClause = '';
+
+	/** @var	string */
+	private string $limitClause = '';
+
+	/** @var	string */
+	private string $groupByClause = '';
+
+	/** @var	string */
+	private string $havingClause = '';
 
 	/**
 	 * Constructor.
@@ -44,6 +97,7 @@ class Model
 		/* dbDelta("CREATE TABLE `{$this->wpdb->prefix}some_table` (
 			...
 		) {$this->charsetCollate};"); */
+		// Note: `dbDelta()` doesn't support `IF NOT EXISTS`
 
 		$this->wpdb->query(
 			"CREATE TABLE IF NOT EXISTS `{$this->wpdb->prefix}fdtbwpb_user` (
@@ -586,5 +640,751 @@ class Model
 		);
 
 		update_option(FDTBWPB_OPTIONS_KEY_DB_VERSION, trim(FDTBWPB_VERSION));
+	}
+
+	/**
+	 * Resets all query states for a new operation.
+	 *
+	 * @return	void
+	 */
+	private function resetQueryState(): void
+	{
+		$this->operation        = '';
+		$this->table            = '';
+		$this->fields           = '*';
+		$this->whereRelation    = 'AND';
+		$this->whereClauses     = [];
+		$this->valuesToPrepare  = [];
+		$this->joinClauses      = [];
+		$this->insertSetClauses = [];
+		$this->updateSetClauses = [];
+		$this->rawWhereClause   = [];
+		$this->orderClause      = '';
+		$this->limitClause      = '';
+		$this->groupByClause    = '';
+		$this->havingClause     = '';
+	}
+
+	/**
+	 * Inserts into table.
+	 *
+	 * @param	string	$table	Table name.
+	 *
+	 * @return	$this
+	 */
+	public function insert(string $table): self
+	{
+		$this->resetQueryState();
+
+		$this->operation = 'insert';
+		$this->table     = "{$this->wpdb->prefix}$table";
+
+		return $this;
+	}
+
+	/**
+	 * Selects columns.
+	 *
+	 * @param	string|array<string>	$fields	Columns to select.
+	 *
+	 * @return	$this
+	 */
+	public function select(string|array $fields = '*'): self
+	{
+		$this->resetQueryState();
+
+		$this->operation = 'select';
+		$this->fields    = !is_array($fields) ? $fields : implode(', ', $fields);
+
+		return $this;
+	}
+
+	/**
+	 * Updates table.
+	 *
+	 * @param	string	$table	Table name.
+	 *
+	 * @return	$this
+	 */
+	public function update(string $table): self
+	{
+		$this->resetQueryState();
+
+		$this->operation = 'update';
+		$this->table     = "{$this->wpdb->prefix}$table";
+
+		return $this;
+	}
+
+	/**
+	 * Deletes from table.
+	 *
+	 * @param	string	$table	Table name.
+	 *
+	 * @return	$this
+	 */
+	public function delete(string $table): self
+	{
+		$this->resetQueryState();
+
+		$this->operation = 'delete';
+		$this->table     = "{$this->wpdb->prefix}$table";
+
+		return $this;
+	}
+
+	/**
+	 * Sets the table for the `SELECT` query.
+	 *
+	 * @param	string	$table	Table name.
+	 *
+	 * @return	$this
+	 */
+	public function from(string $table): self
+	{
+		$this->table = "{$this->wpdb->prefix}$table";
+
+		return $this;
+	}
+
+	/**
+	 * Sets values for `INSERT` or `UPDATE` queries.
+	 *
+	 * @param	array	$values	`column` => `value` pairs.
+	 *
+	 * @return	$this
+	 */
+	public function set(array $values): self
+	{
+		if (empty($values))
+			return $this;
+
+		if ($this->operation === 'update')
+		{
+			foreach ($values as $field => $value)
+			{
+				$column = '`' . str_replace('`', '``', $field) . '`';
+
+				if (is_string($value))
+				{
+					$this->updateSetClauses[] = "$column = %s";
+					$this->valuesToPrepare[] = $value;
+				} else if (is_numeric($value) || is_bool($value)) {
+					$this->updateSetClauses[] = "$column = %d";
+					$this->valuesToPrepare[] = $value;
+				} else if (is_null($value)) {
+					$this->updateSetClauses[] = "$column = NULL";
+				}
+			}
+		} else if ($this->operation === 'insert') {
+			$identifiers   = [];
+			$placeholders  = [];
+			$prepareValues = [];
+
+			foreach ($values as $field => $value)
+			{
+				$identifiers[] = '`' . str_replace('`', '``', $field) . '`';
+
+				if (is_string($value))
+				{
+					$placeholders[] = '%s';
+					$prepareValues[] = $value;
+				} else if (is_numeric($value) || is_bool($value)) {
+					$placeholders[] = '%d';
+					$prepareValues[] = $value;
+				} else if (is_null($value)) {
+					$placeholders[] = 'NULL';
+				}
+			}
+
+			$this->valuesToPrepare                 = array_merge($this->valuesToPrepare, $prepareValues);
+			$this->insertSetClauses['identifiers'] = $identifiers;
+			$this->insertSetClauses['values']      = $placeholders;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Adds a `WHERE` condition to the query.
+	 *
+	 * @param	string	$field		Column name.
+	 * @param	string	$operator	Comparison operator. Acceptable values: `=`, `!=`, `>`, `>=`, `<`, `<=`, `LIKE`, `NOT LIKE`, `IN`, `NOT IN` and `BETWEEN`.
+	 * @param	mixed	$value		Value to compare.
+	 *
+	 * @return	$this
+	 *
+	 * @throws	\InvalidArgumentException	When operator is not supported.
+	 */
+	public function where(string $field, string $operator, mixed $value): self
+	{
+		if (is_array($value))
+		{
+			$value = array_values($value);
+
+			if (empty($value))
+				return $this;
+		} else if (is_null($value) || $value === '' || $value === false) {
+			return $this;
+		}
+
+		if (!empty($condition = $this->generateCondition($field, $operator, $value)))
+		{
+			$this->whereClauses[]  = $condition['condition'];
+			$this->valuesToPrepare = array_merge($this->valuesToPrepare, $condition['values']);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Generates a `WHERE` condition and its values.
+	 *
+	 * @param	string	$field		Column name.
+	 * @param	string	$operator	Comparison operator. Acceptable values: `=`, `!=`, `>`, `>=`, `<`, `<=`, `LIKE`, `NOT LIKE`, `IN`, `NOT IN` and `BETWEEN`.
+	 * @param	mixed	$value		Value to compare.
+	 *
+	 * @return	array|null
+	 */
+	protected function generateCondition(string $field, string $operator, mixed $value): ?array
+	{
+		$condition = '';
+		$values    = [];
+
+		switch ($operator)
+		{
+			case '=':
+			case '!=':
+			case '>':
+			case '>=':
+			case '<':
+			case '<=':
+			case 'LIKE':
+			case 'NOT LIKE':
+				$rawValue = str_replace('%', '', (string) $value);
+
+				if (is_numeric($rawValue) || !empty($rawValue))
+				{
+					$condition = "$field $operator %s";
+					$values[]  = $value;
+				}
+				break;
+			case 'IN':
+			case 'NOT IN':
+				if (is_string($value))
+					$value = explode(',', $value);
+
+				if (!empty($value) && is_array($value) && count($value) === 1)
+					return $this->generateCondition($field, $operator === 'IN' ? '=' : '!=', reset($value));
+
+				if (!empty($value) && is_array($value))
+				{
+					$placeholders = implode(', ', array_fill(0, count($value), '%s'));
+					$condition    = "$field $operator ($placeholders)";
+					$values       = $value;
+				}
+				break;
+			case 'BETWEEN':
+				if (is_array($value) && count($value) === 2)
+				{
+					$condition = "$field BETWEEN %s AND %s";
+					$values    = $value;
+				}
+				break;
+			default:
+				throw new \InvalidArgumentException("Unsupported operator: $operator");
+		}
+
+		if (empty($condition))
+			return null;
+
+		return [
+			'condition' => $condition,
+			'values'    => $values,
+		];
+	}
+
+	/**
+	 * Adds a raw `WHERE` condition to the query.
+	 *
+	 * @param	string	$condition	SQL condition.
+	 * @param	array	$values		Values to prepare.
+	 *
+	 * @return	$this
+	 */
+	public function whereRaw(string $condition, array $values = []): self
+	{
+		$this->rawWhereClause[] = !empty($values) ? $this->prepareQuery($condition, $values) : $condition;
+
+		return $this;
+	}
+
+	/**
+	 * Prepares a query with values using \wpdb->prepare.
+	 *
+	 * @param	string	$query	SQL query.
+	 * @param	array	$args	Values to bind.
+	 *
+	 * @return	string
+	 */
+	protected function prepareQuery(string $query, array $args = []): string
+	{
+		if (preg_match('/%[i|s|f|d]/', $query))
+			$query = $this->wpdb->prepare($query, $args);
+
+		return $query;
+	}
+
+	/**
+	 * Sets the relation between `WHERE` clauses.
+	 *
+	 * @param	string	$relation	Acceptable values: 'AND' or 'OR'.
+	 *
+	 * @return	$this
+	 */
+	public function whereRelation(string $relation): self
+	{
+		if (in_array($relation, ['AND', 'OR']))
+			$this->whereRelation = $relation;
+
+		return $this;
+	}
+
+	/**
+	 * Joins another table.
+	 *
+	 * @param	string			$table		Table name to join.
+	 * @param	array|string	$on			Join keys or condition string.
+	 * @param	array[]			$conditions	Extra join conditions. An array exactly like `where()`'s parameters.
+	 * @param	string			$joinType	Join type.
+	 *
+	 * @return	$this
+	 *
+	 * @throws	\InvalidArgumentException	When join clause is invalid.
+	 */
+	public function join(string $table, $on, array $conditions = [], string $joinType = 'INNER'): self
+	{
+		$joinTable = "{$this->wpdb->prefix}$table";
+
+		if ((is_array($on) && count($on) === 2) || is_string($on))
+		{
+			$joinClause = "$joinType JOIN $joinTable AS $table ON ";
+			$joinClause .= is_array($on) ? "$on[0] = $on[1]" : $on;
+
+			if (!empty($conditions))
+			{
+				foreach ($conditions as $condition)
+				{
+					$field    = $condition[0];
+					$operator = $condition[1];
+					$value    = $condition[2];
+
+					if (!empty($condition = $this->generateCondition($field, $operator, $value)))
+					{
+						$condition   = $this->prepareQuery($condition['condition'], $condition['values']);
+						$joinClause .= " AND $condition";
+					}
+				}
+			}
+
+			$this->joinClauses[$joinTable] = $joinClause;
+		} else {
+			throw new \InvalidArgumentException('Invalid join clause!');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets `ORDER BY` clause to the query.
+	 *
+	 * @param	string|array<string>	$fields	Columns to order by.
+	 * @param	string					$order	Acceptable values: 'ASC' or 'DESC'.
+	 *
+	 * @return	$this
+	 */
+	public function orderBy(string|array $fields, string $order = 'DESC'): self
+	{
+		if (!in_array(strtoupper($order), ['ASC', 'DESC']))
+			$order = 'DESC';
+
+		if (!empty($fields))
+		{
+			if (is_string($fields))
+				$fields = array_map('trim', explode(',', $fields));
+
+			if (is_array($fields))
+			{
+				$orderParts = [];
+
+				foreach ($fields as $field)
+				{
+					if (preg_match('/^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)?$/', $field))
+					{
+						if (strpos($field, '.') !== false)
+						{
+							list($table, $column) = explode('.', $field);
+							$orderParts[]         = "`$table`.`$column` $order";
+						} else {
+							$orderParts[] = "`$field` $order";
+						}
+					}
+				}
+
+				if (!empty($orderParts))
+					$this->orderClause = 'ORDER BY ' . implode(', ', $orderParts);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets `LIMIT` and `OFFSET` to the query.
+	 *
+	 * @param	int	$limit	Max rows.
+	 * @param	int	$offset	Offset.
+	 *
+	 * @return	$this
+	 */
+	public function limit(int $limit, int $offset = 0): self
+	{
+		$limit = intval($limit);
+		if ($limit > 0)
+		{
+			$this->limitClause = "LIMIT $limit";
+
+			$offset = intval($offset);
+			if ($offset > 0)
+				$this->limitClause .= " OFFSET $offset";
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Sets `LIMIT` and `OFFSET` for pagination.
+	 *
+	 * @param	int $page		Page number.
+	 * @param	int $perPage	Items per page.
+	 *
+	 * @return	$this
+	 */
+	public function perPage(int $page = 1, int $perPage = 10): self
+	{
+		$page    = intval($page);
+		$perPage = intval($perPage);
+
+		if ($page > 0 && $perPage > 0)
+			$this->limit($perPage, ($page - 1) * $perPage);
+
+		return $this;
+	}
+
+	/**
+	 * Sets `GROUP BY` clause to the query.
+	 *
+	 * @param	string|array<string>	$fields	Columns to group by.
+	 *
+	 * @return	$this
+	 */
+	public function groupBy(string|array $fields): self
+	{
+		if (is_array($fields))
+			$fields = implode(', ', $fields);
+
+		if (!empty($fields))
+			$this->groupByClause = "GROUP BY $fields";
+
+		return $this;
+	}
+
+	/**
+	 * Sets `HAVING` clause to the query.
+	 *
+	 * @param	string	$expression	`HAVING` expression.
+	 *
+	 * @return	$this
+	 */
+	public function having(string $expression): self
+	{
+		if (!empty($expression))
+			$this->havingClause = "HAVING $expression";
+
+		return $this;
+	}
+
+	/**
+	 * Builds the SQL query based on the current operation.
+	 *
+	 * @return	string
+	 *
+	 * @throws	\InvalidArgumentException	When operation method is missing.
+	 */
+	protected function buildQuery(): string
+	{
+		$queryMethod = $this->operation . 'Query';
+
+		if (method_exists($this, $queryMethod))
+			return $this->$queryMethod();
+
+		throw new \InvalidArgumentException("$queryMethod method is not defined!");
+	}
+
+	/**
+	 * Builds an `INSERT` query.
+	 *
+	 * @return	string
+	 */
+	protected function insertQuery(): string
+	{
+		$query = "INSERT INTO `$this->table`";
+
+		if (!empty($this->insertSetClauses))
+		{
+			$query .= ' (' . implode(', ', $this->insertSetClauses['identifiers']) . ') ';
+			$query .= 'VALUES (' . implode(', ', $this->insertSetClauses['values']) . ') ';
+		}
+
+		return $query . ';';
+	}
+
+	/**
+	 * Builds a `SELECT` query.
+	 *
+	 * @return	string
+	 */
+	protected function selectQuery(): string
+	{
+		$query = "SELECT $this->fields FROM `$this->table`";
+
+		if (!empty($joinClauses = array_filter($this->joinClauses)))
+			$query .= ' ' . implode(' ', $joinClauses);
+
+		if (!empty($whereClauses = array_filter($this->whereClauses)))
+			$query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
+
+		if (!empty($this->rawWhereClause))
+		{
+			$query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+			$query .= implode(' ', $this->rawWhereClause);
+		}
+
+		if (!empty($this->groupByClause))
+			$query .= ' ' . $this->groupByClause;
+
+		if (!empty($this->havingClause))
+			$query .= ' ' . $this->havingClause;
+
+		if (!empty($this->orderClause))
+			$query .= ' ' . $this->orderClause;
+
+		if (!empty($this->limitClause))
+			$query .= ' ' . $this->limitClause;
+
+		return $query . ';';
+	}
+
+	/**
+	 * Builds an `UPDATE` query.
+	 *
+	 * @return	string
+	 */
+	protected function updateQuery(): string
+	{
+		$query = "UPDATE `$this->table`";
+
+		if (!empty($this->updateSetClauses))
+			$query .= ' SET ' . implode(', ', $this->updateSetClauses);
+
+		if (!empty($whereClauses = array_filter($this->whereClauses)))
+			$query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
+
+		if (!empty($this->rawWhereClause))
+		{
+			$query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+			$query .= implode(' ', $this->rawWhereClause);
+		}
+
+		return $query . ';';
+	}
+
+	/**
+	 * Builds a `DELETE` query.
+	 *
+	 * @return	string
+	 */
+	protected function deleteQuery(): string
+	{
+		$query = "DELETE FROM `$this->table`";
+
+		if (!empty($whereClauses = array_filter($this->whereClauses)))
+			$query .= ' WHERE ' . implode(" $this->whereRelation ", $whereClauses);
+
+		if (!empty($this->rawWhereClause))
+		{
+			$query .= empty($this->whereClauses) ? ' WHERE ' : ' ';
+			$query .= implode(' ', $this->rawWhereClause);
+		}
+
+		return $query . ';';
+	}
+
+	/**
+	 * Returns the prepared query string.
+	 *
+	 * @return	string
+	 */
+	public function getQuery(): string
+	{
+		$query         = $this->buildQuery();
+		$preparedQuery = $this->prepareQuery($query, $this->valuesToPrepare);
+
+		return $preparedQuery;
+	}
+
+	/**
+	 * Returns all rows from the built query.
+	 *
+	 * @return	array|null	Database query results. Empty array when no rows match or on database error. `null` when the query is empty or when the connection is not ready.
+	 */
+	public function getResults(): ?array
+	{
+		$query = $this->buildQuery();
+		$query = $this->prepareQuery($query, $this->valuesToPrepare);
+
+		return $this->wpdb->get_results($query, ARRAY_A);
+	}
+
+	/**
+	 * Returns all rows from a raw SQL query.
+	 *
+	 * @param	string	$query	SQL query.
+	 * @param	array	$params	Values to prepare.
+	 *
+	 * @return	array|null		Database query results. Empty array when no rows match or on database error. `null` when the query is empty or when the connection is not ready.
+	 */
+	public function getResultsRaw(string $query, array $params = []): ?array
+	{
+		$query = $this->prepareQuery($query, $params);
+
+		return $this->wpdb->get_results($query, ARRAY_A);
+	}
+
+	/**
+	 * Returns a single row from the built query.
+	 *
+	 * @return	array|null	Database query result or `null` on failure.
+	 */
+	public function getRow(): ?array
+	{
+		$query = $this->buildQuery();
+		$query = $this->prepareQuery($query, $this->valuesToPrepare);
+
+		return $this->wpdb->get_row($query, ARRAY_A);
+	}
+
+	/**
+	 * Returns a single row from a raw SQL query.
+	 *
+	 * @param	string	$query	SQL query.
+	 * @param	array	$params	Values to prepare.
+	 *
+	 * @return	array|null		Database query result or `null` on failure.
+	 */
+	public function getRowRaw(string $query, array $params = []): ?array
+	{
+		$query = $this->prepareQuery($query, $params);
+
+		return $this->wpdb->get_row($query, ARRAY_A);
+	}
+
+	/**
+	 * Returns a single value from the built query.
+	 *
+	 * @return	string|null		Database query result as string, or `null` on failure or when the value is an empty string.
+	 */
+	public function getVar(): ?string
+	{
+		$query = $this->buildQuery();
+		$query = $this->prepareQuery($query, $this->valuesToPrepare);
+
+		return $this->wpdb->get_var($query);
+	}
+
+	/**
+	 * Returns a single value from a raw SQL query.
+	 *
+	 * @param	string	$query	SQL query.
+	 * @param	array	$params	Values to prepare.
+	 *
+	 * @return	string|null		Database query result as string, or `null` on failure or when the value is an empty string.
+	 */
+	public function getVarRaw(string $query, array $params = []): ?string
+	{
+		$query = $this->prepareQuery($query, $params);
+
+		return $this->wpdb->get_var($query);
+	}
+
+	/**
+	 * Returns a single column from the built query.
+	 *
+	 * @return	array	Database query result. Array indexed from 0 by SQL result row number.
+	 */
+	public function getCol(): array
+	{
+		$query = $this->buildQuery();
+		$query = $this->prepareQuery($query, $this->valuesToPrepare);
+
+		return $this->wpdb->get_col($query);
+	}
+
+	/**
+	 * Executes the built query (`INSERT`/`UPDATE`/`DELETE`).
+	 *
+	 * @return	int|bool	Number of rows affected/selected or `false` on error.
+	 */
+	public function execute(): int|bool
+	{
+		$query = $this->buildQuery();
+		$query = $this->prepareQuery($query, $this->valuesToPrepare);
+
+		return $this->wpdb->query($query);
+	}
+
+	/**
+	 * Executes a raw SQL query.
+	 *
+	 * @param	string	$query	SQL query.
+	 * @param	array	$params	Values to prepare.
+	 *
+	 * @return	int|bool		`true` for `CREATE`, `ALTER`, `TRUNCATE` and `DROP` queries. Number of rows affected/selected for all other queries or `false` on error.
+	 */
+	public function executeRaw(string $query, array $params = []): int|bool
+	{
+		$query = $this->prepareQuery($query, $params);
+
+		return $this->wpdb->query($query);
+	}
+
+	/**
+	 * Returns the last inserted ID.
+	 *
+	 * @return	int		The integer value of var on success, or 0 on failure. Empty arrays and objects return 0, non-empty arrays and objects return 1.
+	 */
+	public function getLastInsertId(): int
+	{
+		return intval($this->wpdb->insert_id);
+	}
+
+	/**
+	 * Returns the last error message.
+	 *
+	 * @return	string
+	 */
+	public function getLastError(): string
+	{
+		return $this->wpdb->last_error ?? '';
 	}
 }

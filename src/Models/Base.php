@@ -2,12 +2,18 @@
 
 namespace TelegramPluginBoilerplate\Models;
 
+use TelegramPluginBoilerplate\Model;
+
+/**
+ * Base model for database tables.
+ */
 abstract class Base
 {
-	/**
-	 * @var	\wpdb
-	 */
+	/** @var	\wpdb */
 	protected \wpdb $wpdb;
+
+	/** @var	Model */
+	protected Model $queryBuilder;
 
 	/**
 	 * Table name.
@@ -16,31 +22,17 @@ abstract class Base
 	 */
 	protected string $table = '';
 
-	/*
-	 * Data types used in `$where` parameters.
-	 *
-	 * @todo Add more types and documentation on how to use them.
-	 */
-	protected const TYPE_INTEGER      = 'int';
-	protected const TYPE_BOOLEAN      = 'bool';
-	protected const TYPE_STRING       = 'string';
-	protected const TYPE_LIKE         = 'like';
-	protected const TYPE_NOT_LIKE     = 'not_like';
-	protected const TYPE_DATE_BETWEEN = 'date_between';
-	protected const TYPE_NULL         = 'null';
-
 	/**
 	 * Constructor.
 	 *
-	 * @global	\wpdb	$wpdb
+	 * @param	Model	$queryBuilder	Query builder instance.
 	 */
-	public function __construct()
+	public function __construct(Model $queryBuilder)
 	{
-		if (empty($this->table)) throw new \LogicException(get_class($this) . ' must initialize $table property!');
+		if (empty($this->table))
+			throw new \LogicException(get_class($this) . ' must initialize $table property!');
 
-		global $wpdb;
-		$this->wpdb  = $wpdb;
-		$this->table = $wpdb->prefix . $this->table;
+		$this->queryBuilder = $queryBuilder;
 	}
 
 	/**
@@ -54,288 +46,155 @@ abstract class Base
 	}
 
 	/**
-	 * Returns the result of a SELECT query executed with `get_results`.
+	 * Applies simple `column` => `value` `WHERE` conditions to a query.
 	 *
-	 * @param	string	$query	SQL query.
-	 * @param	array	$params	Query parameters.
+	 * @param	Model	$queryBuilder	Query builder.
+	 * @param	array	$where			Simple `column` => `value` conditions.
 	 *
-	 * @return	?array
+	 * @return	void
 	 */
-	public function getResults(string $query, array $params = []): ?array
+	protected function applyWhere(Model $queryBuilder, array $where): void
 	{
-		return $this->wpdb->get_results($this->wpdb->prepare($query, ...$params), ARRAY_A);
-	}
-
-	/**
-	 * Returns a single row from a SELECT query executed with `get_row`.
-	 *
-	 * @param	string	$query	SQL query.
-	 * @param	array	$params	Query parameters.
-	 *
-	 * @return	?array
-	 */
-	public function getRow(string $query, array $params = []): ?array
-	{
-		return $this->wpdb->get_row($this->wpdb->prepare($query, ...$params), ARRAY_A);
-	}
-
-	/**
-	 * Returns one value from a SELECT query executed with `get_var`.
-	 *
-	 * @param	string	$query	SQL query.
-	 * @param	array	$params	Query parameters.
-	 *
-	 * @return	?string
-	 */
-	public function getVar(string $query, array $params = []): ?string
-	{
-		return $this->wpdb->get_var($this->wpdb->prepare($query, ...$params), ARRAY_A);
-	}
-
-	/**
-	 * Executes an INSERT query.
-	 *
-	 * @param	array		$data	Data to insert.
-	 * @param	array		$format	Format for each value.
-	 *
-	 * @return	int|false			Inserted row ID, or `false` on failure.
-	 */
-	public function insert(array $data, array $format = []): int|false
-	{
-		$this->wpdb->insert($this->table, $data, $format);
-		return $this->wpdb->insert_id;
-	}
-
-	/**
-	 * Executes an UPDATE query.
-	 *
-	 * @param	array		$data			Data to update.
-	 * @param	array		$where			Conditions to find rows to update.
-	 * @param	array		$format			Format for each value.
-	 * @param	array		$whereFormat	Format for the `WHERE` clause values.
-	 *
-	 * @return	int|false					Number of affected rows, or `false` on failure.
-	 */
-	public function update(array $data, array $where, array $format = [], array $whereFormat = []): int|false
-	{
-		return $this->wpdb->update($this->table, $data, $where, $format, $whereFormat);
-	}
-
-	/**
-	 * Executes a DELETE query.
-	 *
-	 * @param	array		$where			Conditions to find rows to delete.
-	 * @param	array		$whereFormat	Format for the `WHERE` clause values.
-	 *
-	 * @return	int|false					Number of deleted rows, or `false` on failure.
-	 */
-	public function delete(array $where, array $whereFormat = []): int|false
-	{
-		return $this->wpdb->delete($this->table, $where, $whereFormat);
-	}
-
-	/**
-	 * Executes a custom SQL query.
-	 *
-	 * @param	string		$query	SQL query.
-	 * @param	array		$params	Query parameters.
-	 *
-	 * @return	int|bool			`true` for `CREATE`, `ALTER`, `TRUNCATE` and `DROP`. Number of affected/selected rows for all other queries. `false` on error.
-	 */
-	public function query(string $query, array $params = []): int|bool
-	{
-		return $this->wpdb->query($this->wpdb->prepare($query, ...$params));
-	}
-
-	/**
-	 * Returns the last inserted ID.
-	 *
-	 * @return	int
-	 */
-	public function getLastInsertId(): int
-	{
-		return $this->wpdb->insert_id;
-	}
-
-	/**
-	 * Returns the last error message.
-	 *
-	 * @return	string
-	 */
-	public function getLastError(): string
-	{
-		return $this->wpdb->last_error;
-	}
-
-	/**
-	 * Selects values from the database.
-	 *
-	 * @param	array		$columns
-	 * @param	array		$where		An array of associative arrays with this format: `ColumnName, Value, Type`.
-	 * 	Example:
-	 * 	```
-	 * 	[
-	 * 		['name' => 'id', 'value' => 12345, 'type' => parent::TYPE_INTEGER],
-	 * 		['name' => 'name', 'value' => 'test', 'type' => parent::TYPE_STRING],
-	 * 		['name' => 'private', 'value' => true, 'type' => parent::TYPE_BOOLEAN],
-	 * 	]
-	 * 	```
-	 * 	If the value is `null`, that index in the array will be ignored.
-	 * 	For the type value, use `Base::TYPE_...` constants.
-	 * @param	int			$limit
-	 * @param	int			$offset
-	 * @param	string		$orderBy	Name of the column to order by.
-	 * @param	string		$orderType	Either 'ASC' or 'DESC'.
-	 *
-	 * @return	?array					Database query results.
-	 */
-	public function runSelect(array $columns = [], array $where = [], int $limit = 0, int $offset = 0, string $orderBy = '', string $orderType = 'DESC'): ?array
-	{
-		$query = 'SELECT ';
-		if (!empty($columns) && is_array($columns)) $query .= implode(', ', $columns);
-		else $query .= '*';
-
-		$query     .= " FROM {$this->table} WHERE 1";
-		$parameters = [];
-
-		foreach ($where as $currentCondition)
+		foreach ($where as $column => $value)
 		{
-			if (!isset($currentCondition['name']) || !isset($currentCondition['value']) || !isset($currentCondition['type'])) continue;
-
-			if ($currentCondition['type'] === self::TYPE_STRING && !empty($currentCondition['value']))
-			{
-				$query       .= ' AND `' . $currentCondition['name'] . '` = %s';
-				$parameters[] = trim($currentCondition['value']);
-			} else if ($currentCondition['type'] === self::TYPE_LIKE && !empty($currentCondition['value'])) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` LIKE %s';
-				$parameters[] = trim($currentCondition['value']);
-			} else if ($currentCondition['type'] === self::TYPE_NOT_LIKE && !empty($currentCondition['value'])) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` NOT LIKE %s';
-				$parameters[] = trim($currentCondition['value']);
-			} else if ($currentCondition['type'] === self::TYPE_INTEGER && intval($currentCondition['value'])) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` = %d';
-				$parameters[] = intval($currentCondition['value']);
-			} else if ($currentCondition['type'] === self::TYPE_BOOLEAN && ($currentCondition['value'] === true || $currentCondition['value'] === false)) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` = %d';
-				$parameters[] = $currentCondition['value'] ? 1 : 0;
-			} else if ($currentCondition['type'] === self::TYPE_DATE_BETWEEN && !empty($currentCondition['value']) && is_array($currentCondition['value']) && !empty($currentCondition['value']['from']) && !empty($currentCondition['value']['to'])) {
-				$query       .= ' AND (`' . $currentCondition['name'] . '` BETWEEN %s AND %s)';
-				$parameters[] = $currentCondition['value']['from'];
-				$parameters[] = $currentCondition['value']['to'];
-			} else if ($currentCondition['type'] === self::TYPE_NULL) {
-				$query       .= ' AND `' . $currentCondition['name'] . ' IS NULL';
-			}
+			if (is_array($value))
+				$queryBuilder->where($column, 'IN', $value);
+			else if (is_null($value))
+				$queryBuilder->whereRaw("`$column` IS NULL");
+			else if (is_bool($value))
+				$queryBuilder->where($column, '=', $value ? 1 : 0);
+			else
+				$queryBuilder->where($column, '=', $value);
 		}
+	}
+
+	/**
+	 * Returns a simple `SELECT * FROM {table}` query scoped to this table for further chaining.
+	 *
+	 * @return	Model
+	 */
+	public function selectFrom(): Model
+	{
+		return $this->queryBuilder->select('*')->from($this->table);
+	}
+
+	/**
+	 * Returns all rows matching the conditions.
+	 *
+	 * @param	string|array	$fields		Fields to return. Defaults to `*`.
+	 * @param	array|null		$where		Simple `column` => `value` conditions.
+	 * @param	string|null		$orderBy	Order column.
+	 * @param	string			$orderType	Acceptable values: 'ASC' or 'DESC'.
+	 * @param	int				$limit		Max rows.
+	 * @param	int				$offset		Offset.
+	 *
+	 * @return	array|null					Database query results. Empty array when no rows match or on database error. `null` when the query is empty or when the connection is not ready.
+	 */
+	public function findAll(string|array $fields = '*', ?array $where = null, ?string $orderBy = null, string $orderType = 'DESC', int $limit = 0, int $offset = 0): ?array
+	{
+		if (empty($fields) || $fields === '*')
+			$queryBuilder = $this->selectFrom();
+		else
+			$queryBuilder = $this->queryBuilder->select(is_array($fields) ? implode(', ', $fields) : trim($fields))->from($this->table);
+
+		if (!empty($where))
+			$this->applyWhere($queryBuilder, $where);
 
 		if (!empty($orderBy))
-		{
-			$query .= " ORDER BY $orderBy ";
-			$query .= strtolower($orderType) === 'asc' ? 'ASC' : 'DESC';
-		}
+			$queryBuilder->orderBy($orderBy, $orderType);
 
 		if (intval($limit))
-		{
-			$query .= " LIMIT $limit";
-			if (intval($offset)) $query .= " OFFSET $limit";
-		}
+			$queryBuilder->limit($limit, $offset);
 
-		$query .= ';';
-
-		return (intval($limit) === 1) ? $this->getRow($query, $parameters) : $this->getResults($query, $parameters);
+		return $queryBuilder->getResults();
 	}
 
 	/**
-	 * Selects values from the database.
+	 * Returns a single row matching the conditions.
 	 *
-	 * @param	array		$columnName
-	 * @param	array		$where		An array of associative arrays with this format: `ColumnName, Value, Type`.
-	 * 	Example:
-	 * 	```
-	 * 	[
-	 * 		['name' => 'id', 'value' => 12345, 'type' => parent::TYPE_INTEGER],
-	 * 		['name' => 'name', 'value' => 'test', 'type' => parent::TYPE_STRING],
-	 * 		['name' => 'private', 'value' => true, 'type' => parent::TYPE_BOOLEAN],
-	 * 	]
-	 * 	```
-	 * 	If the value is `null`, that index in the array will be ignored.
-	 * 	For the type value, use `Base::TYPE_...` constants.
+	 * @param	string|array	$fields		Fields to return. Defaults to `*`.
+	 * @param	array|null		$where		Simple `column` => `value` conditions.
+	 *
+	 * @return	array|null					Database query result or `null` on failure.
+	 */
+	public function find(string|array $fields = '*', ?array $where = null): ?array
+	{
+		if (empty($fields) || $fields === '*')
+			$queryBuilder = $this->selectFrom();
+		else
+			$queryBuilder = $this->queryBuilder->select(is_array($fields) ? implode(', ', $fields) : trim($fields))->from($this->table);
+
+		if (!empty($where))
+			$this->applyWhere($queryBuilder, $where);
+
+		return $queryBuilder->limit(1)->getRow();
+	}
+
+	/**
+	 * Returns count of rows matching the conditions.
+	 *
+	 * @param	array|null	$where	Simple `column` => `value` conditions.
 	 *
 	 * @return	int
 	 */
-	public function runCount(string $columnName = '*', array $where = []): int
+	public function count(?array $where = null): int
 	{
-		$query      = "SELECT COUNT(`$columnName`) FROM {$this->table} WHERE 1";
-		$parameters = [];
+		$queryBuilder = $this->queryBuilder->select('COUNT(*) AS `count`')->from($this->table);
 
-		foreach ($where as $currentCondition)
-		{
-			if (!isset($currentCondition['name']) || !isset($currentCondition['value']) || !isset($currentCondition['type'])) continue;
+		if (!empty($where))
+			$this->applyWhere($queryBuilder, $where);
 
-			if ($currentCondition['type'] === self::TYPE_STRING && !empty($currentCondition['value']))
-			{
-				$query       .= ' AND `' . $currentCondition['name'] . '` = %s';
-				$parameters[] = trim($currentCondition['value']);
-			} else if ($currentCondition['type'] === self::TYPE_LIKE && !empty($currentCondition['value'])) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` LIKE %s';
-				$parameters[] = trim($currentCondition['value']);
-			} else if ($currentCondition['type'] === self::TYPE_NOT_LIKE && !empty($currentCondition['value'])) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` NOT LIKE %s';
-				$parameters[] = trim($currentCondition['value']);
-			} else if ($currentCondition['type'] === self::TYPE_INTEGER && intval($currentCondition['value'])) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` = %d';
-				$parameters[] = intval($currentCondition['value']);
-			} else if ($currentCondition['type'] === self::TYPE_BOOLEAN && ($currentCondition['value'] === true || $currentCondition['value'] === false)) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` = %d';
-				$parameters[] = $currentCondition['value'] ? 1 : 0;
-			} else if ($currentCondition['type'] === self::TYPE_DATE_BETWEEN && !empty($currentCondition['value']) && is_array($currentCondition['value']) && !empty($currentCondition['value']['from']) && !empty($currentCondition['value']['to'])) {
-				$query       .= ' AND (`' . $currentCondition['name'] . '` BETWEEN %s AND %s)';
-				$parameters[] = $currentCondition['value']['from'];
-				$parameters[] = $currentCondition['value']['to'];
-			} else if ($currentCondition['type'] === self::TYPE_NULL) {
-				$query       .= ' AND `' . $currentCondition['name'] . '` IS NULL';
-			}
-		}
-
-		$query .= ';';
-
-		return intval($this->getVar($query, $parameters));
+		return intval($queryBuilder->getVar());
 	}
 
 	/**
-	 * Inserts new values in the database.
+	 * Inserts a new row.
 	 *
-	 * @param	array		$data	An array of associative arrays with this format: `ColumnName, Value, Type`.
-	 * 	Example:
-	 * 	```
-	 * 	[
-	 * 		['name' => 'id', 'value' => 12345, 'type' => parent::TYPE_INTEGER],
-	 * 		['name' => 'name', 'value' => 'test', 'type' => parent::TYPE_STRING],
-	 * 		['name' => 'private', 'value' => true, 'type' => parent::TYPE_BOOLEAN],
-	 * 	]
-	 * 	```
-	 * 	If the value is `null`, that index in the array will be ignored.
-	 * 	For the type value, use `Base::TYPE_...` constants.
+	 * @param	array	$data	`column` => `value` pairs.
 	 *
-	 * @return	int|false|null		Inserted row's ID.
+	 * @return	int|false		Inserted row ID or `false` on error.
 	 */
-	public function runInsert(array $data): int|false|null
+	public function create(array $data): int|false
 	{
-		if (empty($data) || !is_array($data)) return null;
+		if (empty($data)) return false;
 
-		$parsedData = [];
-		foreach ($data as $currentData)
-		{
-			if (!isset($currentData['name']) || !isset($currentData['value']) || !isset($currentData['type'])) continue;
+		$this->queryBuilder->insert($this->table)->set($data);
 
-			if ($currentData['type'] === self::TYPE_STRING && !empty($currentData['value']))
-				$parsedData[$currentData['name']] = trim($currentData['value']);
-			else if ($currentData['type'] === self::TYPE_INTEGER && intval($currentData['value']))
-				$parsedData[$currentData['name']] = intval($currentData['value']);
-			else if ($currentData['type'] === self::TYPE_BOOLEAN && ($currentData['value'] === true || $currentData['value'] === false))
-				$parsedData[$currentData['name']] = $currentData['value'] ? 1 : 0;
-		}
-		if (!count($parsedData)) return null;
+		return ($this->queryBuilder->execute() !== false) ? intval($this->queryBuilder->getLastInsertId()) : false;
+	}
 
-		return $this->insert($parsedData);
+	/**
+	 * Updates rows matching the conditions.
+	 *
+	 * @param	array	$data	`column` => `value` pairs to update.
+	 * @param	array	$where	Simple `column` => `value` conditions.
+	 *
+	 * @return	int|false		Affected rows or `false` on error.
+	 */
+	public function update(array $data, array $where): int|false
+	{
+		if (empty($data) || empty($where)) return false;
+
+		$this->queryBuilder->update($this->table)->set($data);
+		$this->applyWhere($this->queryBuilder, $where);
+
+		return $this->queryBuilder->execute();
+	}
+
+	/**
+	 * Deletes rows matching the conditions.
+	 *
+	 * @param	array	$where	Simple `column` => `value` conditions.
+	 *
+	 * @return	int|false		Deleted rows or `false` on error.
+	 */
+	public function delete(array $where): int|false
+	{
+		if (empty($where)) return false;
+
+		$this->queryBuilder->delete($this->table);
+		$this->applyWhere($this->queryBuilder, $where);
+
+		return $this->queryBuilder->execute();
 	}
 }
