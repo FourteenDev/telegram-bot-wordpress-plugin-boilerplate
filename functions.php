@@ -27,3 +27,39 @@ function fdtbwpb_get_plugin_data()
 	if (!function_exists('get_plugin_data')) require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	return get_plugin_data(FDTBWPB_FILE);
 }
+
+/**
+ * Finds files recursively matching a glob pattern in all subdirectories.
+ *
+ * @param	string	$pattern	Glob pattern to match.
+ * @param	int		$flags		Optional glob flags. (Does not support `GLOB_BRACE`)
+ *
+ * @return	array				List of matched file paths, or an empty array if no files matched.
+ */
+function fdtbwpbGlobRecursive(string $pattern, int $flags = 0): array
+{
+	$files = glob($pattern, $flags);
+	foreach (glob(dirname($pattern) . '/*', \GLOB_ONLYDIR | \GLOB_NOSORT) as $dir)
+		$files = array_merge($files, fdtbwpbGlobRecursive($dir . '/' . basename($pattern), $flags));
+	return $files;
+}
+
+/**
+ * Converts a file path to a relative namespace.
+ *
+ * @param	string	$file		File path to convert.
+ * @param	string	$baseDir	Base directory to make the path relative to.
+ *
+ * @return	string				Relative namespace, or an empty string if parameters are empty.
+ * @source	http://PHP.net/manual/en/function.glob.php#106595
+ */
+function fdtbwpbConvertFilePathToRelativeNamespace(string $file, string $baseDir): string
+{
+	if (empty($file) || empty($baseDir)) return '';
+
+	$relativeNamespace = str_replace($baseDir . '/', '', $file);
+	$relativeNamespace = str_replace('/', '\\', $relativeNamespace);
+	$relativeNamespace = str_replace('.php', '', $relativeNamespace);
+
+	return $relativeNamespace;
+}

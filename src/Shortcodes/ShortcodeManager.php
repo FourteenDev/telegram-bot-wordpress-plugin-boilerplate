@@ -19,16 +19,16 @@ class ShortcodeManager
 	}
 
 	/**
-	 * Registers (calls `add_shortcode`) all shortcodes for every file in the `src/Shortcodes/` directory that ends with `Shortcode.php`.
+	 * Registers (calls `add_shortcode`) all shortcodes for every file in the `src/Shortcodes/` directory and all of its subfolders that ends with `Shortcode.php`.
 	 *
 	 * @return	void
 	 */
 	private function registerAllShortcodes(): void
 	{
-		foreach (glob(FDTBWPB_DIR . '/src/Shortcodes/*Shortcode.php') as $file)
+		$baseDir = FDTBWPB_DIR . '/src/Shortcodes';
+		foreach (fdtbwpbGlobRecursive("$baseDir**/*Shortcode.php") as $file)
 		{
-			$class = '\\' . __NAMESPACE__ . '\\' . basename($file, '.php');
-
+			$class = '\\' . __NAMESPACE__ . '\\' . fdtbwpbConvertFilePathToRelativeNamespace($file, $baseDir);
 			if (class_exists($class) && !empty($class::$tag))
 				add_shortcode($class::$tag, [$this->container->make($class), 'run']);
 		}
