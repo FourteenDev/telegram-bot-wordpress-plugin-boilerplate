@@ -45,7 +45,7 @@ class Core
 			$this->setupHooks();
 
 			// $this->logger->info('Plugin initialized successfully');
-			// Or in other classes: FDTBWPB()->log()->info('Text');
+			// Or in other classes: FDTBWPB()->logger()->info('Text');
 		} catch (\Exception $e) {
 			$this->handleInitializationError($e);
 		}
@@ -225,8 +225,10 @@ class Core
 	 * Returns logger instance.
 	 *
 	 * @return	Logger
+	 *
+	 * @example	`FDTBWPB()->logger()->log(\TelegramPluginBoilerplate\Services\Logging\Logger::ERROR, 'test');`
 	 */
-	public function log(): Logger
+	public function logger(): Logger
 	{
 		return $this->logger;
 	}
