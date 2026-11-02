@@ -25,6 +25,16 @@ abstract class BaseEndpoint
 	 */
 	protected string $method = 'GET';
 
+	/**
+	 * Array of arrays of route arguments accepted by this endpoint.
+	 *
+	 * Matches the format accepted by `register_rest_route()`'s `args` parameter.
+	 * Example: `['param' => ['required' => true, 'type' => 'string']]`
+	 *
+	 * @var	array
+	 */
+	protected array $args = [];
+
 	public function __construct()
 	{
 		if (empty($this->namespace))
@@ -55,6 +65,7 @@ abstract class BaseEndpoint
 				'methods'             => $this->method,
 				'callback'            => [$this, 'handle'],
 				'permission_callback' => [$this, 'checkPermission'],
+				'args'                => $this->args,
 			]
 		);
 	}
