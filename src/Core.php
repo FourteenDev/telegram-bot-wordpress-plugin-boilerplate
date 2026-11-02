@@ -2,6 +2,7 @@
 
 namespace TelegramPluginBoilerplate;
 
+use TelegramPluginBoilerplate\PostTypes\PostTypesManager;
 use TelegramPluginBoilerplate\Services\Logging\Logger;
 use TelegramPluginBoilerplate\Services\NoticeManager;
 use TelegramPluginBoilerplate\Shortcodes\ShortcodesManager;
@@ -79,6 +80,7 @@ class Core
 		$this->container->singleton(API::class);
 		$this->container->singleton(Menu::class);
 		$this->container->singleton(ShortcodesManager::class);
+		$this->container->singleton(PostTypesManager::class);
 		$this->container->singleton(Service::class);
 		$this->container->singleton(View::class);
 	}
@@ -102,6 +104,7 @@ class Core
 			$this->container->make(ShortcodesManager::class);
 		}
 
+		$this->container->make(PostTypesManager::class);
 		$this->container->make(Service::class);
 
 		\add_action('init', [$this, 'i18n'], 1);
