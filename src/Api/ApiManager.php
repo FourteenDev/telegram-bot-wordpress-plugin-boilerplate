@@ -1,8 +1,10 @@
 <?php
 
-namespace TelegramPluginBoilerplate;
+namespace TelegramPluginBoilerplate\Api;
 
-class API
+use TelegramPluginBoilerplate\Container;
+
+class ApiManager
 {
 	protected Container $container;
 
@@ -22,7 +24,7 @@ class API
 		$baseDir = FDTBWPB_DIR . '/src/Api/Endpoints';
 		foreach (fdtbwpbGlobRecursive("$baseDir**/*.php") as $file)
 		{
-			$class = '\\' . __NAMESPACE__ . '\\Api\\Endpoints\\' . fdtbwpbConvertFilePathToRelativeNamespace($file, $baseDir);
+			$class = '\\' . __NAMESPACE__ . '\\Endpoints\\' . fdtbwpbConvertFilePathToRelativeNamespace($file, $baseDir);
 			if (class_exists($class))
 				$this->container->make($class);
 		}

@@ -2,6 +2,7 @@
 
 namespace TelegramPluginBoilerplate;
 
+use TelegramPluginBoilerplate\Api\ApiManager;
 use TelegramPluginBoilerplate\PostTypes\PostTypesManager;
 use TelegramPluginBoilerplate\Services\Logging\Logger;
 use TelegramPluginBoilerplate\Services\NoticeManager;
@@ -77,7 +78,7 @@ class Core
 	{
 		$this->container->singleton(Model::class);
 		$this->container->singleton(Asset::class);
-		$this->container->singleton(API::class);
+		$this->container->singleton(ApiManager::class);
 		$this->container->singleton(Menu::class);
 		$this->container->singleton(ShortcodesManager::class);
 		$this->container->singleton(PostTypesManager::class);
@@ -95,7 +96,7 @@ class Core
 		// Initialize dependencies through container
 		$this->container->make(Model::class);
 		$this->container->make(Asset::class);
-		$this->container->make(API::class);
+		$this->container->make(ApiManager::class);
 
 		if (\is_admin())
 		{
