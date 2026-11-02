@@ -1,8 +1,6 @@
-# ================ #
-# Logs and backups #
-# ================ #
-/logs/
-*.log
+dist
+dist-ssr
+*.local
 
 # ==================== #
 # Packages and vendors #
@@ -13,8 +11,15 @@ vendor/
 # === #
 # IDE #
 # === #
-.idea/
+.vscode/*
+!.vscode/extensions.json
 .vs/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 /*.tmp
 
 # ============ #
@@ -29,9 +34,20 @@ ehthumbs.db
 [Tt]humbs.db
 [Dd]esktop.ini
 
-# ==========================================
-# AI Tools, Agents, and LLM Context Files
-# ==========================================
+# ==== #
+# Logs #
+# ==== #
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ======================================= #
+# AI Tools, Agents, and LLM Context Files #
+# ======================================= #
 # General AI ignore / exclusion configs
 .aiignore
 .aiexclude
@@ -49,9 +65,9 @@ ehthumbs.db
 .ollama/
 .llm/
 
-# ==========================================
-# AI Planning, Initialization, and Context Files
-# ==========================================
+# ============================================== #
+# AI Planning, Initialization, and Context Files #
+# ============================================== #
 # Tool-specific project instructions
 #CLAUDE.md
 CLAUDE.local.md
@@ -65,3 +81,5 @@ ai-plans/
 *INIT.md
 .ai-init/
 agent-state.md
+# Skills
+skills-*.json
