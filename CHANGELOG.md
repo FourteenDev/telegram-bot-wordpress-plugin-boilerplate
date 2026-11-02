@@ -11,6 +11,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Fixed
 ### Security
 
+## [v3.4.0] - 2026-11-02
+### ❗ BREAKING ❗
+- Changed the main `FDTBWPB()` method's name to lowercase (`fdtbwpb()`).
+- Completely rewritten the models and database classes.
+- Replaced most of the underlines (`_`) in `fdtbwpb` hook names with slashes (`/`).
+### Added
+- Added `PostTypesManager` class.
+- Added `isBool` parameter to core `option()` method.
+- Added `args` support to the `BaseEndpoint` class.
+### Changed
+- Renamed `ShortcodeManager` class to `ShortcodesManager`.
+- Improved `ShortcodesManager` to also check subfolders of `src/Shortcodes`.
+- Renamed `log()` method in `Core` class to `logger()`.
+- Renamed `API` folder to `Api`.
+- Rneamed `API` class to `ApiManager` and improved it to also check subfolders of `src/Api/Endpoints`.
+### Fixed
+- Fixed `registerEditAcfJsonPath()` method in `Menu` class.
+
 ## [v3.3.0] - 2026-08-12
 ### Added
 - Added `Logger` class to log errors and debug messages.
@@ -116,7 +134,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - Added proxy (middleman server) support.
 - Added this changelog file.
 
-[Unreleased]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.3.0...main
+[Unreleased]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/compare/v3.4.0...main
+[v3.4.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v3.4.0
 [v3.3.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v3.3.0
 [v3.2.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v3.2.0
 [v3.1.0]: https://GitHub.com/FourteenDev/telegram-bot-wordpress-plugin-boilerplate/releases/tag/v3.1.0
