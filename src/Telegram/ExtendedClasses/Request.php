@@ -353,9 +353,9 @@ class Request extends TelegramBotRequest
 		$requestParams['debug'] = TelegramLog::getDebugLogTempStream();
 
 		try {
-			if (!empty($proxyUpdateReceiver = FDTBWPB()->option('proxy_update_receiver')))
+			if (!empty($proxyUpdateReceiver = fdtbwpb()->option('proxy_update_receiver')))
 			{
-				$requestParams['form_params']['token'] = FDTBWPB()->option('bot_token');
+				$requestParams['form_params']['token'] = fdtbwpb()->option('bot_token');
 				$response = self::$client->post(
 					"$proxyUpdateReceiver?action=$action",
 					$requestParams

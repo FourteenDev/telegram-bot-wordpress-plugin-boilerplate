@@ -102,7 +102,7 @@ class Menu
 	 */
 	public function registerEditAcfJsonPath($paths): string|array
 	{
-		$newPath = FDWPBP()->dir('acf-json');
+		$newPath = fdtbwpb()->dir('acf-json');
 		if (!file_exists($newPath))
 			mkdir($newPath, 0755, true);
 

@@ -16,10 +16,10 @@ class TelegramHelper
 	 */
 	public static function instantiateTelegram(): Telegram|string
 	{
-		if (empty($botToken = FDTBWPB()->option('bot_token')))
+		if (empty($botToken = fdtbwpb()->option('bot_token')))
 			return esc_html__('Bot token is not defined!', 'telegram-plugin-boilerplate');
 
-		if (empty($botUsername = FDTBWPB()->option('bot_username')))
+		if (empty($botUsername = fdtbwpb()->option('bot_username')))
 			return esc_html__('Bot username is not defined!', 'telegram-plugin-boilerplate');
 		if (stripos($botUsername, '@') === false)
 			$botUsername = "@$botUsername";
@@ -32,7 +32,7 @@ class TelegramHelper
 			$telegram->enableLogging();
 			$telegram->enableLimiter(['enabled' => true]);
 
-			if (!empty($admins = FDTBWPB()->option('admin_ids')))
+			if (!empty($admins = fdtbwpb()->option('admin_ids')))
 				$telegram->enableAdmins(explode(',', $admins));
 		} catch (TelegramException $e) {
 			TelegramLog::error($e);

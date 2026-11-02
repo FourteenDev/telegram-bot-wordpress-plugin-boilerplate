@@ -13,7 +13,7 @@ class ExampleModel extends Base
 	 *
 	 * @param	Model	$queryBuilder	Query builder instance.
 	 *
-	 * @example	`$exampleModel = new ExampleModel(FDTBWPB()->model());`
+	 * @example	`$exampleModel = new ExampleModel(fdtbwpb()->model());`
 	 */
 	public function __construct(Model $queryBuilder)
 	{

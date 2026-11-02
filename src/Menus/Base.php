@@ -164,7 +164,7 @@ abstract class Base
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
 
-		FDTBWPB()->view('admin.settings.fields.input', $this->getSettingsValue($id, $args));
+		fdtbwpb()->view('admin.settings.fields.input', $this->getSettingsValue($id, $args));
 	}
 
 	/**
@@ -218,7 +218,7 @@ abstract class Base
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
 
-		FDTBWPB()->view('admin.settings.fields.textarea', $this->getSettingsValue($id, $args));
+		fdtbwpb()->view('admin.settings.fields.textarea', $this->getSettingsValue($id, $args));
 	}
 
 	/**
@@ -233,7 +233,7 @@ abstract class Base
 		$id = !empty($args['id']) ? $args['id'] : '';
 		if (empty($id)) return;
 
-		FDTBWPB()->view('admin.settings.fields.select', $this->getSettingsValue($id, $args));
+		fdtbwpb()->view('admin.settings.fields.select', $this->getSettingsValue($id, $args));
 	}
 
 	/**
@@ -250,7 +250,7 @@ abstract class Base
 	{
 		$default = !empty($args['default']) ? $args['default'] : '';
 
-		$value = isset($args['value']) ? $args['value'] : FDTBWPB()->option($key);
+		$value = isset($args['value']) ? $args['value'] : fdtbwpb()->option($key);
 		if ($value === null) $value = $default;
 
 		return array_merge($args, [
@@ -280,6 +280,6 @@ abstract class Base
 			'activeTab' => $activeTab,
 		];
 
-		FDTBWPB()->view('admin.settings.wrapper', $args);
+		fdtbwpb()->view('admin.settings.wrapper', $args);
 	}
 }

@@ -34,6 +34,6 @@ class CustomMenu extends Base
 	 */
 	public function displayContent(): void
 	{
-		FDTBWPB()->view('admin.menus.custom-menu', ['test' => 'Test']);
+		fdtbwpb()->view('admin.menus.custom-menu', ['test' => 'Test']);
 	}
 }
