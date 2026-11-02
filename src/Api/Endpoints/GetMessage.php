@@ -1,9 +1,9 @@
 <?php
 
-namespace TelegramPluginBoilerplate\API\Endpoints;
+namespace TelegramPluginBoilerplate\Api\Endpoints;
 
 use Longman\TelegramBot\TelegramLog;
-use TelegramPluginBoilerplate\API\BaseEndpoint;
+use TelegramPluginBoilerplate\Api\BaseEndpoint;
 use TelegramPluginBoilerplate\Helpers\TelegramHelper;
 use TelegramPluginBoilerplate\Telegram\ExtendedClasses\Telegram;
 

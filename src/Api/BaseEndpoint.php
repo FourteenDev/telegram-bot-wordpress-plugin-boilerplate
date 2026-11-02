@@ -1,6 +1,6 @@
 <?php
 
-namespace TelegramPluginBoilerplate\API;
+namespace TelegramPluginBoilerplate\Api;
 
 abstract class BaseEndpoint
 {
