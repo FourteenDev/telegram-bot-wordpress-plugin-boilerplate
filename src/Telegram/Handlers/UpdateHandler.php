@@ -9,8 +9,8 @@ class UpdateHandler
 {
 	public function __construct()
 	{
-		// add_filter('fdtbwpb_before_get_commands_list', [$this, 'editUpdateText'], 10);
-		add_filter('fdtbwpb_before_execute_command', [$this, 'handleUpdateBeforeCommandExecute'], 10, 2);
+		// add_filter('fdtbwpb/telegram/before_get_commands_list', [$this, 'editUpdateText'], 10);
+		add_filter('fdtbwpb/telegram/before_execute_command', [$this, 'handleUpdateBeforeCommandExecute'], 10, 2);
 	}
 
 	/**
@@ -24,7 +24,7 @@ class UpdateHandler
 	 *
 	 * @return	Update|false				Return `false` if you needed to stop executing the update.
 	 *
-	 * @hooked	filter: `fdtbwpb_before_get_commands_list` - 10
+	 * @hooked	filter: `fdtbwpb/telegram/before_get_commands_list` - 10
 	 */
 	public function editUpdateText($update): Update|false
 	{
@@ -76,7 +76,7 @@ class UpdateHandler
 	 *
 	 * @return	bool
 	 *
-	 * @hooked	filter: `fdtbwpb_before_execute_command` - 10
+	 * @hooked	filter: `fdtbwpb/telegram/before_execute_command` - 10
 	 */
 	public function handleUpdateBeforeCommandExecute($shouldExecuteCommand, $telegram): bool
 	{

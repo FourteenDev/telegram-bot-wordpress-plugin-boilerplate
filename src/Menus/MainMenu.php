@@ -13,7 +13,7 @@ class MainMenu extends Base
 	 *
 	 * @return	array
 	 *
-	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
+	 * @hooked	filter: `fdtbwpb/menus/submenus` - 10
 	 */
 	public function addSubmenu(array $submenus): array
 	{
@@ -34,7 +34,7 @@ class MainMenu extends Base
 	 */
 	public function getTabs(): array
 	{
-		return apply_filters('fdtbwpb_menus_main_tabs', [
+		return apply_filters('fdtbwpb/menus/main/tabs', [
 			'general' => esc_html__('General Settings', 'telegram-plugin-boilerplate'),
 			'proxy'   => esc_html__('Proxy Settings', 'telegram-plugin-boilerplate'),
 		]);
@@ -47,7 +47,7 @@ class MainMenu extends Base
 	 */
 	public function getFields(): array
 	{
-		return apply_filters('fdtbwpb_menus_main_fields', [
+		return apply_filters('fdtbwpb/menus/main/fields', [
 			// General section
 			'bot_token'    => [
 				'id'      => 'bot_token',

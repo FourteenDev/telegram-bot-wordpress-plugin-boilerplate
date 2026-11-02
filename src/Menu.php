@@ -58,7 +58,7 @@ class Menu
 		);
 
 		$position = 0;
-		foreach (apply_filters('fdtbwpb_menus_submenus', []) as $slug => $submenu)
+		foreach (apply_filters('fdtbwpb/menus/submenus', []) as $slug => $submenu)
 		{
 			if (empty($submenu)) continue;
 

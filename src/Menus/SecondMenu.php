@@ -11,10 +11,10 @@ class SecondMenu extends Base
 		parent::__construct();
 
 		// Uncomment if you want to change select options programmatically
-		// add_filter('fdtbwpb_menus_second_fields', [$this, 'populateSelectValues']);
+		// add_filter('fdtbwpb/menus/second/fields', [$this, 'populateSelectValues']);
 
-		// Uncomment if you want to sanitize a specific field before saving (Or use `fdtbwpb_before_validate_settings` filter to access all input values)
-		// add_filter('fdtbwpb_validate_input_example_field_second', [$this, 'sanitizeExampleField']);
+		// Uncomment if you want to sanitize a specific field before saving (Or use `fdtbwpb/menus/before_validate_settings` filter to access all input values)
+		// add_filter('fdtbwpb/menus/validate_input_example_field_second', [$this, 'sanitizeExampleField']);
 	}
 
 	/**
@@ -24,7 +24,7 @@ class SecondMenu extends Base
 	 *
 	 * @return	array
 	 *
-	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
+	 * @hooked	filter: `fdtbwpb/menus/submenus` - 10
 	 */
 	public function addSubmenu(array $submenus): array
 	{
@@ -58,7 +58,7 @@ class SecondMenu extends Base
 	 */
 	public function getFields(): array
 	{
-		return apply_filters('fdtbwpb_menus_second_fields', [
+		return apply_filters('fdtbwpb/menus/second/fields', [
 			'example_field_second' => [
 				'id'      => 'example_field_second',
 				'label'   => esc_html__('Example Field', 'telegram-plugin-boilerplate'),
@@ -98,7 +98,7 @@ class SecondMenu extends Base
 				'type'    => 'select',
 				'args'    => [
 					'options'  => [
-						// Either keep the options empty here and populate them using the `fdtbwpb_menus_second_fields` filter like below
+						// Either keep the options empty here and populate them using the `fdtbwpb/menus/second/fields` filter like below
 						// '' => '',
 
 						// Or add options manually yourself
@@ -118,7 +118,7 @@ class SecondMenu extends Base
 	 *
 	 * @return	array
 	 *
-	 * @hooked	filter: `fdtbwpb_menus_second_fields` - 10
+	 * @hooked	filter: `fdtbwpb/menus/second/fields` - 10
 	 */
 	public function populateSelectValues(array $fields): array
 	{
@@ -138,7 +138,7 @@ class SecondMenu extends Base
 	 *
 	 * @return	string				Sanitized value.
 	 *
-	 * @hooked	filter: `fdtbwpb_validate_input_example_field_second` - 10
+	 * @hooked	filter: `fdtbwpb/menus/validate_input_example_field_second` - 10
 	 */
 	public function sanitizeExampleField(string $value): string
 	{

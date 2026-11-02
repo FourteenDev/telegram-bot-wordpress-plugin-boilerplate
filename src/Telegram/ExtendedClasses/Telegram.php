@@ -359,7 +359,7 @@ class Telegram extends TelegramBotTelegram
 		 *
 		 * @param	Update	$update		Return `false` if you want to stop executing the update.
 		 */
-		$this->update = apply_filters('fdtbwpb_before_get_commands_list', $this->update);
+		$this->update = apply_filters('fdtbwpb/telegram/before_get_commands_list', $this->update);
 		if ($this->update === false)
 			return Request::emptyResponse();
 
@@ -406,7 +406,7 @@ class Telegram extends TelegramBotTelegram
 		 * @param	bool		$shouldExecuteCommand
 		 * @param	Telegram	$telegram
 		 */
-		if (apply_filters('fdtbwpb_before_execute_command', true, $this))
+		if (apply_filters('fdtbwpb/telegram/before_execute_command', true, $this))
 			return $this->executeCommand($command);
 		else
 			return Request::emptyResponse();

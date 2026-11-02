@@ -13,7 +13,7 @@ class CustomMenu extends Base
 	 *
 	 * @return	array
 	 *
-	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
+	 * @hooked	filter: `fdtbwpb/menus/submenus` - 10
 	 */
 	public function addSubmenu(array $submenus): array
 	{

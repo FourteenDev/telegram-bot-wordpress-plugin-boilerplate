@@ -18,7 +18,7 @@ abstract class Base
 		if (empty($this->menuSlug))
 			throw new \LogicException(get_class($this) . ' must initialize $menuSlug property!');
 
-		add_filter('fdtbwpb_menus_submenus', [$this, 'addSubmenu']);
+		add_filter('fdtbwpb/menus/submenus', [$this, 'addSubmenu']);
 		add_action('admin_init', [$this, 'registerSettings']);
 
 		/* global $pagenow;
@@ -46,7 +46,7 @@ abstract class Base
 	 *
 	 * @return	array
 	 *
-	 * @hooked	filter: `fdtbwpb_menus_submenus` - 10
+	 * @hooked	filter: `fdtbwpb/menus/submenus` - 10
 	 */
 	abstract function addSubmenu(array $submenus): array;
 
@@ -96,13 +96,13 @@ abstract class Base
 		$options = get_option($this->optionsName, []);
 		if (!is_array($options)) $options = [];
 
-		$input = apply_filters('fdtbwpb_before_validate_settings', $input, $options);
+		$input = apply_filters('fdtbwpb/menus/before_validate_settings', $input, $options);
 
 		if (is_array($input))
 		{
 			// Allow values modification via filters
 			foreach ($input as $key => $value)
-				$input[$key] = apply_filters("fdtbwpb_validate_input_$key", $value, $key, $input, $options);
+				$input[$key] = apply_filters("fdtbwpb/menus/validate_input_$key", $value, $key, $input, $options);
 
 			// Update only the needed options
 			foreach ($input as $key => $value)
@@ -110,7 +110,7 @@ abstract class Base
 					$options[$key] = $value;
 		}
 
-		do_action('fdtbwpb_validate_settings', $input, $options);
+		do_action('fdtbwpb/menus/validate_settings', $input, $options);
 
 		return $options;
 	}
