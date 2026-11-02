@@ -19,7 +19,7 @@ class ShortcodesManager
 	}
 
 	/**
-	 * Registers (calls `add_shortcode`) all shortcodes for every file in the `src/Shortcodes/` directory and all of its subfolders that ends with `Shortcode.php`.
+	 * Registers (calls `add_shortcode` on) all shortcodes for every file in the `src/Shortcodes/` directory and all of its subfolders that ends with `Shortcode.php`.
 	 *
 	 * @return	void
 	 */
