@@ -13,16 +13,16 @@ class API
 	}
 
 	/**
-	 * Calls the `getInstance()` method on every file in the `src/Api/Endpoints/` directory.
+	 * Registers (calls `__construct` on) every file in the `src/Api/Endpoints/` directory and all of its subfolders.
 	 *
 	 * @return	void
 	 */
 	private function instantiateAllEndpoints(): void
 	{
-		foreach (glob(FDTBWPB_DIR . '/src/Api/Endpoints/*.php') as $file)
+		$baseDir = FDTBWPB_DIR . '/src/Api/Endpoints';
+		foreach (fdtbwpbGlobRecursive("$baseDir**/*.php") as $file)
 		{
-			$class = '\\' . __NAMESPACE__ . '\\Api\\Endpoints\\' . basename($file, '.php');
-
+			$class = '\\' . __NAMESPACE__ . '\\Api\\Endpoints\\' . fdtbwpbConvertFilePathToRelativeNamespace($file, $baseDir);
 			if (class_exists($class))
 				$this->container->make($class);
 		}
