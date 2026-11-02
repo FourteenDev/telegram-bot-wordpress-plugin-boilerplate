@@ -213,15 +213,28 @@ class Core
 	 *
 	 * @param	string	$optionName	Option name.
 	 * @param	mixed	$default	Default value if option not found.
+	 * @param	bool	$isBool		Whether the option value should be treated as a boolean.
 	 *
 	 * @return	mixed
 	 */
-	public function option(string $optionName, mixed $default = null): mixed
+	public function option(string $optionName, mixed $default = null, bool $isBool = false): mixed
 	{
 		if (empty($this->options))
 			$this->options = get_option(FDTBWPB_MENUS_SLUG . '_options', []);
 
-		return $this->options[$optionName] ?? $default;
+		$value = $this->options[$optionName] ?? $default;
+
+		if (!$isBool)
+			return $value;
+
+		if (!is_string($value))
+			return (bool) $value;
+
+		$value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+		if ($value === null)
+			$value = (bool) $default;
+
+		return $value;
 	}
 
 	/**
